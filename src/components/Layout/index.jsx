@@ -5,6 +5,9 @@ import Head from "next/head";
 // Material UI
 import { Box, Typography } from "@mui/material";
 
+// Relative Imports
+import Header from "./Header";
+
 function MainLayout({ title, description, children }) {
   return (
     <Box>
@@ -13,22 +16,7 @@ function MainLayout({ title, description, children }) {
         <meta name="description" content={description} />
       </Head>
       <Box component="main">
-        {/* Header */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100vw",
-            height: 60,
-            borderBottom: 1,
-            bgcolor: "#d3d4d5",
-          }}
-        >
-          <Typography textAlign="center" variant="h4">
-            Header
-          </Typography>
-        </Box>
+        <Header />
         <Box>{children}</Box>
 
         {/* Footer */}
@@ -45,7 +33,7 @@ function MainLayout({ title, description, children }) {
             bgcolor: "#d3d4d5",
           }}
         >
-          <Typography variant="h4">Footer</Typography>
+          <Typography variant="h5">Footer</Typography>
         </Box>
       </Box>
     </Box>

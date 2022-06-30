@@ -1,8 +1,11 @@
 // Librerías
 import Head from "next/head";
 
+// MUI
+import { Grid, Typography } from "@mui/material";
+
 // Relative Imports
-import MainLayout from "../src/Layout";
+import MainLayout from "../src/components/Layout";
 
 export default function Home() {
   return (
@@ -10,7 +13,14 @@ export default function Home() {
       title={"Volta Pets - Home"}
       description={"Página principal de Volta Pets"}
     >
-      <h1 className="text-3xl font-bold underline">Hello World!</h1>
+      <Grid
+        container
+        sx={{p: "1rem" }}
+      >
+        <Grid item xs={12} mt={2}>
+          <Typography variant="h3">Bienvenido a Volta Pets</Typography>
+        </Grid>
+      </Grid>
     </MainLayout>
   );
 }
