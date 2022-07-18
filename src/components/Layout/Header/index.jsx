@@ -45,7 +45,7 @@ function Header() {
             }}
           >
             {navLinks.map((section) => (
-              <NavLink href={section.href}>{section.title}</NavLink>
+              <NavLink key={section.title} href={section.href}>{section.title}</NavLink>
             ))}
           </Grid>
           <Grid
