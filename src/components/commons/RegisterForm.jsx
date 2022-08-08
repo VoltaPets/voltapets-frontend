@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 //MUI
 import { Grid, Box, Typography } from '@mui/material';
