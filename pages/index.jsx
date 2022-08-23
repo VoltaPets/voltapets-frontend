@@ -1,15 +1,22 @@
 // Libraries
+
 // MUI
-import { Grid, Typography } from '@mui/material';
+import { Box, CardMedia, List, ListItem, Grid, Typography } from '@mui/material';
 
 // Relative imports
-import Layout from '../src/components/commons/MainLayout';
+import Layout from '../src/components/commons/Layout';
+import { HomeHero, HomeCard } from '../src/components/screens/public/home/';
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout authRequired={false} publicPage title="Volta Pets">
       <Grid container>
-        <Typography>asd</Typography>
+        <Grid item xs={12}>
+          <HomeHero />
+        </Grid>
+        <Grid item xs={12}>
+          <HomeCard />
+        </Grid>
       </Grid>
     </Layout>
   );
