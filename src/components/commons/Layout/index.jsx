@@ -32,7 +32,7 @@ const Layout = ({
         }}
       >
         <Header />
-        <Box sx={{ flex: 1, width: '100%', border: 2, borderColor: 'red' }}>{children}</Box>
+        <Box sx={{ flex: 1, width: '100%' }}>{children}</Box>
 
         {/* <Footer /> */}
         <Box sx={{ width: '100%', border: 2, borderColor: 'blue' }}>Footer</Box>

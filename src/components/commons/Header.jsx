@@ -1,13 +1,24 @@
 import Image from 'next/image';
-import { AppBar, Box, Button, CardMedia, Grid, Toolbar } from '@mui/material';
-import Link from '../commons/Link';
+import { AppBar, Box, Button, CardMedia, Grid, Link, Toolbar, styled } from '@mui/material';
 
 const linksArray = [
   { name: 'Nuestros servicios' },
-  { name: 'Otros servicios' },
   { name: 'Adopción' },
   { name: 'Mascotas perdidas' }
 ];
+
+const HeaderLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.secondary.main,
+  textDecoration: 'none',
+  transition: '0.4s',
+  padding: theme.spacing(1),
+  fontSize: '0.9rem',
+  fontWeight: 600,
+  '&:hover': {
+    cursor: 'pointer',
+    color: theme.palette.primary.dark
+  }
+}));
 
 const Header = () => {
   return (
@@ -15,15 +26,15 @@ const Header = () => {
       <AppBar
         position="sticky"
         elevation={0}
-        sx={{ display: { xs: 'none', md: 'flex' }, height: 64 }}
+        sx={{ display: { xs: 'none', md: 'flex' }, height: 64, top: 0 }}
       >
-        <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: '#fff' }}>
           <Grid container>
             <Grid xs={2}>
               <Link href="/">
-                <Box sx={{ width: 150, height: 60 }}>
+                <Box sx={{ width: 150, height: 65 }}>
                   <CardMedia
-                    image="/logo4.jpg"
+                    image="/logo.png"
                     alt="Logo empresa"
                     component="img"
                     sx={{ width: '100%', height: '100%' }}
@@ -31,27 +42,13 @@ const Header = () => {
                 </Box>
               </Link>
             </Grid>
-            <Grid xs sx={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.8rem' }}>
+            <Grid xs sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem' }}>
               {linksArray.map((link, index) => (
-                <Link
-                  sx={{
-                    pb: 0.5,
-                    borderBottom: 2,
-                    transition: '0.5s',
-                    borderColor: '#fff8ee',
-                    '&:hover': { borderColor: '#c1554c' }
-                  }}
-                  key={index}
-                  underline="none"
-                  variant="plain"
-                  color="text"
-                >
-                  {link.name}
-                </Link>
+                <HeaderLink>{link.name}</HeaderLink>
               ))}
             </Grid>
             <Grid
-              xs={4}
+              xs={5}
               sx={{
                 display: 'flex',
                 justifyContent: 'end',
@@ -61,34 +58,8 @@ const Header = () => {
                 fontSize: '0.8rem'
               }}
             >
-              <Link
-                href="/"
-                underline="none"
-                variant="plain"
-                sx={{
-                  pb: 0.5,
-                  borderBottom: 2,
-                  transition: '0.5s',
-                  borderColor: '#fff',
-                  '&:hover': { borderColor: '#000' }
-                }}
-              >
-                Quiero ser un paseador
-              </Link>
-              <Link
-                href="/"
-                underline="none"
-                variant="plain"
-                sx={{
-                  pb: 0.5,
-                  borderBottom: 2,
-                  transition: '0.5s',
-                  borderColor: '#fff',
-                  '&:hover': { borderColor: '#000' }
-                }}
-              >
-                Publicitar mi local
-              </Link>
+              <HeaderLink>Quiero ser un paseador</HeaderLink>
+              <HeaderLink>Publicitar mi local</HeaderLink>
               <Button color="secondary" variant="contained" sx={{ textTransform: 'inherit' }}>
                 Iniciar sesión
               </Button>
