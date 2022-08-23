@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material';
 export const voltaPetsTheme = createTheme({
   palette: {
     primary: {
-      main: '#BF8943'
+      main: '#FEDDC2'
     },
     secondary: {
       main: '#9D2F3A'
@@ -12,7 +12,7 @@ export const voltaPetsTheme = createTheme({
       default: '#f3f3f3'
     },
     text: {
-      primary: '#464646'
+      primary: '#1F1F31'
     }
   },
   typography: {
