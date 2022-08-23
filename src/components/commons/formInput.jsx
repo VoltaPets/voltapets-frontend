@@ -23,6 +23,7 @@ function FormInput({
       render={({ field }) => (
         <TextField
           {...field}
+          color="secondary"
           fullWidth
           required
           id={name}

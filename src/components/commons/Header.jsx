@@ -1,4 +1,7 @@
-import Image from 'next/image';
+// Libraries
+import { useRouter } from 'next/router';
+
+// MUI
 import { AppBar, Box, Button, CardMedia, Grid, Link, Toolbar, styled } from '@mui/material';
 
 const linksArray = [
@@ -21,6 +24,8 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 }));
 
 const Header = () => {
+  const { push } = useRouter();
+
   return (
     <>
       <AppBar
@@ -60,7 +65,12 @@ const Header = () => {
             >
               <HeaderLink>Quiero ser un paseador</HeaderLink>
               <HeaderLink>Publicitar mi local</HeaderLink>
-              <Button color="secondary" variant="contained" sx={{ textTransform: 'inherit' }}>
+              <Button
+                onClick={() => push('usuarios/login')}
+                color="secondary"
+                variant="contained"
+                sx={{ textTransform: 'inherit' }}
+              >
                 Iniciar sesión
               </Button>
             </Grid>
