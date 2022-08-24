@@ -26,7 +26,7 @@ export const registerSchema = yup.object().shape({
     .string()
     .matches(
       /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/,
-      'Debes ingresar un número válido (Ej: +569xxxxxxxx'
+      'Debes ingresar un número válido (Ej: +569xxxxxxxx)'
     )
     .phone('CL', true, 'Debes ingresar un número chileno  válido')
     .required('Debes ingresar un número de teléfono'),
@@ -34,8 +34,10 @@ export const registerSchema = yup.object().shape({
     .string()
     .email('Debes ingresar un correo válido (Ej: ejemplo@mail.com)')
     .required('Debes ingresar un correo'),
-  dirección: yup.string().required('Debes ingresar tu dirección'),
-  contraseña: yup
+  region: yup.string().required('Debes ingresar una región'),
+  comuna: yup.string().required('Debes ingresar una comuna'),
+  direccion: yup.string().required('Debes ingresar tu dirección'),
+  password: yup
     .string()
     .required('Debes ingresar una contraseña')
     .matches(
@@ -44,9 +46,9 @@ export const registerSchema = yup.object().shape({
     )
     .min(6, 'La contraseña debe tener al menos 6 caracteres')
     .max(20, 'La contraseña debe tener máximo 20 caracteres'),
-  confirmarContraseña: yup
+  confirmarPassword: yup
     .string()
-    .oneOf([yup.ref('contraseña'), null], 'Las contraseñas no coinciden')
+    .oneOf([yup.ref('password'), null], 'Las contraseñas no coinciden')
     .required('Debes confirmar tu contraseña'),
-  tipoVivienda: yup.string().oneOf(['casa', 'depto'], 'Debes seleccionar un tipo de usuario')
+  tipoVivienda: yup.string().required('Debes elegir un tipo de vivienda')
 });

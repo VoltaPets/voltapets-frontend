@@ -12,7 +12,7 @@ import { Avatar, Box, Button, Card, CardMedia, Grid, Typography } from '@mui/mat
 
 // Related Imports
 import Link from '../../src/components/commons/Link';
-import TextInput from '../../src/components/commons/formInput';
+import TextInput from '../../src/components/commons/FormInput';
 import { loginSchema } from '../../src/utils/validations';
 
 const formSettings = {
@@ -60,12 +60,14 @@ function LoginPage() {
           }}
         >
           <Box sx={{ display: { xs: 'none', sm: 'block' }, position: 'absolute', top: 0, left: 0 }}>
-            <CardMedia
-              component="img"
-              image="/logo4.jpg"
-              alt="Volta Pets"
-              sx={{ width: 150, height: 150 }}
-            />
+            <Link underline="hover" href="/">
+              <CardMedia
+                component="img"
+                image="/logo4.jpg"
+                alt="Volta Pets"
+                sx={{ width: 150, height: 150 }}
+              />
+            </Link>
           </Box>
         </Grid>
 
@@ -89,13 +91,9 @@ function LoginPage() {
             }}
           >
             {/* Imagen */}
-            <Link underline="hover" href="/">
-              <Avatar
-                sx={{ m: 1, bgcolor: 'secondary.light', width: 100, height: 100, p: 1, mb: 4 }}
-              >
-                <PetsIcon sx={{ fontSize: '3rem', color: 'primary.main' }} />
-              </Avatar>
-            </Link>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.light', width: 100, height: 100, p: 1, mb: 4 }}>
+              <PetsIcon sx={{ fontSize: '3rem', color: 'primary.main' }} />
+            </Avatar>
 
             {/* Título */}
             <Typography variant="h5" component="h1">
@@ -143,7 +141,7 @@ function LoginPage() {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  sx={{ textTransform: 'inherit', color: '#fff' }}
+                  sx={{ color: '#fff' }}
                 >
                   Iniciar sesión
                 </Button>

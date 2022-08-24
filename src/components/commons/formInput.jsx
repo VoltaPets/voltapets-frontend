@@ -15,10 +15,10 @@ export default function FormInput({
   errorText,
   maxLength,
   handleShowPassword,
-  half
+  width = 12
 }) {
   return (
-    <Grid item xs={half ? 6 : 12} sx={{ height: 80 }}>
+    <Grid item xs={width} sx={{ height: 80 }}>
       <Controller
         name={name}
         control={control}

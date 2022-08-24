@@ -20,6 +20,7 @@ export const voltaPetsTheme = createTheme({
     h4: {
       color: '#9D2F3A',
       fontSize: '2rem'
-    }
+    },
+    button: { texTransform: 'inherit' }
   }
 });
