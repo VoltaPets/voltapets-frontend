@@ -3,9 +3,9 @@ import { Controller } from 'react-hook-form';
 
 // MUI
 import { Visibility, VisibilityOff } from '@mui/icons-material/';
-import { TextField, IconButton, InputAdornment } from '@mui/material';
+import { Grid, TextField, IconButton, InputAdornment } from '@mui/material';
 
-function FormInput({
+export default function FormInput({
   control,
   labelText,
   placeholderText,
@@ -14,43 +14,45 @@ function FormInput({
   errorName,
   errorText,
   maxLength,
-  handleShowPassword
+  handleShowPassword,
+  width = 12
 }) {
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <TextField
-          {...field}
-          color="secondary"
-          fullWidth
-          required
-          id={name}
-          name={name}
-          label={labelText}
-          placeholder={placeholderText}
-          error={errorName ? true : false}
-          helperText={errorText}
-          type={type}
-          inputProps={{ maxLength: maxLength }}
-          InputProps={
-            name === 'password'
-              ? {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleShowPassword}>
-                        {type === 'password' ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }
-              : null
-          }
-        />
-      )}
-    />
+    <Grid item xs={width} sx={{ height: 80 }}>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            variant="standard"
+            color="secondary"
+            fullWidth
+            required
+            id={name}
+            name={name}
+            label={labelText}
+            placeholder={placeholderText}
+            error={errorName ? true : false}
+            helperText={errorText}
+            type={type}
+            inputProps={{ maxLength: maxLength }}
+            InputProps={
+              name === 'password'
+                ? {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword}>
+                          {type === 'password' ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }
+                : null
+            }
+          />
+        )}
+      />
+    </Grid>
   );
 }
-
-export default FormInput;

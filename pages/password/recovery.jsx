@@ -8,11 +8,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 // MUI
-import { Box, Button, CardMedia, Link, Typography } from '@mui/material';
+import { Box, Button, CardMedia, Typography } from '@mui/material';
 
 // Relative imports
 import { recoverySchema } from '../../src/utils/validations';
-import TextInput from '../../src/components/commons/formInput';
+import TextInput from '../../src/components/commons/FormInput';
+import Link from '../../src/components/commons/Link';
 
 function PasswordRecoveryPage() {
   const {
@@ -32,16 +33,16 @@ function PasswordRecoveryPage() {
         <title>¿Olvidaste tu contraseña? - Volta Pets</title>
       </Head>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 4 }} px={4}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Box
           component="header"
           sx={{ alignSelf: { xs: 'center', md: 'flex-start' }, mb: { xs: 4, md: 0 } }}
         >
-          <Link href="/" sx={{ '&:hover': { cursor: 'pointer' } }}>
+          <Link href="/">
             <CardMedia
               component="img"
               image="/logo4.jpg"
-              sx={{ width: { xs: 120, sm: 140 }, height: '100%', objectFit: 'contain' }}
+              sx={{ width: { xs: 120, sm: 150 }, height: '100%', objectFit: 'contain' }}
             />
           </Link>
         </Box>
@@ -127,6 +128,7 @@ function PasswordRecoveryPage() {
                   Regístrate
                 </Typography>
                 <Link
+                  href="/registro/tutor"
                   underline="hover"
                   color="secondary"
                   variant="body2"

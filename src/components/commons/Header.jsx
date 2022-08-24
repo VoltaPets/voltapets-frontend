@@ -35,7 +35,7 @@ const Header = () => {
       >
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: '#fff' }}>
           <Grid container>
-            <Grid xs={2}>
+            <Grid item xs={2}>
               <Link href="/">
                 <Box sx={{ width: 150, height: 65 }}>
                   <CardMedia
@@ -47,12 +47,17 @@ const Header = () => {
                 </Box>
               </Link>
             </Grid>
-            <Grid xs sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem' }}>
+            <Grid
+              item
+              xs
+              sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem' }}
+            >
               {linksArray.map((link, index) => (
-                <HeaderLink>{link.name}</HeaderLink>
+                <HeaderLink key={index}>{link.name}</HeaderLink>
               ))}
             </Grid>
             <Grid
+              item
               xs={5}
               sx={{
                 display: 'flex',
