@@ -24,7 +24,7 @@ const formSettings = {
 };
 
 function LoginPage() {
-  // States
+  // Estados
   const [showPassword, setShowPassword] = useState(false);
 
   // Hooks

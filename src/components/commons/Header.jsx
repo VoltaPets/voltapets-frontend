@@ -68,7 +68,7 @@ const Header = () => {
                 fontSize: '0.8rem'
               }}
             >
-              <HeaderLink>Quiero ser un paseador</HeaderLink>
+              <HeaderLink href="/registro/paseador">Quiero ser un paseador</HeaderLink>
               <HeaderLink>Publicitar mi local</HeaderLink>
               <Button
                 onClick={() => push('usuarios/login')}
