@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material';
 export const voltaPetsTheme = createTheme({
   palette: {
     primary: {
-      main: '#f59c53'
+      main: '#F4D19B'
     },
     secondary: {
       main: '#9D2F3A'
@@ -13,6 +13,15 @@ export const voltaPetsTheme = createTheme({
     },
     text: {
       primary: '#1F1F31'
+    },
+    info: {
+      main: '#22577E'
+    },
+    success: {
+      main: '#557C55'
+    },
+    error: {
+      main: '#C84B31'
     }
   },
   typography: {
@@ -20,7 +29,6 @@ export const voltaPetsTheme = createTheme({
     h4: {
       color: '#9D2F3A',
       fontSize: '2rem'
-    },
-    button: { texTransform: 'inherit' }
+    }
   }
 });

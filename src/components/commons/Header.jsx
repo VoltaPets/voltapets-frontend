@@ -2,7 +2,22 @@
 import { useRouter } from 'next/router';
 
 // MUI
-import { AppBar, Box, Button, CardMedia, Grid, Link, Toolbar, styled } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  IconButton,
+  Button,
+  CardMedia,
+  Menu,
+  Grid,
+  Link,
+  Toolbar,
+  styled,
+  Typography
+} from '@mui/material';
+
+// Icons
+import MenuIcon from '@mui/icons-material/Menu';
 
 const linksArray = [
   { name: 'Nuestros servicios' },
@@ -28,24 +43,27 @@ const Header = () => {
 
   return (
     <>
-      <AppBar
-        position="sticky"
-        elevation={0}
-        sx={{ display: { xs: 'none', md: 'flex' }, height: 64, top: 0 }}
-      >
+      <AppBar position="sticky" elevation={0} sx={{ display: 'flex', top: 0 }}>
         <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: '#fff' }}>
-          <Grid container>
+          <Link component="a" href="/">
+            <Box sx={{ width: 150, height: 80 }}>
+              <CardMedia
+                image="/logo.png"
+                alt="Logo empresa"
+                component="img"
+                sx={{ width: '100%', height: '100%' }}
+              />
+            </Box>
+          </Link>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton>
+              <MenuIcon />
+            </IconButton>
+            <Menu></Menu>
+          </Box>
+          {/* <Grid container>
             <Grid item xs={2}>
-              <Link href="/">
-                <Box sx={{ width: 150, height: 65 }}>
-                  <CardMedia
-                    image="/logo.png"
-                    alt="Logo empresa"
-                    component="img"
-                    sx={{ width: '100%', height: '100%' }}
-                  />
-                </Box>
-              </Link>
+              
             </Grid>
             <Grid
               item
@@ -79,7 +97,7 @@ const Header = () => {
                 Iniciar sesión
               </Button>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Toolbar>
       </AppBar>
     </>
