@@ -41,7 +41,7 @@ function PasswordRecoveryPage() {
           <Link href="/">
             <CardMedia
               component="img"
-              image="/logo4.jpg"
+              image="/logo.jpg"
               sx={{ width: { xs: 120, sm: 150 }, height: '100%', objectFit: 'contain' }}
             />
           </Link>

@@ -63,7 +63,7 @@ function LoginPage() {
             <Link underline="hover" href="/">
               <CardMedia
                 component="img"
-                image="/logo4.jpg"
+                image="/logo.jpg"
                 alt="Volta Pets"
                 sx={{ width: 150, height: 150 }}
               />

@@ -7,7 +7,7 @@ import { Box, CardMedia, List, ListItem, Grid, Typography } from '@mui/material'
 import Layout from '../src/components/commons/Layout';
 import { HomeHero, HomeCard } from '../src/components/screens/public/home/';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Layout authRequired={false} publicPage title="Volta Pets">
       <Grid container>
@@ -17,6 +17,7 @@ export default function Home() {
         <Grid item xs={12}>
           <HomeCard />
         </Grid>
+        <Grid item xs={12}></Grid>
       </Grid>
     </Layout>
   );

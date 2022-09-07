@@ -55,13 +55,14 @@ const Header = () => {
               />
             </Box>
           </Link>
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton size="large" color="primary">
               <MenuIcon />
             </IconButton>
-            <Menu></Menu>
-          </Box> */}
-          <Grid container>
+            <Menu id="menu-appbar"></Menu>
+          </Box>
+
+          {/* <Grid container>
             <Grid item xs={2}></Grid>
             <Grid
               item
@@ -95,7 +96,7 @@ const Header = () => {
                 Iniciar sesión
               </Button>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Toolbar>
       </AppBar>
     </>

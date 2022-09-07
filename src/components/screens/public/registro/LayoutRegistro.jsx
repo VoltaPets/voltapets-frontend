@@ -33,7 +33,7 @@ const LayoutRegistro = ({ titulo, children }) => {
           <Link href="/" sx={{ alignSelf: 'start', display: { xs: 'none', sm: 'block' } }}>
             <CardMedia
               component="img"
-              image="/logo4.jpg"
+              image="/logo.jpg"
               sx={{
                 width: { xs: 120, sm: 150 },
                 alignSelf: 'start',
