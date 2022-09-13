@@ -1,4 +1,4 @@
-import HomeCard from './HomeCard';
+import HomeServicios from './HomeServicios';
 import HomeHero from './HomeHero';
 
-export { HomeCard, HomeHero };
+export { HomeServicios, HomeHero };

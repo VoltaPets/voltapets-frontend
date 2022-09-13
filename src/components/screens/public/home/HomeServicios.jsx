@@ -5,7 +5,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 // Relative imports
 import ServiciosCard from './ServiciosCard';
 
-const Servicios = () => {
+const HomeServicios = () => {
   return (
     <Grid container py={2}>
       <Grid item xs={12} my={4}>
@@ -80,4 +80,4 @@ const Servicios = () => {
   );
 };
 
-export default Servicios;
+export default HomeServicios;
