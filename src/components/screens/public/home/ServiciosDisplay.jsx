@@ -5,7 +5,7 @@ import { Card, CardMedia, Box, Button, Grid, Typography } from '@mui/material';
 const ServiciosDisplay = ({ servicio, telefono, autor, direccion, descripcion, image }) => {
   return (
     <Grid item xs={12} md={4} sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Card elevation={0} sx={{ borderRadius: 4 }}>
+      <Card elevation={0} sx={{ borderRadius: 4, borderColor: '#fff' }}>
         <CardMedia
           component="img"
           image={image}
@@ -20,7 +20,9 @@ const ServiciosDisplay = ({ servicio, telefono, autor, direccion, descripcion, i
         />
         <Box sx={{ py: 1 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="subtitle1">{servicio}</Typography>
+            <Typography variant="subtitle1" color="secondary.main">
+              {servicio}
+            </Typography>
             <Typography variant="subtitle2">{telefono}</Typography>
           </Box>
           <Box
@@ -29,7 +31,7 @@ const ServiciosDisplay = ({ servicio, telefono, autor, direccion, descripcion, i
             <Typography variant="caption">{autor}</Typography>
             <Typography variant="subtitle2">{direccion}</Typography>
           </Box>
-          <Typography variant="body2" align="justify">
+          <Typography variant="body2" align="justify" color="grey.700">
             {descripcion}
           </Typography>
         </Box>

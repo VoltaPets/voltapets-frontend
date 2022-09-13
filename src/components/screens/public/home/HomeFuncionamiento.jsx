@@ -67,9 +67,10 @@ const HomeFuncionamiento = () => {
             {steps.map((step) => (
               <Grid item xs={12} md={4}>
                 <Card
-                  variant="outlined"
+                  elevation={2}
                   sx={{
                     p: 2,
+                    borderRadius: 4,
                     display: 'flex',
                     justifyContent: 'center',
                     gap: 2,

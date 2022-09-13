@@ -33,6 +33,34 @@ const servicios = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris.',
     image:
       'https://www.clinicaveterinariaejea.com/wp-content/uploads/2020/03/Equipo-Clinica-Veterinaria-Ejea-1-480x300.jpeg'
+  },
+  {
+    servicio: 'Veterinaria 24 Horas',
+    telefono: '+569 1234 5678',
+    autor: 'Dr. Juan Perez',
+    direccion: 'Av. Siempre Viva 123',
+    descripcion:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris.',
+    image: 'https://noticias.unab.cl/wp-content/uploads/2021/10/medicina-veterinaria-unab.jpg'
+  },
+  {
+    servicio: 'Tienda de Mascotas EVI',
+    telefono: '+569 1234 5678',
+    autor: 'Marta Solis',
+    direccion: 'Av. Alameda 123',
+    descripcion:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris.',
+    image: 'https://i.pinimg.com/originals/3f/49/4a/3f494a695121627f4538a6ffcd97d66e.png'
+  },
+  {
+    servicio: 'Consultorio Veterinario',
+    telefono: '+569 1234 5678',
+    autor: 'Alan Orellana',
+    direccion: 'Av. San Martin 123',
+    descripcion:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris. Sed euismod, nunc sit amet aliquam lacinia, nisl nisl aliquet nisl, eget aliquam nisl nunc vel mauris.',
+    image:
+      'https://www.clinicaveterinariaejea.com/wp-content/uploads/2020/03/Equipo-Clinica-Veterinaria-Ejea-1-480x300.jpeg'
   }
 ];
 
@@ -41,7 +69,7 @@ const HomeOtrosServicios = () => {
     <Grid container py={2}>
       <Grid item xs={12} my={4}>
         <Typography variant="h4" align="center">
-          Otros Servicios
+          Mascotas Perdidas
         </Typography>
       </Grid>
       <Grid
