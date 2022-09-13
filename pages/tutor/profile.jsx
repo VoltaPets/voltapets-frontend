@@ -4,4 +4,4 @@ function tutorProfile() {
   return <div>tutorProfile</div>;
 }
 
-export default tutorProfilef;
+export default tutorProfile;

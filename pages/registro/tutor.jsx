@@ -16,7 +16,6 @@ import FormSelect from '../../src/components/commons/FormSelect';
 import Link from '../../src/components/commons/Link';
 import { schemaRegistroTutor } from '../../src/utils/validations';
 import { regiones, comunas } from '../../src/mock/locations';
-import { vivienda } from '../../src/mock/vivienda';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 
 const formSettings = {
