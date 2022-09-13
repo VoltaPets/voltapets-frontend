@@ -48,7 +48,7 @@ const Header = () => {
           <Link component="a" href="/">
             <Box sx={{ width: 150, height: 80 }}>
               <CardMedia
-                image="/logo.png"
+                image="/logo.jpg"
                 alt="Logo empresa"
                 component="img"
                 sx={{ width: '100%', height: '100%' }}
@@ -62,12 +62,11 @@ const Header = () => {
             <Menu id="menu-appbar"></Menu>
           </Box>
 
-          {/* <Grid container>
-            <Grid item xs={2}></Grid>
+          <Grid container>
             <Grid
               item
               xs
-              sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem' }}
+              sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem', px: 2 }}
             >
               {linksArray.map((link, index) => (
                 <HeaderLink key={index}>{link.name}</HeaderLink>
@@ -75,7 +74,7 @@ const Header = () => {
             </Grid>
             <Grid
               item
-              xs={5}
+              xs={6}
               sx={{
                 display: 'flex',
                 justifyContent: 'end',
@@ -96,7 +95,7 @@ const Header = () => {
                 Iniciar sesión
               </Button>
             </Grid>
-          </Grid> */}
+          </Grid>
         </Toolbar>
       </AppBar>
     </>
