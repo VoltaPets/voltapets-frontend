@@ -1,4 +1,5 @@
 // Libraries
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 // MUI
@@ -8,7 +9,9 @@ import {
   IconButton,
   Button,
   CardMedia,
+  Container,
   Menu,
+  MenuItem,
   Grid,
   Link,
   Toolbar,
@@ -20,9 +23,16 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 const linksArray = [
-  { name: 'Nuestros servicios' },
-  { name: 'Adopción' },
-  { name: 'Mascotas perdidas' }
+  { name: 'Nuestros servicios', href: '/servicios' },
+  { name: 'Adopción', href: '/adopcion' },
+  { name: 'Mascotas perdidas', href: '/mascotas-perdidas' }
+];
+
+const linksArrayMobile = [
+  { name: 'Nuestros servicios', href: '/servicios' },
+  { name: 'Adopción', href: '/adopcion' },
+  { name: 'Mascotas perdidas', href: '/mascotas-perdidas' },
+  { name: 'Quiero ser un Paseador' }
 ];
 
 const HeaderLink = styled(Link)(({ theme }) => ({
@@ -39,7 +49,20 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 }));
 
 const Header = () => {
+  // Estados
+  const [anchorElNav, setAnchorElNav] = useState(null);
+
+  // Hooks
   const { push } = useRouter();
+
+  // Funciones
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   return (
     <>
@@ -55,14 +78,34 @@ const Header = () => {
               />
             </Box>
           </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton size="large" color="primary">
+          <Container
+            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'end' }}
+          >
+            <IconButton size="large" onClick={handleOpenNavMenu} color="secondary">
               <MenuIcon />
             </IconButton>
-            <Menu id="menu-appbar"></Menu>
-          </Box>
-
-          <Grid container>
+            <Menu
+              keepMounted
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' }
+              }}
+            >
+              {linksArrayMobile.map((link, index) => (
+                <MenuItem key={index} onClick={() => push(`/${link.name}`)}>
+                  <Typography variant="body1" sx={{ color: 'secondary.main' }}>
+                    {link.name}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Container>
+          <Grid container sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Grid
               item
               xs
@@ -85,7 +128,6 @@ const Header = () => {
               }}
             >
               <HeaderLink href="/registro/paseador">Quiero ser un paseador</HeaderLink>
-              <HeaderLink>Publicitar mi local</HeaderLink>
               <Button
                 onClick={() => push('usuarios/login')}
                 color="secondary"
