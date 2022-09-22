@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 
 // Relative Imports
 import Header from '../Header';
+import Footer from '../Footer';
 
 const Layout = ({
   authRequired = false,
@@ -35,7 +36,9 @@ const Layout = ({
         <Box sx={{ flex: 1, width: '100%' }}>{children}</Box>
 
         {/* <Footer /> */}
-        <Box sx={{ width: '100%', border: 2, borderColor: 'blue' }}>Footer</Box>
+        <Box sx={{ width: '100%' }}>
+          <Footer />
+        </Box>
       </Box>
     </Box>
   );

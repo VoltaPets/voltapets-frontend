@@ -4,7 +4,13 @@ import { Link as MUILink } from '@mui/material';
 export default function Link({ href = '', children, ...props }) {
   return (
     <NextLink href={href} passHref>
-      <MUILink {...props}>{children}</MUILink>
+      <MUILink
+        {...props}
+        underline="none"
+        sx={{ display: 'flex', alignItems: 'center', color: '#fff' }}
+      >
+        {children}
+      </MUILink>
     </NextLink>
   );
 }
