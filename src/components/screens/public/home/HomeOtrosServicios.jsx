@@ -66,8 +66,8 @@ const servicios = [
 
 const HomeOtrosServicios = () => {
   return (
-    <Grid container py={2}>
-      <Grid item xs={12} my={4}>
+    <Grid container py={4}>
+      <Grid item xs={12} mb={4}>
         <Typography variant="h4" align="center">
           Mascotas Perdidas
         </Typography>
@@ -80,7 +80,7 @@ const HomeOtrosServicios = () => {
           justifyContent: 'center',
           flexDirection: { xs: 'column', md: 'row' },
           gap: 4,
-          px: 4
+          px: { xs: 1, md: 4 }
         }}
       >
         <Box

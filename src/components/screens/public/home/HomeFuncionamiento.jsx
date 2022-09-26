@@ -53,7 +53,8 @@ const HomeFuncionamiento = () => {
             width: '100%',
             bgcolor: 'primary.main',
             color: 'primary.contrastText',
-            padding: '2rem'
+            px: { xs: 2, md: 4 },
+            py: 4
           }}
         >
           <Typography variant="h4" component="h2" gutterBottom>
@@ -72,6 +73,7 @@ const HomeFuncionamiento = () => {
                     p: 2,
                     borderRadius: 4,
                     display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
                     justifyContent: 'center',
                     gap: 2,
                     transition: 'all 0.3s ease-in-out',
@@ -91,6 +93,7 @@ const HomeFuncionamiento = () => {
                       image="/images/dog-walk.jpg"
                       alt={step.title}
                       sx={{
+                        display: { xs: 'none', md: 'block' },
                         width: '100%',
                         height: '50%',
                         objectFit: 'contain'
