@@ -1,5 +1,5 @@
 // Libraries
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 // MUI
@@ -23,13 +23,13 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 const linksArray = [
-  { name: 'Nuestros servicios', href: '/servicios' },
+  { name: 'Nuestros servicios', href: '/nuestros-servicios' },
   { name: 'Adopción', href: '/adopcion' },
   { name: 'Mascotas perdidas', href: '/mascotas-perdidas' }
 ];
 
 const linksArrayMobile = [
-  { name: 'Nuestros servicios', href: '/servicios' },
+  { name: 'Nuestros servicios', href: '/nuestros-servicios' },
   { name: 'Adopción', href: '/adopcion' },
   { name: 'Mascotas perdidas', href: '/mascotas-perdidas' },
   { name: 'Quiero ser un Paseador' }
@@ -51,6 +51,7 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 const Header = () => {
   // Estados
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   // Hooks
   const { push } = useRouter();
@@ -66,10 +67,25 @@ const Header = () => {
 
   return (
     <>
-      <AppBar position="sticky" elevation={0} sx={{ display: 'flex', top: 0 }}>
-        <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: '#fff' }}>
+      <AppBar
+        id="header"
+        elevation={0}
+        sx={{
+          position: 'fixed',
+          display: 'flex',
+          top: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          maxWidth: 1272,
+          bgcolor: '#fff',
+          borderRadius: { xs: 0, md: 2 },
+          zIndex: 1000,
+          overflow: 'hidden'
+        }}
+      >
+        <Toolbar sx={{ bgcolor: '#fff', px: '0 !important' }}>
           <Link component="a" href="/">
-            <Box sx={{ width: 150, height: 80 }}>
+            <Box sx={{ width: 150, height: 65 }}>
               <CardMedia
                 image="/logo.jpg"
                 alt="Logo empresa"
@@ -78,10 +94,8 @@ const Header = () => {
               />
             </Box>
           </Link>
-          <Container
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'end' }}
-          >
-            <IconButton size="large" onClick={handleOpenNavMenu} color="secondary">
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'end' }}>
+            <IconButton size="large" onClick={handleOpenNavMenu} color="secondary" sx={{ mr: 4 }}>
               <MenuIcon />
             </IconButton>
             <Menu
@@ -97,14 +111,15 @@ const Header = () => {
               }}
             >
               {linksArrayMobile.map((link, index) => (
-                <MenuItem key={index} onClick={() => push(`/${link.name}`)}>
+                <MenuItem key={index} onClick={() => push(`/${link.href}`)}>
                   <Typography variant="body1" sx={{ color: 'secondary.main' }}>
                     {link.name}
                   </Typography>
                 </MenuItem>
               ))}
             </Menu>
-          </Container>
+          </Box>
+
           <Grid container sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Grid
               item
@@ -112,7 +127,9 @@ const Header = () => {
               sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem', px: 2 }}
             >
               {linksArray.map((link, index) => (
-                <HeaderLink key={index}>{link.name}</HeaderLink>
+                <HeaderLink key={index} href={link.href}>
+                  {link.name}
+                </HeaderLink>
               ))}
             </Grid>
             <Grid
@@ -124,7 +141,8 @@ const Header = () => {
                 alignItems: 'center',
                 gap: 2,
                 textAlign: 'center',
-                fontSize: '0.8rem'
+                fontSize: '0.8rem',
+                px: 2
               }}
             >
               <HeaderLink href="/registro/paseador">Quiero ser un paseador</HeaderLink>
