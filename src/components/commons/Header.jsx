@@ -76,14 +76,12 @@ const Header = () => {
         id="header"
         elevation={0}
         sx={{
-          position: 'fixed',
+          position: 'sticky',
           display: 'flex',
           top: 0,
-          left: '50%',
-          transform: 'translateX(-50%)',
           maxWidth: { xs: '100%', lg: 1272 },
+          borderRadius: { xs: 0, lg: 4 },
           bgcolor: '#fff',
-          borderRadius: { xs: 0, md: 2 },
           zIndex: 1000,
           overflow: 'hidden',
           border: { xs: 0, md: 1 },

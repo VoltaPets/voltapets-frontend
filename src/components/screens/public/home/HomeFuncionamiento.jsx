@@ -65,8 +65,8 @@ const HomeFuncionamiento = () => {
             cuidadores de mascotas.
           </Typography>
           <Grid container spacing={2} mt={1}>
-            {steps.map((step) => (
-              <Grid item xs={12} md={4}>
+            {steps.map((step, index) => (
+              <Grid key={index} item xs={12} md={4}>
                 <Card
                   elevation={2}
                   sx={{
