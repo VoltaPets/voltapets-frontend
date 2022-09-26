@@ -12,29 +12,70 @@ import { Grid, Box, Card, CardMedia, Typography } from '@mui/material';
 // Relative Imports
 import Link from '../Link';
 
+const Copyright = () => {
+  return (
+    <Box
+      sx={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: { xs: 'center', md: 'start' },
+        justifyContent: 'center',
+        gap: { xs: 1, md: 0 }
+      }}
+    >
+      <Typography
+        variant="caption"
+        sx={{ textAlign: { xs: 'center', sm: 'left' }, mb: { xs: 2, md: 0 } }}
+      >
+        Av. Volta Pets 3400, Torre 1, piso 11, Las Condes, Santiago de Chile
+      </Typography>
+      <Typography variant="caption">{`Copyright © ${new Date().getFullYear()} Volta Pets, SpA.`}</Typography>
+    </Box>
+  );
+};
+
 const Footer = () => {
   return (
-    <Grid container sx={{ bgcolor: 'secondary.main', p: 4 }}>
+    <Grid container sx={{ bgcolor: 'secondary.main', py: 4, px: { xs: 2, md: 4 } }}>
       {/* Links */}
       <Grid
         item
         xs={12}
-        md
+        sm
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'start',
-          color: 'white'
+          color: 'white',
+          mb: { xs: 4, md: 0 }
         }}
       >
-        <Grid container sx={{ alignItems: 'space-between', height: '100%', gap: 2 }}>
+        <Grid container sx={{ alignItems: 'space-between', height: '100%', gap: { xs: 1, md: 2 } }}>
           {/* Nuestra empresa */}
-          <Grid item xs>
-            <Box sx={{ fontWeight: 'bold', pb: 2, borderBottom: 1, borderColor: 'white', mb: 2 }}>
+          <Grid item xs={12} sm sx={{ mb: { xs: 4, md: 0 } }}>
+            <Box
+              sx={{
+                fontWeight: 'bold',
+                pb: 2,
+                borderBottom: 1,
+                borderColor: 'white',
+                mb: 2,
+                fontSize: '1em'
+              }}
+            >
               Nuestra empresa
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'start',
+                gap: 2,
+                fontSize: { xs: '0.8em', md: '1em' }
+              }}
+            >
               <Link href="/" sx={{ color: 'white' }}>
                 Volta Pets
               </Link>
@@ -48,11 +89,19 @@ const Footer = () => {
           </Grid>
 
           {/* Información Legal */}
-          <Grid item xs>
+          <Grid item xs={12} sm sx={{ mb: { xs: 4, md: 0 } }}>
             <Box sx={{ fontWeight: 'bold', pb: 2, borderBottom: 1, borderColor: 'white', mb: 2 }}>
               Información Legal
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'start',
+                gap: 2,
+                fontSize: { xs: '0.8em', md: '1em' }
+              }}
+            >
               <Link href="/" sx={{ color: 'white' }}>
                 Aviso de Privacidad
               </Link>
@@ -66,11 +115,28 @@ const Footer = () => {
           </Grid>
 
           {/* Soporte */}
-          <Grid item xs>
-            <Box sx={{ fontWeight: 'bold', pb: 2, borderBottom: 1, borderColor: 'white', mb: 2 }}>
+          <Grid item xs={12} sm>
+            <Box
+              sx={{
+                fontWeight: 'bold',
+                pb: 2,
+                borderBottom: 1,
+                borderColor: 'white',
+                mb: 2,
+                fontSize: { xs: '0.9em', md: '1em' }
+              }}
+            >
               Soporte
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'start',
+                gap: 2,
+                fontSize: { xs: '0.8em', md: '1em' }
+              }}
+            >
               <Link href="/" sx={{ color: 'white' }}>
                 Ayuda
               </Link>
@@ -85,27 +151,13 @@ const Footer = () => {
             item
             xs={12}
             sx={{
-              display: 'flex',
+              display: { xs: 'none', md: 'flex' },
               alignItems: 'space-between',
               justifyContent: 'center',
               color: 'white'
             }}
           >
-            {/* Dirección & Copyright */}
-            <Box
-              sx={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'start',
-                justifyContent: 'center'
-              }}
-            >
-              <Typography variant="caption">{`Copyright © ${new Date().getFullYear()} Volta Pets, SpA.`}</Typography>
-              <Typography variant="caption">
-                Av. Volta Pets 3400, Torre 1, piso 11, Las Condes, Santiago de Chile
-              </Typography>
-            </Box>
+            <Copyright />
           </Grid>
         </Grid>
       </Grid>
@@ -114,6 +166,7 @@ const Footer = () => {
       <Grid
         item
         xs={12}
+        sm={4}
         md={3}
         sx={{
           display: 'flex',
@@ -127,7 +180,7 @@ const Footer = () => {
         <Card
           variant="outlined"
           sx={{
-            width: '90%',
+            width: { xs: 'fit-content', md: '90%' },
             borderRadius: 2,
             p: 2,
             bgcolor: 'transparent',
@@ -139,8 +192,12 @@ const Footer = () => {
             gap: 2
           }}
         >
-          <Box component="header">
-            <Typography variant="h6" sx={{ fontSize: '1em', fontWeight: 'bold' }} gutterBottom>
+          <Box component="header" sx={{ width: '100%' }}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: '1em', fontWeight: 'bold', textAlign: { xs: 'center', md: 'left' } }}
+              gutterBottom
+            >
               Contáctanos
             </Typography>
           </Box>
@@ -218,6 +275,19 @@ const Footer = () => {
             </Box>
           </Box>
         </Card>
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: { xs: 'flex', md: 'none' },
+          justifyContent: 'center',
+          color: 'white',
+          mt: 4
+        }}
+      >
+        <Copyright />
       </Grid>
     </Grid>
   );
