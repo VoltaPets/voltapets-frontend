@@ -80,7 +80,7 @@ const Header = () => {
           display: 'flex',
           top: 0,
           maxWidth: { xs: '100%', lg: 1272 },
-          borderRadius: { xs: 0, lg: 4 },
+          borderRadius: { xs: 0, lg: 2 },
           bgcolor: '#fff',
           zIndex: 1000,
           overflow: 'hidden',
