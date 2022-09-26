@@ -1,5 +1,5 @@
 // Libraries
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 // MUI
@@ -51,7 +51,6 @@ const HeaderLink = styled(Link)(({ theme }) => ({
 const Header = () => {
   // Estados
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
 
   // Hooks
   const { push } = useRouter();
@@ -65,6 +64,12 @@ const Header = () => {
     setAnchorElNav(null);
   };
 
+  // Handle scroll position to change header color and shadow effect on scroll down and up respectively
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
   return (
     <>
       <AppBar
@@ -76,11 +81,13 @@ const Header = () => {
           top: 0,
           left: '50%',
           transform: 'translateX(-50%)',
-          maxWidth: 1272,
+          maxWidth: { xs: '100%', lg: 1272 },
           bgcolor: '#fff',
           borderRadius: { xs: 0, md: 2 },
           zIndex: 1000,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          border: { xs: 0, md: 1 },
+          borderColor: { xs: 'transparent', md: 'divider' }
         }}
       >
         <Toolbar sx={{ bgcolor: '#fff', px: '0 !important' }}>
