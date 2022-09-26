@@ -7,7 +7,7 @@ import ServiciosCard from './ServiciosCard';
 
 const HomeServicios = () => {
   return (
-    <Grid container py={2}>
+    <Grid container py={4}>
       <Grid item xs={12} my={4}>
         <Typography variant="h4" align="center">
           Servicio de Paseo
@@ -22,7 +22,7 @@ const HomeServicios = () => {
           justifyContent: 'center',
           flexDirection: { xs: 'column', md: 'row' },
           gap: 4,
-          px: 4
+          px: { xs: 0, md: 4 }
         }}
       >
         <Box

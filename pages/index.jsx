@@ -5,7 +5,12 @@ import { Box, CardMedia, List, ListItem, Grid, Typography } from '@mui/material'
 
 // Relative imports
 import Layout from '../src/components/commons/Layout';
-import { HomeHero, HomeServicios } from '../src/components/screens/public/home/';
+import {
+  HomeHero,
+  HomeServicios,
+  HomeFuncionamiento,
+  HomeOtrosServicios
+} from '../src/components/screens/public/home/';
 
 export default function HomePage() {
   return (
@@ -17,7 +22,12 @@ export default function HomePage() {
         <Grid item xs={12}>
           <HomeServicios />
         </Grid>
-        <Grid item xs={12}></Grid>
+        <Grid item xs={12}>
+          <HomeFuncionamiento />
+        </Grid>
+        <Grid item xs={12}>
+          <HomeOtrosServicios />
+        </Grid>
       </Grid>
     </Layout>
   );
