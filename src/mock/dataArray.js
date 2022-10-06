@@ -12,9 +12,20 @@ export const comunas = [
 export const tipoMascota = [
   { id: 1, nombre: 'Perro' },
   { id: 2, nombre: 'Gato' },
-  { id: 3, nombre: 'Conejo' },
-  { id: 4, nombre: 'Pájaro' },
   { id: 5, nombre: 'Otro' }
+];
+
+export const razaGato = [
+  { id: 1, nombre: 'Abyssinian' },
+  { id: 2, nombre: 'American Bobtail' },
+  { id: 3, nombre: 'American Curl' },
+  { id: 4, nombre: 'American Shorthair' },
+  { id: 5, nombre: 'American Wirehair' },
+  { id: 6, nombre: 'Balinese' },
+  { id: 7, nombre: 'Bengal' },
+  { id: 8, nombre: 'Birman' },
+  { id: 9, nombre: 'Bombay' },
+  { id: 10, nombre: 'British Shorthair' }
 ];
 
 export const razaPerro = [
@@ -27,21 +38,24 @@ export const razaPerro = [
   { id: 7, nombre: 'American Water Spaniel' },
   { id: 8, nombre: 'Anatolian Shepherd Dog' },
   { id: 9, nombre: 'Australian Cattle Dog' },
-  { id: 10, nombre: 'Australian Shepherd' },
-  { id: 11, nombre: 'Australian Terrier' },
-  { id: 12, nombre: 'Basenji' },
-  { id: 13, nombre: 'Basset Hound' },
-  { id: 14, nombre: 'Beagle' },
-  { id: 15, nombre: 'Bearded Collie' },
-  { id: 16, nombre: 'Beauceron' },
-  { id: 17, nombre: 'Bedlington Terrier' },
-  { id: 18, nombre: 'Belgian Shepherd Dog' },
-  { id: 19, nombre: 'Bernese Mountain Dog' },
-  { id: 20, nombre: 'Bichon Frise' }
+  { id: 10, nombre: 'Australian Shepherd' }
 ];
 
 export const grupoEtario = [
   { id: 1, nombre: 'Cachorro' },
   { id: 2, nombre: 'Adulto' },
   { id: 3, nombre: 'Adulto Mayor' }
+];
+
+export const sizeMascota = [
+  { id: 1, nombre: 'Toy' },
+  { id: 2, nombre: 'Pequeño' },
+  { id: 3, nombre: 'Mediano' },
+  { id: 4, nombre: 'Grande' },
+  { id: 5, nombre: 'Gigante' }
+];
+
+export const sexoMascota = [
+  { id: 1, nombre: 'Macho' },
+  { id: 2, nombre: 'Hembra' }
 ];

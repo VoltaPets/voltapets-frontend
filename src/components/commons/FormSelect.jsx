@@ -16,7 +16,7 @@ export default function FormSelect({
   noHelperText
 }) {
   return (
-    <Grid item xs={width} sx={{ height: noHelperText ? 'auto' : 80, pb: noHelperText ? 2 : 0 }}>
+    <Grid item xs={width} sx={{ height: noHelperText ? 'auto' : 80 }}>
       <Controller
         name={name}
         control={control}

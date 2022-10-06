@@ -1,54 +1,116 @@
 // Librerias
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 // MUI
 import { Typography, Box, Grid, Button } from '@mui/material';
 
 // Relative imports
-import FormInput from '../../../../commons/FormInput';
+import {
+  regiones,
+  comunas,
+  tipoMascota,
+  razaGato,
+  razaPerro,
+  grupoEtario,
+  sizeMascota,
+  sexoMascota
+} from '../../../../../mock/dataArray';
 import FormSelect from '../../../../commons/FormSelect';
-import { regiones, comunas, tipoMascota } from '../../../../../mock/dataArray';
+import { getFormattedParams } from '../../../../../../pages/adopcion';
 
 const formSettings = {
   defaultValues: {
     region: 1,
     comuna: '',
-    tipoMascota: '',
-    razaMascota: '',
-    tamañoMascota: '',
+    tipo: '',
+    raza: '',
+    tamaño: '',
     grupoEtario: '',
-    sexoMascota: ''
+    sexo: ''
   }
 };
 
 const Filtros = () => {
+  // States
+  const [razas, setRazas] = useState([]);
+
   // Hooks
-  const {
-    control,
-    handleSubmit,
-    formState: { errors }
-  } = useForm(formSettings);
+  const { control, handleSubmit, watch, reset, resetField } = useForm(formSettings);
+  const { replace, query, isReady } = useRouter();
 
   // Functions
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const watchTipo = watch(['tipo']);
+
+  const updateRaza = (tipoID) => {
+    switch (tipoID) {
+      case 1:
+        setRazas(razaPerro);
+        break;
+      case 2:
+        setRazas(razaGato);
+        break;
+      default:
+        setRazas([]);
+    }
   };
 
+  const onSubmit = (data) => {
+    const params = {
+      ...getFormattedParams(data)
+    };
+
+    replace('/adopcion', {
+      query: new URLSearchParams(params).toString()
+    });
+  };
+
+  // Effects
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      switch (name) {
+        case 'tipo':
+          resetField('raza');
+          setRazas((prev) => ({ ...prev, raza: '' }));
+          updateRaza(value.tipo);
+          break;
+
+        default:
+          updateRaza(value.tipo);
+          break;
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watchTipo]);
+
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Grid container sx={{ flexDirection: 'column' }}>
-        <Typography variant="h6" mb={2}>
-          Ubicación
-        </Typography>
+    <Box
+      noValidate
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <Typography
+        variant="h6"
+        sx={{
+          width: '',
+          textAlign: 'center',
+          borderBottom: 1,
+          pb: 1,
+          borderColor: 'divider'
+        }}
+      >
+        Ubicación
+      </Typography>
+      <Grid container sx={{ flexDirection: 'column', mb: 8, gap: 2 }}>
         <FormSelect
           disabled
           noHelperText
           name="region"
           labelText="Región"
           control={control}
-          errorName={errors.region}
-          errorText={errors.region?.message}
           dataArray={regiones}
         />
         <FormSelect
@@ -56,43 +118,69 @@ const Filtros = () => {
           name="comuna"
           labelText="Comuna"
           control={control}
-          errorName={errors.comuna}
-          errorText={errors.comuna?.message}
           dataArray={comunas}
         />
       </Grid>
 
-      <Grid container sx={{ flexDirection: 'column' }}>
-        <Typography variant="h6" mb={2}>
-          Mascota
-        </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          width: '',
+          textAlign: 'center',
+          borderBottom: 1,
+          pb: 1,
+          borderColor: 'divider'
+        }}
+      >
+        Mascota
+      </Typography>
+      <Grid container sx={{ flexDirection: 'column', mb: 6, gap: 2 }}>
         <FormSelect
           noHelperText
-          name="tipoMascota"
-          labelText="Tipo de mascota"
+          name="tipo"
+          labelText="Tipo"
           control={control}
-          errorName={errors.tipoMascota}
-          errorText={errors.tipoMascota?.message}
           dataArray={tipoMascota}
         />
+        <FormSelect noHelperText name="raza" labelText="Raza" control={control} dataArray={razas} />
+        <FormSelect
+          noHelperText
+          name="tamaño"
+          labelText="Tamaño"
+          control={control}
+          dataArray={sizeMascota}
+        />
+        <FormSelect
+          noHelperText
+          name="grupoEtario"
+          labelText="Grupo Etario"
+          control={control}
+          dataArray={grupoEtario}
+        />
+        <FormSelect
+          noHelperText
+          name="sexo"
+          labelText="Sexo"
+          control={control}
+          dataArray={sexoMascota}
+        />
       </Grid>
-      <Box>
-        <Typography variant="h6">Tipo de mascota</Typography>
-        <input type="text" placeholder="Buscar por tipo de mascota" />
+
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Button type="submit" color="secondary" variant="contained" fullWidth>
+          Buscar
+        </Button>
+        <Button
+          onClick={() => reset()}
+          type="submit"
+          color="warning"
+          sx={{ color: 'white' }}
+          variant="contained"
+          fullWidth
+        >
+          Limpiar
+        </Button>
       </Box>
-      <Box>
-        <Typography variant="h6">Raza de la mascota</Typography>
-        <input type="text" placeholder="Buscar por raza de la mascota" />
-      </Box>
-      <Box>
-        <Typography variant="h6">Grupo etario de la mascota</Typography>
-        <input type="text" placeholder="Buscar por grupo etario de la mascota" />
-      </Box>
-      <Box>
-        <Typography variant="h6">Sexo de la mascota</Typography>
-        <input type="text" placeholder="Buscar por sexo de la mascota" />
-      </Box>
-      <Button type="submit">Buscar</Button>
     </Box>
   );
 };
