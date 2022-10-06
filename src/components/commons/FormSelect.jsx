@@ -6,21 +6,28 @@ import { Grid, InputLabel, FormControl, FormHelperText, Select, MenuItem } from 
 
 export default function FormSelect({
   control,
-  locations,
+  disabled,
   labelText,
   name,
   width,
   errorName,
   errorText,
-  vivienda
+  dataArray,
+  noHelperText
 }) {
   return (
-    <Grid item xs={width} sx={{ height: 80 }}>
+    <Grid item xs={width} sx={{ height: noHelperText ? 'auto' : 80, pb: noHelperText ? 2 : 0 }}>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <FormControl variant="standard" size="small" error={errorName ? true : false} fullWidth>
+          <FormControl
+            fullWidth
+            disabled={disabled}
+            variant="standard"
+            size="small"
+            error={errorName ? true : false}
+          >
             <InputLabel id="demo-simple-select-label" color="secondary">
               {labelText}
             </InputLabel>
@@ -31,19 +38,13 @@ export default function FormSelect({
               label={labelText}
               color="secondary"
             >
-              {locations
-                ? locations.map((location) => (
-                    <MenuItem key={location.id} value={location.id}>
-                      {location.nombre}
-                    </MenuItem>
-                  ))
-                : vivienda.map((vivienda) => (
-                    <MenuItem key={vivienda.id} value={vivienda.id}>
-                      {vivienda.nombre}
-                    </MenuItem>
-                  ))}
+              {dataArray?.map((location) => (
+                <MenuItem key={location.id} value={location.id}>
+                  {location.nombre}
+                </MenuItem>
+              ))}
             </Select>
-            <FormHelperText>{errorText}</FormHelperText>
+            {noHelperText ? <FormHelperText>{errorText}</FormHelperText> : null}
           </FormControl>
         )}
       />

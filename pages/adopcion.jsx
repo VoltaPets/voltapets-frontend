@@ -18,10 +18,10 @@ function AdopcionMascotasPage() {
       <Grid container sx={{ border: 2, borderColor: 'green' }}>
         {/* Filtro */}
         <Grid item xs={12} md={3.5} component="aside" p={2}>
-          <Box component="header" sx={{ p: 2, textAlign: 'center' }}>
+          <Box component="header" sx={{ textAlign: 'center' }}>
             <Typography variant="h5">Filtros de búsqueda</Typography>
           </Box>
-          <Box sx={{ border: 1, borderRadius: 2, p: 4 }}>
+          <Box sx={{ border: 1, borderRadius: 2, p: 2 }}>
             <Filtros />
           </Box>
         </Grid>
