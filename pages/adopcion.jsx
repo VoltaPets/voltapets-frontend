@@ -1,50 +1,80 @@
 // Librerias
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 //MUI
-import { Typography, Box, Card, Grid } from '@mui/material';
+import TuneIcon from '@mui/icons-material/Tune';
+import { Typography, Box, Card, Grid, Button } from '@mui/material';
 
 // Relative imports
 import Layout from '../src/components/commons/Layout';
 import Filtros from '../src/components/screens/public/home/adopcion/Filtros';
+import AdopcionCard from '../src/components/screens/public/home/adopcion/AdopcionCard';
+import { adopcion } from '../src/mock/adopcionData';
 
 function AdopcionMascotasPage() {
+  // States
+  const [openFilter, setOpenFilter] = useState(false);
+
   // Hooks
   const { query, isReady } = useRouter();
 
   return (
     <Layout authRequired={false} publicPage title="Adopción de mascotas">
-      <Box component="header" sx={{ p: 4, textAlign: 'center' }}>
-        <Typography variant="h4">Adopción de mascotas</Typography>
+      <Filtros open={openFilter} setOpen={setOpenFilter}/>
+      <Box
+        component="header"
+        sx={{
+          pt: 4,
+          pb: 1,
+          textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Box sx={{ flex: 1 }}>
+          <Typography variant="h4">Adopción de mascotas</Typography>
+        </Box>
+
+        <Box sx={{ flex: 0.2 }}>
+          <Button
+            onClick={() => {console.log("click"); setOpenFilter(true)}}
+            sx={{ textTransform: 'inherit' }}
+            startIcon={<TuneIcon />}
+            variant="contained"
+            size="large"
+            color="secondary"
+          >
+            Filtros
+          </Button>
+        </Box>
       </Box>
 
-      <Grid container sx={{ border: 2, borderColor: 'green' }}>
-        {/* Filtro */}
-        <Grid item xs={12} md={3.5} component="aside" p={2}>
-          <Box component="header" sx={{ textAlign: 'center' }}>
-            <Typography variant="h5" gutterBottom>
-              Filtros de búsqueda
-            </Typography>
-          </Box>
-          <Card variant="outlined" sx={{ p: 2, borderRadius: 4 }}>
-            <Filtros />
-          </Card>
-        </Grid>
-
+      <Grid container p={2}>
         {/* Cartas */}
         <Grid
           item
           xs={12}
           md
           sx={{
-            border: 1,
             display: 'flex',
-            flexWrap: 'wrap',
             justifyContent: 'center',
-            alignItems: 'center'
+            flexWrap: 'wrap',
+            alignItems: 'start',
+            bgcolor: '#e3e4e5',
+            borderRadius: 4,
+            p: 2,
+            gap: 2
           }}
           component="section"
-        ></Grid>
+        >
+          <Grid container spacing={1}>
+            {adopcion.map((mascota) => (
+              <AdopcionCard key={mascota.id} {...mascota} />
+            ))}
+          </Grid>
+        </Grid>
       </Grid>
     </Layout>
   );

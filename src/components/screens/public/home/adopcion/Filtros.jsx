@@ -4,7 +4,19 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
 // MUI
-import { Typography, Box, Grid, Button } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import {
+  Typography,
+  Box,
+  Grid,
+  Button,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Divider
+} from '@mui/material';
 
 // Relative imports
 import {
@@ -32,7 +44,7 @@ const formSettings = {
   }
 };
 
-const Filtros = () => {
+const Filtros = ({ open, setOpen }) => {
   // States
   const [razas, setRazas] = useState([]);
 
@@ -58,6 +70,7 @@ const Filtros = () => {
   };
 
   const onSubmit = (data) => {
+    console.log(data);
     const params = {
       ...getFormattedParams(data)
     };
@@ -65,6 +78,10 @@ const Filtros = () => {
     replace('/adopcion', {
       query: new URLSearchParams(params).toString()
     });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   // Effects
@@ -86,102 +103,182 @@ const Filtros = () => {
   }, [watchTipo]);
 
   return (
-    <Box
-      noValidate
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      sx={{ display: 'flex', flexDirection: 'column' }}
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="md"
+      sx={{ borderRadius: '16px !important' }}
+      PaperProps={{
+        sx: {
+          borderRadius: '16px !important',
+          overflowY: 'auto'
+        }
+      }}
     >
-      <Typography
-        variant="h6"
+      {/* Header */}
+      <DialogTitle
+        component="header"
         sx={{
-          width: '',
-          textAlign: 'center',
           borderBottom: 1,
-          pb: 1,
-          borderColor: 'divider'
+          borderColor: 'divider',
+          bgcolor: '#fff',
+          zIndex: 100,
+          position: 'sticky',
+          top: 0,
+          textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          px: 2,
+          py: 0,
+          height: 64
         }}
       >
-        Ubicación
-      </Typography>
-      <Grid container sx={{ flexDirection: 'column', mb: 8, gap: 2 }}>
-        <FormSelect
-          disabled
-          noHelperText
-          name="region"
-          labelText="Región"
-          control={control}
-          dataArray={regiones}
-        />
-        <FormSelect
-          noHelperText
-          name="comuna"
-          labelText="Comuna"
-          control={control}
-          dataArray={comunas}
-        />
-      </Grid>
+        <Box>
+          <IconButton onClick={handleClose}>
+            <ClearIcon />
+          </IconButton>
+        </Box>
+        <Box sx={{ flex: 1 }}>
+          <Typography variant="h6">Filtros</Typography>
+        </Box>
+      </DialogTitle>
 
-      <Typography
-        variant="h6"
+      {/* Contenido */}
+      <DialogContent
+        noValidate
+        component="form"
+        sx={{ display: 'flex', flexDirection: 'column', width: 780, p: 2 }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            width: '',
+            textAlign: 'center',
+            borderBottom: 1,
+            pb: 1,
+            borderColor: 'divider',
+            mt: 4
+          }}
+        >
+          Ubicación
+        </Typography>
+        <Typography variant="subtitle1" mb={2}>
+          Selecciona la región y comuna donde quieres buscar
+        </Typography>
+
+        <Grid container spacing={2}>
+          <FormSelect
+            disabled
+            noHelperText
+            width={6}
+            name="region"
+            labelText="Región"
+            control={control}
+            dataArray={regiones}
+          />
+          <FormSelect
+            noHelperText
+            width={6}
+            name="comuna"
+            labelText="Comuna"
+            control={control}
+            dataArray={comunas}
+          />
+        </Grid>
+
+        <Box sx={{ my: 4 }}>
+          <Divider />
+        </Box>
+
+        <Typography
+          variant="h6"
+          sx={{
+            width: '',
+            textAlign: 'center',
+            borderBottom: 1,
+            pb: 1,
+            borderColor: 'divider'
+          }}
+        >
+          Mascota
+        </Typography>
+        <Typography variant="subtitle1" mb={2}>
+          Selecciona el tipo de mascota que quieres adoptar, su raza, tamaño y sexo
+        </Typography>
+        <Grid container spacing={2} sx={{ mb: 6 }}>
+          <FormSelect
+            noHelperText
+            width={4}
+            name="tipo"
+            labelText="Tipo"
+            control={control}
+            dataArray={tipoMascota}
+          />
+          <FormSelect
+            noHelperText
+            width={4}
+            name="tamaño"
+            labelText="Tamaño"
+            control={control}
+            dataArray={sizeMascota}
+          />
+          <FormSelect
+            noHelperText
+            width={4}
+            name="grupoEtario"
+            labelText="Grupo Etario"
+            control={control}
+            dataArray={grupoEtario}
+          />
+          <FormSelect
+            noHelperText
+            width={6}
+            name="raza"
+            labelText="Raza"
+            control={control}
+            dataArray={razas}
+          />
+          <FormSelect
+            noHelperText
+            width={6}
+            name="sexo"
+            labelText="Sexo"
+            control={control}
+            dataArray={sexoMascota}
+          />
+        </Grid>
+      </DialogContent>
+
+      {/* Botones */}
+      <DialogActions
         sx={{
-          width: '',
-          textAlign: 'center',
-          borderBottom: 1,
-          pb: 1,
-          borderColor: 'divider'
+          display: 'flex',
+          justifyContent: 'space-between',
+          borderTop: 1,
+          borderColor: 'divider',
+          p: 2
         }}
       >
-        Mascota
-      </Typography>
-      <Grid container sx={{ flexDirection: 'column', mb: 6, gap: 2 }}>
-        <FormSelect
-          noHelperText
-          name="tipo"
-          labelText="Tipo"
-          control={control}
-          dataArray={tipoMascota}
-        />
-        <FormSelect noHelperText name="raza" labelText="Raza" control={control} dataArray={razas} />
-        <FormSelect
-          noHelperText
-          name="tamaño"
-          labelText="Tamaño"
-          control={control}
-          dataArray={sizeMascota}
-        />
-        <FormSelect
-          noHelperText
-          name="grupoEtario"
-          labelText="Grupo Etario"
-          control={control}
-          dataArray={grupoEtario}
-        />
-        <FormSelect
-          noHelperText
-          name="sexo"
-          labelText="Sexo"
-          control={control}
-          dataArray={sexoMascota}
-        />
-      </Grid>
-
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <Button type="submit" color="secondary" variant="contained" fullWidth>
-          Buscar
-        </Button>
         <Button
-          onClick={() => reset()}
-          type="submit"
+          size="large"
           color="warning"
-          sx={{ color: 'white' }}
-          variant="contained"
-          fullWidth
+          variant="text"
+          onClick={() => reset()}
+          sx={{ texTransform: 'inherit', width: '30%'}}
         >
           Limpiar
         </Button>
-      </Box>
-    </Box>
+        <Button
+          size="large"
+          color="secondary"
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+          sx={{ texTransform: 'inherit', width: '30%'}}
+        >
+          Buscar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
