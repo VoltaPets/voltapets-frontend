@@ -1,82 +1,88 @@
-// MUI
-import { Grid, Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+// Librerias
+import { useState } from 'react';
 
-const AdopcionCard = ({
-  imagen = "/logo.jpg",
-  titulo = 'Título',
-  tipo = 'Perro',
-  raza = 'Pastor Alemán',
-  tamaño = 'Mediano',
-  sexo = 'Macho',
-  descripcion = 'Hola, soy un perro muy lindo y cariñoso. Me gustan los paseos y los juegos. Si quieres adoptarme, escríbeme a mi correo.',
-  comuna = 'Santiago',
-  grupoEtario = 'Adulto',
-  edad = '3 años',
-  telefono = '+569 1234 5678'
-}) => {
+// MUI
+import { Grid, Box, Card, Chip, Button, CardMedia, Typography } from '@mui/material';
+
+// Relative Imports
+import ModalAdopcion from './AdopcionModal';
+
+const AdopcionCard = ({ adopcion }) => {
+  // Estados
+  const [openModal, setOpenModal] = useState(false);
+
   return (
-    <Grid item xs={12}>
-      <Card elevation={2} sx={{ borderRadius: 2, display: 'flex', height: {md: 400} }}>
-        <Box sx={{ width: 100, height: 100 }}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <ModalAdopcion open={openModal} setOpen={setOpenModal} adopcion={adopcion} />
+      <Card
+        elevation={2}
+        onClick={() => setOpenModal(true)}
+        sx={{
+          py: 1,
+          borderRadius: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          '&:hover': { cursor: 'pointer' }
+        }}
+      >
+        <Box sx={{ width: '100%', px: 1, mb: 2 }}>
           <CardMedia
             component="img"
-            image={imagen}
-            sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            image={adopcion.imagen}
+            sx={{ width: '100%', height: 250, objectFit: 'cover', borderRadius: 2 }}
             onError={(e) => {
-              e.currentTarget.img = "/logo.jpg"
-              e.onError = null
+              e.currentTarget.img = '/logo.jpg';
+              e.onError = null;
             }}
           />
         </Box>
 
-        <Box sx={{ flex: 1, p: 2 }}>
-          {/* Título y comuna */}
-          <Box mb={2}>
-            <Typography variant="h5" component="h1" sx={{fontSize: '2em'}}>
-              {titulo}
+        <Box sx={{ flex: 1, px: 2 }}>
+          {/* Título */}
+          <Box mb={2} component="header">
+            <Typography
+              variant="h6"
+              component="h1"
+              sx={{ fontSize: '1em', fontWeight: 800 }}
+              gutterBottom
+            >
+              {adopcion.titulo}
             </Typography>
-            <Typography variant="caption">{comuna}</Typography>
-            <Typography variant="body2">{telefono}</Typography>
-          </Box>
 
-          {/* Descripción */}
-          <Box mb={2}>
-            <Typography variant="subtitle2" color="secondary">
-              Descripción:
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {descripcion}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', gap: 4 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Opcion titulo="Tipo" descripcion={tipo} />
-              <Opcion titulo="Raza" descripcion={raza} />
-              <Opcion titulo="Tamaño" descripcion={tamaño} />
+            {/* Comuna y contacto */}
+            <Box>
+              <Chip
+                label={adopcion.comuna}
+                size="small"
+                color="info"
+                variant="outlined"
+                sx={{ mb: 2 }}
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <Typography variant="subtitle2">
+                  <b>Usuario:</b> {adopcion.usuario.username}
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }} color="info.main">
+                  {adopcion.telefono}
+                </Typography>
+              </Box>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Opcion titulo="Sexo" descripcion={sexo} />
-              <Opcion titulo="Grupo etario" descripcion={grupoEtario} />
-              <Opcion titulo="Edad" descripcion={edad} />
+
+            <Box>
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+                onClick={() => setOpenModal(true)}
+                sx={{ mt: 2, textTransform: 'inherit', fontWeight: 'bold' }}
+              >
+                Más Información
+              </Button>
             </Box>
           </Box>
         </Box>
       </Card>
     </Grid>
-  );
-};
-
-const Opcion = ({ titulo, descripcion }) => {
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-      <Typography variant="subtitle2" color="secondary">
-        {titulo}:
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        {descripcion}
-      </Typography>
-    </Box>
   );
 };
 

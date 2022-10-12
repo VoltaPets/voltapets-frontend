@@ -49,7 +49,7 @@ const Filtros = ({ open, setOpen }) => {
   const [razas, setRazas] = useState([]);
 
   // Hooks
-  const { control, handleSubmit, watch, reset, resetField } = useForm(formSettings);
+  const { control, handleSubmit, watch, reset, resetField, setValue } = useForm(formSettings);
   const { replace, query, isReady } = useRouter();
 
   // Functions
@@ -84,6 +84,11 @@ const Filtros = ({ open, setOpen }) => {
     setOpen(false);
   };
 
+  const handleReset = () => {
+    reset(formSettings.defaultValues);
+    replace('/adopcion?region=1');
+  };
+
   // Effects
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -101,6 +106,16 @@ const Filtros = ({ open, setOpen }) => {
     });
     return () => subscription.unsubscribe();
   }, [watchTipo]);
+
+  useEffect(() => {
+    if (isReady) {
+      if(query.tipo && typeof query.tipo === 'string') {
+        
+        setValue('tipo', parseInt(query.tipo));
+      }
+    }
+  }, [isReady]);
+      
 
   return (
     <Dialog
@@ -147,7 +162,7 @@ const Filtros = ({ open, setOpen }) => {
       <DialogContent
         noValidate
         component="form"
-        sx={{ display: 'flex', flexDirection: 'column', width: 780, p: 2 }}
+        sx={{ display: 'flex', flexDirection: 'column', width: 780, p: 4 }}
       >
         <Typography
           variant="h6"
@@ -157,13 +172,17 @@ const Filtros = ({ open, setOpen }) => {
             borderBottom: 1,
             pb: 1,
             borderColor: 'divider',
-            mt: 4
+            mt: 4,
+            fontWeight: 'bold'
           }}
         >
           Ubicación
         </Typography>
-        <Typography variant="subtitle1" mb={2}>
+        <Typography variant="subtitle1">
           Selecciona la región y comuna donde quieres buscar
+        </Typography>
+        <Typography variant="caption" mb={2}>
+          (Actualmente solo se encuentra disponible la región Metropolitana)
         </Typography>
 
         <Grid container spacing={2}>
@@ -197,13 +216,17 @@ const Filtros = ({ open, setOpen }) => {
             textAlign: 'center',
             borderBottom: 1,
             pb: 1,
-            borderColor: 'divider'
+            borderColor: 'divider',
+            fontWeight: 'bold'
           }}
         >
           Mascota
         </Typography>
-        <Typography variant="subtitle1" mb={2}>
+        <Typography variant="subtitle1">
           Selecciona el tipo de mascota que quieres adoptar, su raza, tamaño y sexo
+        </Typography>
+        <Typography variant="caption" mb={2}>
+          (Actualmente solo se encuentran disponibles perros y gatos)
         </Typography>
         <Grid container spacing={2} sx={{ mb: 6 }}>
           <FormSelect
@@ -263,8 +286,8 @@ const Filtros = ({ open, setOpen }) => {
           size="large"
           color="warning"
           variant="text"
-          onClick={() => reset()}
-          sx={{ texTransform: 'inherit', width: '30%'}}
+          onClick={handleReset}
+          sx={{ texTransform: 'inherit', width: '30%' }}
         >
           Limpiar
         </Button>
@@ -273,7 +296,7 @@ const Filtros = ({ open, setOpen }) => {
           color="secondary"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
-          sx={{ texTransform: 'inherit', width: '30%'}}
+          sx={{ texTransform: 'inherit', width: '30%' }}
         >
           Buscar
         </Button>

@@ -12,7 +12,6 @@ export const comunas = [
 export const tipoMascota = [
   { id: 1, nombre: 'Perro' },
   { id: 2, nombre: 'Gato' },
-  { id: 5, nombre: 'Otro' }
 ];
 
 export const razaGato = [

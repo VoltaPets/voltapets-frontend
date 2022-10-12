@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 //MUI
 import TuneIcon from '@mui/icons-material/Tune';
-import { Typography, Box, Card, Grid, Button } from '@mui/material';
+import { Typography, Box, Card, Chip, Grid, Button } from '@mui/material';
 
 // Relative imports
 import Layout from '../src/components/commons/Layout';
@@ -17,11 +17,11 @@ function AdopcionMascotasPage() {
   const [openFilter, setOpenFilter] = useState(false);
 
   // Hooks
-  const { query, isReady } = useRouter();
+  const { query, isReady, replace } = useRouter();
 
   return (
     <Layout authRequired={false} publicPage title="Adopción de mascotas">
-      <Filtros open={openFilter} setOpen={setOpenFilter}/>
+      <Filtros open={openFilter} setOpen={setOpenFilter} />
       <Box
         component="header"
         sx={{
@@ -29,26 +29,70 @@ function AdopcionMascotasPage() {
           pb: 1,
           textAlign: 'center',
           display: 'flex',
+          flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'center'
         }}
       >
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="h4">Adopción de mascotas</Typography>
+        <Box sx={{ width: '100%' }}>
+          <Typography variant="h4" color="info.main" gutterBottom>
+            Adopción de mascotas
+          </Typography>
         </Box>
 
-        <Box sx={{ flex: 0.2 }}>
-          <Button
-            onClick={() => {console.log("click"); setOpenFilter(true)}}
-            sx={{ textTransform: 'inherit' }}
-            startIcon={<TuneIcon />}
-            variant="contained"
+        <Card
+          variant="outlined"
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 4,
+            py: 1,
+            px: 2,
+            borderRadius: 8,
+            bgcolor: '#e3e3e3'
+          }}
+        >
+          <Box sx={{ display: 'flex', gap: 4 }}>
+            <Button
+              variant="text"
+              onClick={() => replace('/adopcion?region=1&tipo=1')}
+              sx={{
+                fontWeight: 'bold',
+                textTransform: 'inherit',
+                textDecoration: 'underline',
+                color: '#fff'
+              }}
+            >
+              Perros
+            </Button>
+            <Button
+              variant="text"
+              sx={{
+                fontWeight: 'bold',
+                textTransform: 'inherit',
+                textDecoration: 'underline',
+                color: '#fff'
+              }}
+              onClick={() => replace('/adopcion?region=1&tipo=2')}
+            >
+              Gatos
+            </Button>
+          </Box>
+
+          <Chip
             size="large"
+            clickable
+            variant="contained"
             color="secondary"
-          >
-            Filtros
-          </Button>
-        </Box>
+            label="Filtros"
+            icon={<TuneIcon />}
+            sx={{ fontWeight: 'bold' }}
+            onClick={() => {
+              setOpenFilter(true);
+            }}
+          />
+        </Card>
       </Box>
 
       <Grid container p={2}>
@@ -64,14 +108,15 @@ function AdopcionMascotasPage() {
             alignItems: 'start',
             bgcolor: '#e3e4e5',
             borderRadius: 4,
+            mb: 4,
             p: 2,
             gap: 2
           }}
           component="section"
         >
-          <Grid container spacing={1}>
+          <Grid container spacing={2}>
             {adopcion.map((mascota) => (
-              <AdopcionCard key={mascota.id} {...mascota} />
+              <AdopcionCard key={mascota.id} adopcion={mascota} />
             ))}
           </Grid>
         </Grid>
