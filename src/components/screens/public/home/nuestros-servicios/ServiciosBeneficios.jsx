@@ -5,7 +5,7 @@ import { Box, Card, Grid, Typography, CardMedia } from '@mui/material';
 
 const ServiciosBeneficios = ({ beneficios }) => {
   return (
-    <Box p={4}>
+    <Box sx={{ p: { xs: 2, md: 4 }, my: { xs: 4, md: 0 } }}>
       <Typography variant="h4" component="h2" sx={{ mb: 2, width: '100%' }}>
         Beneficios
       </Typography>
@@ -38,7 +38,7 @@ const ServiciosBeneficios = ({ beneficios }) => {
                   e.currentTarget.onerror = null;
                 }}
               />
-              <Box px={4} pb={4}>
+              <Box sx={{ px: { xs: 2, md: 4 }, mb: { xs: 2, md: 4 } }}>
                 <Typography variant="h6" color="info.main" component="h3">
                   {beneficio.title}
                 </Typography>

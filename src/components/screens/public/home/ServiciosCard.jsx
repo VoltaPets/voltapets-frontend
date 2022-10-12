@@ -5,7 +5,7 @@ import { Card, CardMedia, Box, Grid, Typography } from '@mui/material';
 
 const ServiciosCard = ({ width = 12, titulo, descripcion, image }) => {
   return (
-    <Grid item xs={width}>
+    <Grid item xs={12} md={width}>
       <Card elevation={2} sx={{ p: 2, minHeight: 380, bgcolor: '#f3eed9' }}>
         <Box component="header" mb={2}>
           <Typography variant="subtitle1" align="center" sx={{ fontSize: '1.1em' }}>

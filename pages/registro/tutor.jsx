@@ -15,7 +15,7 @@ import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
 import Link from '../../src/components/commons/Link';
 import { schemaRegistroTutor } from '../../src/utils/validations';
-import { regiones, comunas } from '../../src/mock/locations';
+import { regiones, comunas } from '../../src/mock/dataArray';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 
 const formSettings = {

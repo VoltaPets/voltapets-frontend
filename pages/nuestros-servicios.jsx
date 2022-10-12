@@ -46,7 +46,7 @@ function nuestrosServicios() {
       <Grid container>
         <Grid item xs={12}>
           {/* Hero image */}
-          <Box sx={{ position: 'relative', height: { xs: 400, md: 600, lg: 700 } }}>
+          <Box sx={{ position: 'relative', height: { xs: 500, md: 600, lg: 700 } }}>
             <CardMedia
               component="img"
               image="/images/dogs-playing.jpg"
@@ -62,14 +62,14 @@ function nuestrosServicios() {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: { xs: 'end', md: 'center' },
                 alignItems: 'center',
                 height: { xs: '100%', md: 600, lg: 700 },
                 width: { xs: '100%', md: '50%', lg: '40%' },
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
-                p: 4,
+                p: { xs: 6, md: 4 },
                 bgcolor: { xs: 'rgba(0, 0, 0, 0.5)', md: 'rgba(0, 0, 0, 0.8)' }
               }}
             >
@@ -88,11 +88,13 @@ function nuestrosServicios() {
               <Typography
                 variant="h6"
                 sx={{
-                  width: { fontSize: { xs: '0.6em', md: '1em' }, xs: '90%', md: '80%' },
+                  width: { fontSize: { xs: '0.6em', md: '1em' }, xs: '100%', md: '80%' },
+                  textAlign: { xs: 'center', md: 'left' },
                   color: '#fff'
                 }}
               >
-                En Volta Pets ofrecemos servicios de paseo. Conoce más sobre nuestros servicios.
+                En <em style={{ color: '#F4D19B' }}>Volta Pets</em> ofrecemos servicios de paseo.
+                Conoce más sobre nuestros servicios.
               </Typography>
             </Box>
           </Box>

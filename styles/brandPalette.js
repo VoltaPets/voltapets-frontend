@@ -25,10 +25,15 @@ export const voltaPetsTheme = createTheme({
     }
   },
   typography: {
-    fontFamily: ['Poppins'].join(','),
+    fontFamily: ['Poppins','IBM Plex Sans'].join(','),
     h4: {
       color: '#9D2F3A',
-      fontSize: '2rem'
+      fontSize: '2rem',
+      fontWeight: 700,
+    },
+    subtitle1: {
+      fontWeight: 600,
+      color: '#22577E'
     }
   }
 });

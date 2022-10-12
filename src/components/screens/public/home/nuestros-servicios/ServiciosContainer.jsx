@@ -51,7 +51,8 @@ const ServiciosContainer = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        p: 4,
+        px: { xs: 2, md: 4 },
+        py: { xs: 4 },
         bgcolor: 'primary.main'
       }}
     >
