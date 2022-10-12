@@ -1,5 +1,6 @@
 html,
 body {
+  scrollbar-width: thin;
   background-color: #fff;
   padding: 0;
   margin: 0;
