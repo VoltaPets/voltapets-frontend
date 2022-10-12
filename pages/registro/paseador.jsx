@@ -13,7 +13,7 @@ import { Box, Card, CardMedia, Grid, Typography, Button } from '@mui/material';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
-import { comunas, regiones } from '../../src/mock/locations';
+import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
 
 const formSettings = {
