@@ -22,7 +22,7 @@ const Transicion = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AdopcionModal = ({ open, setOpen, adopcion }) => {
+const MascotasModal = ({ open, setOpen, adopcion, perdida, isAdopcion = true }) => {
   // Funciones
   const handleClose = () => {
     setOpen(false);
@@ -72,7 +72,7 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
           {/* Descripcion */}
           <Box sx={{ textAlign: 'justify', mt: 2, mb: 4 }}>
             <Typography variant="h6" sx={{ fontWeight: 600 }} gutterBottom>
-              Descripcion
+              Descripción
             </Typography>
             <Typography variant="body2">{adopcion.descripcion}</Typography>
             <Divider sx={{mt: 2}} />
@@ -104,13 +104,10 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
               Contacto
             </Typography>
             <Typography variant="subtitle2">
-              <b>Usuario:</b> {adopcion.usuario.username}
+              <b>Responsable:</b> {`${adopcion.usuario.nombre}`}
             </Typography>
             <Typography variant="subtitle2">
               <b>Teléfono:</b> {adopcion.telefono}
-            </Typography>
-            <Typography variant="body2">
-              <b>Dirección:</b> {`${adopcion.direccion}, ${adopcion.comuna}`}
             </Typography>
           </Box>
         </Box>
@@ -142,4 +139,4 @@ const Opcion = ({ titulo, descripcion }) => {
   );
 };
 
-export default AdopcionModal;
+export default MascotasModal;

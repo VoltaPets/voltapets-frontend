@@ -9,8 +9,8 @@ import { Typography, Box, Card, Chip, Grid, Button } from '@mui/material';
 // Relative imports
 import Layout from '../src/components/commons/Layout';
 import Filtros from '../src/components/screens/public/home/adopcion/Filtros';
-import AdopcionCard from '../src/components/screens/public/home/adopcion/AdopcionCard';
-import { adopcion } from '../src/mock/adopcionData';
+import AdopcionCard from '../src/components/commons/mascotas/MascotaCard';
+import { adopcion } from '../src/mock/mascotas';
 
 function AdopcionMascotasPage() {
   // States
@@ -115,8 +115,8 @@ function AdopcionMascotasPage() {
           component="section"
         >
           <Grid container spacing={2}>
-            {adopcion.map((mascota) => (
-              <AdopcionCard key={mascota.id} adopcion={mascota} />
+            {adopcion.map((mascotaAdopcion) => (
+              <AdopcionCard isAdopcion key={mascotaAdopcion.id} mascota={mascotaAdopcion} />
             ))}
           </Grid>
         </Grid>

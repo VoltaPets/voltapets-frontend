@@ -15,12 +15,7 @@ export const adopcion = [
     grupoEtario: 'Cachorro',
     tamaño: 'Grande',
     direccion: 'Santa Isabel 123',
-    usuario: {
-      id: 1,
-      username: 'Jperez',
-      nombre: 'Juan Perez',
-      email: 'ejemplo@mail.cl'
-    }
+    responsable: 'Matilda Jara'
   },
   {
     id: 2,
@@ -37,12 +32,7 @@ export const adopcion = [
     grupoEtario: 'Cachorro',
     tamaño: 'Mediano',
     direccion: 'Los Hermitaños 232',
-    usuario: {
-      id: 2,
-      username: 'CatLover',
-      nombre: 'Maria Gonzalez',
-      email: 'maria.g@gmail.com'
-    }
+    responsable: 'María González'
   },
   {
     id: 3,
@@ -59,12 +49,7 @@ export const adopcion = [
     grupoEtario: 'Cachorro',
     tamaño: 'Grande',
     direccion: 'Ramon Carnicer 1234',
-    usuario: {
-      id: 3,
-      username: 'TheDogRetriever',
-      nombre: 'Pedro Sanchez',
-      email: 'retriiiver@gmail.com'
-    }
+    responsable: 'Matías Alarcón'
   },
   {
     id: 4,
@@ -81,12 +66,7 @@ export const adopcion = [
     grupoEtario: 'Cachorro',
     tamaño: 'Mediano',
     direccion: 'Av. Apoquindo 1234',
-    usuario: {
-      id: 4,
-      username: 'DeliKatt',
-      nombre: 'Katherine Pinto',
-      email: 'katt_katana@gmail.com'
-    }
+    responsable: 'Pepe Soot'
   },
   {
     id: 5,
@@ -104,12 +84,7 @@ export const adopcion = [
     grupoEtario: 'Cachorro',
     tamaño: 'Mediano',
     direccion: 'Av. La Florida 1234',
-    usuario: {
-      id: 5,
-      username: 'PugLife',
-      nombre: 'Josefina Pinto',
-      email: 'jose.pug@gmail.com'
-    }
+    responsable: 'Yonnys Isaías'
   },
   {
     id: 6,
@@ -118,8 +93,7 @@ export const adopcion = [
     telefono: '+569 1234 5678',
     descripcion:
       'Pequeños cachorros de raza Bulldog Francés para adopción. Son muy juguetones y cariñosos y se entregan con su primera vacuna y desparasitación.',
-    imagen:
-      'https://http2.mlstatic.com/D_NQ_NP_922477-MLC49459270917_032022-V.jpg',
+    imagen: 'https://http2.mlstatic.com/D_NQ_NP_922477-MLC49459270917_032022-V.jpg',
     tipo: 'Perro',
     raza: 'Bulldog Francés',
     sexo: 'Macho',
@@ -127,11 +101,25 @@ export const adopcion = [
     grupoEtario: 'Cachorro',
     tamaño: 'Mediano',
     direccion: 'Av. Apoquindo 1234',
-    usuario: {
-      id: 6,
-      username: 'BulldogLover',
-      nombre: 'Roberto Carlos',
-      email: 'r.carlos@gmail'
-    }
+    responsable: 'Roberto Carlos'
+  }
+];
+
+export const perdidas = [
+  {
+    id: 1,
+    nombreMascota: 'Firulais',
+    imagen:
+      'https://thehappypuppysite.com/wp-content/uploads/2016/01/golden-retriever.jpg',
+    tipo: 'Perro',
+    raza: 'Golden Retriever',
+    tamaño: 'Grande',
+    sexo: 'Macho',
+    edad: '4 años',
+    responsable: 'Rodrigo Perez',
+    telefono: '+569 1234 5678',
+    comuna: 'Las Condes',
+    descripcion: 'Se perdió en la comuna de Las Condes, cerca de la estación de metro Tobalaba',
+    recompensa: '100.000'
   }
 ];
