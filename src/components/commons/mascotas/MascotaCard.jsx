@@ -13,10 +13,15 @@ const MascotaCard = ({ isAdopcion, mascota }) => {
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      {/* <ModalAdopcion open={openModal} setOpen={setOpenModal} adopcion={mascota} /> */}
+      <ModalAdopcion
+        open={openModal}
+        setOpen={setOpenModal}
+        isAdopcion={isAdopcion}
+        mascota={mascota}
+      />
       <Card
         elevation={2}
-        // onClick={() => setOpenModal(true)}
+        onClick={() => setOpenModal(true)}
         sx={{
           py: 1,
           borderRadius: 2,
@@ -44,7 +49,11 @@ const MascotaCard = ({ isAdopcion, mascota }) => {
               <Typography
                 variant="h6"
                 component="h1"
-                sx={{ fontSize: '1em', fontWeight: 800 }}
+                sx={{
+                  fontWeight: 'bold',
+                  fontSize: { xs: '1.3em', md: '1.2em', lg: '1em' },
+                  mb: 2
+                }}
                 gutterBottom
               >
                 {isAdopcion ? mascota.titulo : mascota.nombreMascota}

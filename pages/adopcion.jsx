@@ -115,7 +115,11 @@ function AdopcionMascotasPage() {
             }}
             component="section"
           >
-            <Grid container spacing={2}>
+            <Grid
+              container
+              spacing={2}
+              sx={{ justifyContent: adopcion.length > 4 ? 'start' : 'center' }}
+            >
               {adopcion.map((mascotaAdopcion) => (
                 <AdopcionCard isAdopcion key={mascotaAdopcion.id} mascota={mascotaAdopcion} />
               ))}

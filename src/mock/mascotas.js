@@ -109,8 +109,7 @@ export const perdidas = [
   {
     id: 1,
     nombreMascota: 'Firulais',
-    imagen:
-      'https://thehappypuppysite.com/wp-content/uploads/2016/01/golden-retriever.jpg',
+    imagen: 'https://thehappypuppysite.com/wp-content/uploads/2016/01/golden-retriever.jpg',
     tipo: 'Perro',
     raza: 'Golden Retriever',
     tamaño: 'Grande',
@@ -121,5 +120,39 @@ export const perdidas = [
     comuna: 'Las Condes',
     descripcion: 'Se perdió en la comuna de Las Condes, cerca de la estación de metro Tobalaba',
     recompensa: '100.000'
+  },
+  {
+    id: 2,
+    nombreMascota: 'Pelusa',
+    imagen:
+      'https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2021/04/siames-scaled.jpg?fit=2560%2C1707&quality=50&strip=all&ssl=1',
+    tipo: 'Gato',
+    raza: 'Siamés',
+    tamaño: 'Mediano',
+    sexo: 'Hembra',
+    edad: '1 año',
+    responsable: 'María González',
+    telefono: '+569 1234 5678',
+    comuna: 'Providencia',
+    descripcion:
+      'Salió de su casa a dar un paseo y no ha vuelto. Responde al nombre de Pelusa, es de color blanco y es muy cariñosa.',
+    recompensa: '50.000'
+  },
+  {
+    id: 3,
+    nombreMascota: 'Mascarpone',
+    imagen:
+      'https://cdn.shopify.com/s/files/1/0268/6861/files/dog-2640079_960_720_grande.jpg?v=1568997597',
+    tipo: 'Perro',
+    raza: 'Pug',
+    tamaño: 'Mediano',
+    sexo: 'Macho',
+    edad: '1 año',
+    responsable: 'Juan Pablo',
+    telefono: '+569 1234 5678',
+    comuna: 'La Florida',
+    descripcion:
+      'Salió persiguiendo a un gato y al doblar la esquina le perdimos el rastro. Responde al nombre de Mascarpone y es muy juguetón. Es de tamaño mediano y color marrón,le encanta morder los zapatos.',
+    recompensa: '80.000'
   }
 ];

@@ -152,7 +152,7 @@ const Header = () => {
                 onClick={() => push('usuarios/login')}
                 color="secondary"
                 variant="contained"
-                sx={{ textTransform: 'inherit' }}
+                sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
               >
                 Iniciar sesión
               </Button>

@@ -24,7 +24,10 @@ const BuscadorMascotas = () => {
   const onSubmit = (data) => console.log(data);
 
   return (
-    <Card variant="outlined" sx={{ borderRadius: 8, py: 0.5, px: 2, width: '50%' }}>
+    <Card
+      variant="outlined"
+      sx={{ borderRadius: 8, py: {xs: 2, md: 0.5}, px: {xs: 2, md: 4}, width: { xs: '80%', md: '50%' } }}
+    >
       <Grid
         container
         component="form"

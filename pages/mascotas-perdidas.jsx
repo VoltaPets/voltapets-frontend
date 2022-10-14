@@ -59,7 +59,11 @@ function MascotaPerdidaPage() {
             }}
             component="section"
           >
-            <Grid container spacing={2}>
+            <Grid
+              container
+              spacing={2}
+              sx={{ justifyContent: perdidas.length > 4 ? 'start' : 'center' }}
+            >
               {perdidas.map((mascotaPerdida) => (
                 <MascotaPerdidaCard key={mascotaPerdida.id} mascota={mascotaPerdida} />
               ))}

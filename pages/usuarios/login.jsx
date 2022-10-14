@@ -141,7 +141,7 @@ function LoginPage() {
                   type="submit"
                   variant="contained"
                   color="secondary"
-                  sx={{ color: '#fff' }}
+                  sx={{ color: '#fff', fontWeight: 'bold' }}
                 >
                   Iniciar sesión
                 </Button>
