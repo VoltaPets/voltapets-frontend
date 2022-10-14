@@ -99,12 +99,24 @@ const InfoPaseadorPage = () => {
                 Brinda un servicio de calidad, <br /> con seguridad y confianza.
               </Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 2
+                }}
+              >
                 {paseadorImg.map((item, index) => (
                   <Card elevation={4} key={index} sx={{ flex: 1, borderRadius: 4 }}>
                     <CardMedia
                       component="img"
-                      sx={{ height: index === 1 ? 390 : 350, width: '100%', objectFit: 'cover' }}
+                      sx={{
+                        height: { xs: 200, md: index === 1 ? 390 : 350 },
+                        width: '100%',
+                        objectFit: 'cover'
+                      }}
                       image={item.img}
                       alt={item.title}
                       onError={(e) => {
@@ -137,7 +149,14 @@ const InfoPaseadorPage = () => {
                 <br /> los siguientes requisitos:
               </Typography>
 
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  flexDirection: { xs: 'column', md: 'row' },
+                  gap: 2
+                }}
+              >
                 {requisitos.map((item, index) => (
                   <Card
                     elevation={4}
@@ -174,7 +193,7 @@ const InfoPaseadorPage = () => {
                   textTransform: 'inherit',
                   fontWeight: 'bold',
                   color: 'white',
-                  width: '20%',
+                  width: { xs: '80%', md: '20%' },
                   fontSize: '1.2em'
                 }}
               >
