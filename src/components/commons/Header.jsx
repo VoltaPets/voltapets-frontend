@@ -32,7 +32,7 @@ const linksArrayMobile = [
   { name: 'Nuestros servicios', href: '/nuestros-servicios' },
   { name: 'Adopción', href: '/adopcion' },
   { name: 'Mascotas perdidas', href: '/mascotas-perdidas' },
-  { name: 'Quiero ser un Paseador' }
+  { name: 'Quiero ser Paseador', href: '/paseador/info' }
 ];
 
 const HeaderLink = styled(Link)(({ theme }) => ({
@@ -147,7 +147,7 @@ const Header = () => {
                 fontSize: '0.8rem'
               }}
             >
-              <HeaderLink href="/registro/paseador">Quiero ser un paseador</HeaderLink>
+              <HeaderLink href="/paseador/paseador">Quiero ser un paseador</HeaderLink>
               <Button
                 onClick={() => push('usuarios/login')}
                 color="secondary"
