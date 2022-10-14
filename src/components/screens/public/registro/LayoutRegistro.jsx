@@ -35,6 +35,7 @@ const LayoutRegistro = ({ titulo, children }) => {
               component="img"
               image="/logo.jpg"
               sx={{
+                display: {xs: 'none', sm: 'block'},
                 width: { xs: 120, sm: 150 },
                 alignSelf: 'start',
                 height: '100%',
