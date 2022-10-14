@@ -43,7 +43,7 @@ function nuestrosServicios() {
       description="En Volta Pets ofrecemos servicios de paseo, hospedaje y cuidado de mascotas. Conoce más sobre nuestros servicios."
       authRequired={false}
     >
-      <Grid container>
+      <Grid container sx={{ maxWidth: { xs: '100%', lg: 1300 }, mx: 'auto' }}>
         <Grid item xs={12}>
           {/* Hero image */}
           <Box sx={{ position: 'relative', height: { xs: 500, md: 600, lg: 700 } }}>

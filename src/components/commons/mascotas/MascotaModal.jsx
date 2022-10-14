@@ -22,11 +22,13 @@ const Transicion = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AdopcionModal = ({ open, setOpen, adopcion }) => {
+const MascotasModal = ({ open, setOpen, mascota, isAdopcion = false }) => {
   // Funciones
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log(mascota)
 
   return (
     <Dialog
@@ -41,7 +43,7 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
       <DialogTitle sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
         <Box sx={{ flex: 1 }}>
           <Typography variant="h6" sx={{ flex: 1, fontWeight: 600 }}>
-            {adopcion.titulo}
+            {isAdopcion ? mascota.titulo : mascota.nombreMascota}
           </Typography>
         </Box>
         <Box>
@@ -56,9 +58,13 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
         <Box sx={{ width: '100%' }}>
           <CardMedia
             component="img"
-            image={adopcion.imagen}
-            alt={adopcion.titulo}
+            image={mascota.imagen}
+            alt={mascota.titulo}
             sx={{ width: '100%', height: 300, objectFit: 'cover', borderRadius: 2 }}
+            onError={(e) => {
+              e.currentTarget.img = '/image/paw.png';
+              e.onerror = null;
+            }}
           />
         </Box>
         <Box
@@ -72,10 +78,10 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
           {/* Descripcion */}
           <Box sx={{ textAlign: 'justify', mt: 2, mb: 4 }}>
             <Typography variant="h6" sx={{ fontWeight: 600 }} gutterBottom>
-              Descripcion
+              Descripción
             </Typography>
-            <Typography variant="body2">{adopcion.descripcion}</Typography>
-            <Divider sx={{mt: 2}} />
+            <Typography variant="body2">{mascota.descripcion}</Typography>
+            <Divider sx={{ mt: 2 }} />
           </Box>
 
           {/* Características */}
@@ -85,17 +91,17 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Opcion titulo="Tipo" descripcion={adopcion.tipo} />
-                <Opcion titulo="Raza" descripcion={adopcion.raza} />
-                <Opcion titulo="Edad" descripcion={adopcion.edad} />
+                <Opcion titulo="Tipo" descripcion={mascota.tipo} />
+                <Opcion titulo="Raza" descripcion={mascota.raza} />
+                <Opcion titulo="Edad" descripcion={mascota.edad} />
               </Grid>
               <Grid item xs sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Opcion titulo="Grupo Etario" descripcion={adopcion.grupoEtario} />
-                <Opcion titulo="Tamaño" descripcion={adopcion.tamaño} />
-                <Opcion titulo="Sexo" descripcion={adopcion.sexo} />
+                {isAdopcion && <Opcion titulo="Grupo Etario" descripcion={mascota.grupoEtario} />}
+                <Opcion titulo="Tamaño" descripcion={mascota.tamaño} />
+                <Opcion titulo="Sexo" descripcion={mascota.sexo} />
               </Grid>
             </Grid>
-          <Divider sx={{ mt: 2}} />
+            <Divider sx={{ mt: 2 }} />
           </Box>
 
           {/* Contacto */}
@@ -104,13 +110,10 @@ const AdopcionModal = ({ open, setOpen, adopcion }) => {
               Contacto
             </Typography>
             <Typography variant="subtitle2">
-              <b>Usuario:</b> {adopcion.usuario.username}
+              <b>Responsable:</b> {`${mascota.responsable}`}
             </Typography>
             <Typography variant="subtitle2">
-              <b>Teléfono:</b> {adopcion.telefono}
-            </Typography>
-            <Typography variant="body2">
-              <b>Dirección:</b> {`${adopcion.direccion}, ${adopcion.comuna}`}
+              <b>Teléfono:</b> {mascota.telefono}
             </Typography>
           </Box>
         </Box>
@@ -142,4 +145,4 @@ const Opcion = ({ titulo, descripcion }) => {
   );
 };
 
-export default AdopcionModal;
+export default MascotasModal;

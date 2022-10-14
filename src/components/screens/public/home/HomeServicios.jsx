@@ -36,7 +36,7 @@ const HomeServicios = () => {
           }}
         >
           <Box component="header" mb={2}>
-            <Typography variant="h5">Servicios de Bienestar Integral</Typography>
+            <Typography variant="h5">Servicio Básico</Typography>
           </Box>
           <Grid container sx={{ justifyContent: 'center' }}>
             <ServiciosCard
@@ -69,7 +69,7 @@ const HomeServicios = () => {
             />
             <ServiciosCard
               width={6}
-              titulo="Socialización con otras mascotas"
+              titulo="Socialización"
               descripcion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus est in hendrerit ultricies. Duis sed porta purus, ac varius mauris."
               image="https://s28489.pcdn.co/wp-content/uploads/2021/04/Dog-park-2-May-16.jpg.optimal.jpg"
             />
