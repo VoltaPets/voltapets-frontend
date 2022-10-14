@@ -15,7 +15,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Divider
+  Divider,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 
 // Relative imports
@@ -49,6 +51,8 @@ const Filtros = ({ open, setOpen }) => {
   const [razas, setRazas] = useState([]);
 
   // Hooks
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { control, handleSubmit, watch, reset, resetField, setValue } = useForm(formSettings);
   const { replace, query, isReady } = useRouter();
 
@@ -109,23 +113,21 @@ const Filtros = ({ open, setOpen }) => {
 
   useEffect(() => {
     if (isReady) {
-      if(query.tipo && typeof query.tipo === 'string') {
-        
+      if (query.tipo && typeof query.tipo === 'string') {
         setValue('tipo', parseInt(query.tipo));
       }
     }
   }, [isReady]);
-      
 
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       maxWidth="md"
-      sx={{ borderRadius: '16px !important' }}
+      fullScreen={fullScreen}
       PaperProps={{
         sx: {
-          borderRadius: '16px !important',
+          borderRadius: { xs: 0, sm: '16px !important' },
           overflowY: 'auto'
         }
       }}
@@ -137,8 +139,6 @@ const Filtros = ({ open, setOpen }) => {
           borderBottom: 1,
           borderColor: 'divider',
           bgcolor: '#fff',
-          zIndex: 100,
-          position: 'sticky',
           top: 0,
           textAlign: 'center',
           display: 'flex',
@@ -162,7 +162,7 @@ const Filtros = ({ open, setOpen }) => {
       <DialogContent
         noValidate
         component="form"
-        sx={{ display: 'flex', flexDirection: 'column', width: 780, p: 4 }}
+        sx={{ display: 'flex', flexDirection: 'column', width: { xs: '100%', md: 780 }, p: 4 }}
       >
         <Typography
           variant="h6"
@@ -222,6 +222,7 @@ const Filtros = ({ open, setOpen }) => {
         >
           Mascota
         </Typography>
+
         <Typography variant="subtitle1">
           Selecciona el tipo de mascota que quieres adoptar, su raza, tamaño y sexo
         </Typography>
