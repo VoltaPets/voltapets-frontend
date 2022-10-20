@@ -13,6 +13,7 @@ import { Box, Card, CardMedia, Grid, Typography, Button } from '@mui/material';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
+import FileInput from '../../src/components/commons/FileInput';
 import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
 
@@ -138,6 +139,16 @@ function PaseadorRegisterPage() {
                   errorText={errors.rut?.message}
                   type="text"
                 />
+              </Grid>
+
+              {/* Foto de Perfil */}
+              <Grid component="section" container spacing={2} mb={6} sx={{}}>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" color="secondary" component="h2" gutterBottom>
+                    Foto de perfil
+                  </Typography>
+                  <FileInput />
+                </Grid>
               </Grid>
 
               {/* Información de la vivienda */}
