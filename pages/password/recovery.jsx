@@ -115,29 +115,28 @@ function PasswordRecoveryPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 my: 2,
+                mx: "auto",
+                p: 2,
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 1
+                gap: 1,
+                border: 1,
+                borderRadius: 4,
+                width: 'fit-content'
               }}
             >
               <Typography variant="body2" sx={{ fontSize: '0.8em' }}>
                 ¿No tienes una cuenta?
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Typography variant="body2" sx={{ fontSize: '0.8em' }}>
-                  Regístrate
-                </Typography>
-                <Link
-                  href="/registro/tutor"
-                  underline="hover"
-                  color="secondary"
-                  variant="body2"
-                  sx={{
-                    fontSize: '0.8em',
-                    '&:hover': { cursor: 'pointer', color: 'secondary.light' }
-                  }}
-                >
-                  aquí
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Link href="/registro/tutor">
+                  <Typography color="info.main" variant="body2" sx={{
+                    fontSize: '0.8em', fontWeight: 'bold', transition: "0.3s", "&:hover": {
+                      color: "primary.main"
+                    }
+                  }}>
+                    Regístrate
+                  </Typography>
                 </Link>
               </Box>
             </Box>
