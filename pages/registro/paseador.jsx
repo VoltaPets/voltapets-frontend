@@ -13,10 +13,11 @@ import { Box, Card, CardMedia, Grid, Typography, Button } from '@mui/material';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
-import FileInput from '../../src/components/commons/FileInput';
+import FilePicker from '../../src/components/commons/FilePicker';
 import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
 
+// TODO: Agregar envío de foto de perfil al backend
 const formSettings = {
   defaultValues: {
     nombre: '',
@@ -142,12 +143,16 @@ function PaseadorRegisterPage() {
               </Grid>
 
               {/* Foto de Perfil */}
-              <Grid component="section" container spacing={2} mb={6} sx={{}}>
-                <Grid item xs={12}>
+              <Grid component="section" container mb={6}>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ border: 1, borderColor: 'divider', borderRadius: 4, p: 2 }}
+                >
                   <Typography variant="subtitle1" color="secondary" component="h2" gutterBottom>
                     Foto de perfil
                   </Typography>
-                  <FileInput />
+                  <FilePicker control={control} />
                 </Grid>
               </Grid>
 
