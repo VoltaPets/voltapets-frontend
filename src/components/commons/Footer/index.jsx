@@ -37,7 +37,15 @@ const Copyright = () => {
 
 const Footer = () => {
   return (
-    <Grid container sx={{ bgcolor: 'secondary.main', py: 4, px: { xs: 2, md: 4 }, maxWidth: { xs: '100%', lg: 1300 }, mx: 'auto' }}>
+    <Grid
+      container
+      sx={{
+        bgcolor: 'secondary.main',
+        py: 4,
+        px: { xs: 2, md: 4 },
+        mx: 'auto'
+      }}
+    >
       {/* Links */}
       <Grid
         item
