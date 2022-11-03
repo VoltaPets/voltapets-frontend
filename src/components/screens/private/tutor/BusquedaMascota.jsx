@@ -34,7 +34,7 @@ const paseadores = [
   },
   {
     id: 2,
-    imagenPerfil: 'https://media-exp1.licdn.com/dms/image/C4E03AQGu5IDOD3WdKg/profile-displayphoto-shrink_800_800/0/1659981098878?e=2147483647&v=beta&t=pGoQyOulpWalBBTSkyYFg45XLblwFSZH_QcznUunF88',
+    imagenPerfil: 'https://cl.paseaperros.com/uploads/thumbs/User/300x300/318348/8CD3030D-5BF5-4288-B767-FECF50A4EBC8.jpeg',
     nombre: 'Anthony Rodríguez',
     experiencia: '1 años',
     descripcion:

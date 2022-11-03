@@ -1,4 +1,4 @@
-import { Card, Chip, CardMedia, Rating, Grid, Box, Typography } from '@mui/material';
+import { Card, Chip, CardMedia, Rating, Divider, Grid, Box, Typography } from '@mui/material';
 
 const TutorServicioCard = ({ paseador }) => {
   console.log('paseador', paseador);
@@ -19,7 +19,8 @@ const TutorServicioCard = ({ paseador }) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'start'
+            justifyContent: 'start',
+            p: 2,
           }}
         >
           <CardMedia
@@ -35,7 +36,15 @@ const TutorServicioCard = ({ paseador }) => {
             value={paseador.calificacion}
             size="medium"
           />
-          <Box sx={{ textAlign: 'center', fontSize: '0.7em', mt: 1, display: 'flex', alignItems: 'center' }}>
+          <Box
+            sx={{
+              textAlign: 'center',
+              fontSize: '0.7em',
+              mt: 1,
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
             $
             <Typography variant="h6" sx={{ fontWeight: 'bold', mr: 1 }}>
               {paseador.necesidadesBasicas}
@@ -43,6 +52,7 @@ const TutorServicioCard = ({ paseador }) => {
             <br /> / paseo
           </Box>
         </Box>
+          <Divider orientation="vertical" variant="middle" flexItem />
         <Box sx={{ flex: 1, p: 2 }}>
           <Box mb={2}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
