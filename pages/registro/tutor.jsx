@@ -224,7 +224,7 @@ const TutorRegisterPage = () => {
               fullWidth
               variant="contained"
               type="submit"
-              sx={{ textTransform: 'inherit', color: '#fff' }}
+              sx={{ textTransform: 'inherit', color: '#fff', fontWeight: 'bold' }}
             >
               Registrarme
             </Button>
@@ -264,7 +264,7 @@ const TutorRegisterPage = () => {
           <Button
             variant="contained"
             onClick={() => push('/')}
-            sx={{ textTransform: 'inherit', color: '#fff' }}
+            sx={{ textTransform: 'inherit', color: '#fff', fontWeight: 'bold' }}
           >
             Volver al inicio
           </Button>
