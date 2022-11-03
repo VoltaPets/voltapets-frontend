@@ -12,7 +12,7 @@ export default function FormInput({
   name,
   type,
   errorName,
-  errorText,
+  errorText = null,
   maxLength,
   handleShowPassword,
   width = 12

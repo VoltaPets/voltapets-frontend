@@ -79,7 +79,6 @@ const Header = () => {
           position: 'sticky',
           display: 'flex',
           top: 0,
-          maxWidth: { xs: '100%', lg: 1300 },
           borderRadius: { xs: 0, lg: 2 },
           bgcolor: '#fff',
           border: { xs: 0, md: 1 },
