@@ -10,7 +10,10 @@ const TutorServicioCard = ({ paseador }) => {
           height: 300,
           borderRadius: 2,
           bgcolor: 'white',
-          display: 'flex'
+          display: 'flex',
+          '&:hover': {
+            cursor: 'pointer',
+          }
         }}
       >
         <Box
@@ -20,7 +23,7 @@ const TutorServicioCard = ({ paseador }) => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'start',
-            p: 2,
+            p: 2
           }}
         >
           <CardMedia
@@ -52,7 +55,7 @@ const TutorServicioCard = ({ paseador }) => {
             <br /> / paseo
           </Box>
         </Box>
-          <Divider orientation="vertical" variant="middle" flexItem />
+        <Divider orientation="vertical" variant="middle" flexItem />
         <Box sx={{ flex: 1, p: 2 }}>
           <Box mb={2}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
