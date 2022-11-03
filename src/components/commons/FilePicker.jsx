@@ -1,55 +1,46 @@
 // Libraries
-import { Controller } from 'react-hook-form';
 import { useState } from 'react';
 
 // MUI
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-const FilePicker = ({ control }) => {
-  const [file, setFile] = useState();
+const FilePicker = ({ register, errorText }) => {
+  // const handleChange = (e) => {
+  //   setImage(e.target.files[0]);
 
-  // const convertToBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-  //     fileReader.onload = () => {
-  //       resolve(fileReader.result);
-  //     };
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
+  //   const formData = new FormData();
+  //   formData.append('file', image);
+  //   formData.append('upload_preset', 'public');
+  //   console.log(formData);
   // };
 
-  const handleChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  // const uploadFile = async (e) => {
+  //   setLoading(true);
+  //   try {
+  //     const files = e.target.files;
+  //     const formData = new FormData();
+  //     formData.append('file', files[0]);
+  //     formData.append('upload_preset', 'public');
 
-  console.log('file', file);
-  // console.log('file in base64', convertToBase64(file));
+  //     const { data } = await request({
+  //       method: 'POST',
+  //       url: 'https://api.cloudinary.com/v1_1/ddwacmj1e/image/upload',
+  //       withCredentials: false,
+  //       data: formData
+  //     });
+  //     console.log('data', data);
+  //     setImage(formData.secure_url);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     setLoading(false);
+  //     console.log('Error uploading file', err);
+  //   }
+  // };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-      <label htmlFor="upload-file">
-        <input
-          onChange={handleChange}
-          style={{ display: 'none' }}
-          type="file"
-          id="upload-file"
-          name="upload-file"
-        />
-        <Button
-          sx={{ textTransform: 'inherit', fontSize: 'bold' }}
-          color="info"
-          variant="contained"
-          component="span"
-        >
-          Subir Foto
-        </Button>
-      </label>
-      <Typography variant="subtitle2" sx={{ display: file ? 'block' : 'none' }}>
-        <b>Archivo:</b> {file?.name}
-      </Typography>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 2 }}>
+      <input {...register('imagen')} type="file" id="imagen" name="imagen" />
+      <Typography variant="caption">{errorText}</Typography>
     </Box>
   );
 };
