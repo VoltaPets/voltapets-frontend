@@ -23,6 +23,7 @@ import {
 import FormSelect from '../../../commons/FormSelect';
 import { meses, semanas, minutos } from '../../../../mock/reservaData';
 import Agenda from './Agenda';
+import { FiberNew } from '@mui/icons-material';
 
 const formSettings = {
   defaultValues: {
@@ -45,7 +46,7 @@ const SelectMinutos = ({ value, fn }) => {
   );
 };
 
-const MascotaCard = ({ petImg, nombre, fn }) => {
+const MascotaCard = ({ petImg, nombre, fn, length }) => {
   return (
     <Card variant="outlined" sx={{ flex: 1, p: 2 }}>
       <CardMedia
@@ -71,7 +72,7 @@ const AgendaPaseos = ({ mascota }) => {
   const [totalMinutos, setTotalMinutos] = useState(0);
   const [mascotas, setMascotas] = useState([]);
 
-  console.log('Mascotas: ', mascotas);
+  console.log("mascotas", mascotas);
 
   // Hooks
   const {
@@ -97,8 +98,17 @@ const AgendaPaseos = ({ mascota }) => {
     setSocializacionMascota(Number(e.target.value));
   };
 
-  const handleMascota = (e) => {
-    
+  const handleToggleMascota = (e) => {
+    const currentIndex = mascotas.indexOf(e.target.value);
+    const newChecked = [...mascotas];
+
+    if (currentIndex === -1) {
+      newChecked.push(e.target.value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setMascotas(newChecked);
   };
 
   useEffect(() => {
@@ -404,24 +414,31 @@ const AgendaPaseos = ({ mascota }) => {
 
             {/* Selecciona Mascota */}
             <Box sx={{ width: '100%', mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                 Selecciona las mascotas para el paseo
+              </Typography>
+              <Typography variant="subtitle2" sx={{ textAlign: 'center', mb: 2 }}>
+                {' '}
+                (máximo 2 mascotas){' '}
               </Typography>
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <MascotaCard
                   petImg="https://bestforpets.cl/tienda/img/cms/Blog/RAZAS/Pastor-aleman1.jpg"
                   nombre="Firulais"
-                  fn={handleMascota}
+                  fn={handleToggleMascota}
+                  length={mascotas.length}
                 />
                 <MascotaCard
                   petImg="https://www.publimetro.cl/resizer/zPavlS9VGbupdf6V5psc6Jm17pE=/800x0/filters:format(jpg):quality(70)/cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/FSVO2OKVDFCA5AFMIIKRUNT4UE.jpg"
                   nombre="Luna"
-                  fn={handleMascota}
+                  fn={handleToggleMascota}
+                  length={mascotas.length}
                 />
                 <MascotaCard
                   petImg="https://www.nombresdeperros.eu/wp-content/uploads/2020/04/macho-de-samoyedo-en-el-jardin.jpg"
                   nombre="Nube"
-                  fn={handleMascota}
+                  fn={handleToggleMascota}
+                  length={mascotas.length}
                 />
               </Box>
             </Box>
