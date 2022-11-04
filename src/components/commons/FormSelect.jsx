@@ -9,7 +9,7 @@ export default function FormSelect({
   disabled,
   labelText,
   name,
-  width,
+  width = 12,
   errorName,
   errorText,
   dataArray,

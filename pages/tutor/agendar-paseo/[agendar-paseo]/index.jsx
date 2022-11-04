@@ -89,7 +89,7 @@ function AgendarPaseoPage() {
                   </Box>
                   <Box sx={{ display: 'flex', gap: 2 }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-                      Socializción con otras mascotas:{' '}
+                      Socialización con otras mascotas:{' '}
                     </Typography>
                     <Typography variant="subtitle2">$x.xxx</Typography>
                   </Box>
@@ -158,7 +158,9 @@ function AgendarPaseoPage() {
         </Grid>
 
         {/* Agenda de paseos */}
-        <AgendaPaseos />
+        <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <AgendaPaseos />
+        </Grid>
       </Grid>
     </Layout>
   );
