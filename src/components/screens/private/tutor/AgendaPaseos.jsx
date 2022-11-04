@@ -1,10 +1,10 @@
 // Librerías
 import { useState, useEffect } from 'react';
-import { addHours } from 'date-fns';
+import { addDays, addMonths } from 'date-fns';
+import {es} from "date-fns/locale";
 import { useForm, Controller } from 'react-hook-form';
 
 // MUI
-import { DataGrid } from '@mui/x-data-grid';
 import {
   Grid,
   Box,
@@ -18,12 +18,13 @@ import {
   MenuItem,
   FormControl
 } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
 // Relative Imports
 import FormSelect from '../../../commons/FormSelect';
-import { meses, semanas, minutos } from '../../../../mock/reservaData';
-import Agenda from './Agenda';
-import { FiberNew } from '@mui/icons-material';
+import { meses, semanas } from '../../../../mock/reservaData';
 
 const formSettings = {
   defaultValues: {
@@ -47,32 +48,65 @@ const SelectMinutos = ({ value, fn }) => {
 };
 
 const MascotaCard = ({ petImg, nombre, fn, length }) => {
+  const [checked, setChecked] = useState(false);
+
+  const handleCheck = () => {
+    setChecked(!checked);
+  };
+
   return (
-    <Card variant="outlined" sx={{ flex: 1, p: 2 }}>
+    <Card variant="outlined" sx={{ flex: 1, height: 250, position: 'relative', borderRadius: 4 }}>
       <CardMedia
         component="img"
         image={petImg}
-        sx={{ width: '100%', height: 200, objectFit: 'cover' }}
+        sx={{
+          width: '100%',
+          height: 250,
+          objectFit: 'cover',
+          filter: checked ? 'grayscale(0%)' : 'grayscale(100%)',
+          transition: 'all 0.3s ease-in-out'
+        }}
       />
-      <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
-        {nombre}
-      </Typography>
-      <Checkbox value={nombre} onChange={fn} />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          gap: 2,
+          left: 0,
+          right: 0,
+          bgcolor: 'rgba(0, 0, 0, 0.52)'
+        }}
+      >
+        <Typography variant="h6" sx={{ textAlign: 'justify', fontWeight: 'bold' }}>
+          {nombre}
+        </Typography>
+        <Checkbox
+          disabled={length === 2 && !checked ? true : false}
+          value={nombre}
+          onClick={handleCheck}
+          onChange={fn}
+          sx={{ color: 'white' }}
+        />
+      </Box>
     </Card>
   );
 };
 
 const AgendaPaseos = ({ mascota }) => {
+
   // Estados
-  const [fecha, setFecha] = useState(new Date().toLocaleDateString().slice(0, 10));
-  const [hora, setHora] = useState(new Date().toLocaleTimeString().slice(0, 5));
+  const [date, setDate] = useState(new Date());
   const [paseoBasico, setPaseoBasico] = useState(0);
   const [juegoMascota, setJuegoMascota] = useState(0);
   const [socializacionMascota, setSocializacionMascota] = useState(0);
   const [totalMinutos, setTotalMinutos] = useState(0);
   const [mascotas, setMascotas] = useState([]);
 
-  console.log("mascotas", mascotas);
+  console.log('mascotas', mascotas);
 
   // Hooks
   const {
@@ -114,6 +148,12 @@ const AgendaPaseos = ({ mascota }) => {
   useEffect(() => {
     handleTotalMinutos();
   }, [paseoBasico, juegoMascota, socializacionMascota]);
+
+  console.log("Date ", date);
+  console.log("to locale string ", date.toLocaleString());
+  console.log("to locale string ", date.toLocaleDateString('es-CL'));
+  console.log("to locale string ", date.toLocaleTimeString());
+
 
   return (
     <>
@@ -169,7 +209,18 @@ const AgendaPaseos = ({ mascota }) => {
 
             {/* Calendario */}
             <Grid container component={Card} variant="outlined" sx={{ borderRadius: 4 }}>
-              <Agenda />
+              <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
+                <StaticDatePicker
+                  disablePast
+                  minDate={addDays(new Date(), 3)}
+                  shouldDisableMonth={() => addMonths(new Date(), 2)}
+                  displayStaticWrapperAs="desktop"
+                  value={date}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
           </Card>
         </Grid>
@@ -191,7 +242,7 @@ const AgendaPaseos = ({ mascota }) => {
               <Typography variant="subtitle1" sx={{ textAlign: 'justify' }}>
                 Fecha:
               </Typography>
-              <Chip size="small" label={fecha} sx={{ fontWeight: 'bold' }} />
+              <Chip size="small" label={date.toLocaleDateString('es-CL').split(0.6)} sx={{ fontWeight: 'bold' }} />
             </Box>
 
             {/* Horas de paseo */}
@@ -217,7 +268,16 @@ const AgendaPaseos = ({ mascota }) => {
               <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                 Cantidad de mascotas
               </Typography>
-              <Chip size="small" label={`${1} mascota`} />
+              <Chip
+                size="small"
+                label={
+                  mascotas.length === 0
+                    ? 'No hay mascotas seleccionadas'
+                    : mascotas.length > 1
+                    ? `${mascotas.length} Mascotas`
+                    : `${mascotas.length} Mascota`
+                }
+              />
             </Box>
 
             <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 4 }} gutterBottom>
@@ -303,7 +363,7 @@ const AgendaPaseos = ({ mascota }) => {
                   <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
                     Fecha <br /> seleccionada:
                   </Typography>
-                  <Chip size="medium" label={fecha} sx={{ fontWeight: 'bold' }} />
+                  <Chip size="medium" label={date.toLocaleDateString('es-CL').split(0.6)} sx={{ fontWeight: 'bold' }} />
                 </Card>
 
                 {/* Hora inicio */}
@@ -417,10 +477,29 @@ const AgendaPaseos = ({ mascota }) => {
               <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                 Selecciona las mascotas para el paseo
               </Typography>
+
               <Typography variant="subtitle2" sx={{ textAlign: 'center', mb: 2 }}>
-                {' '}
-                (máximo 2 mascotas){' '}
+                (máximo 2 mascotas)
               </Typography>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  mb: 2
+                }}
+              >
+                <Typography variant="body2" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+                  Cantidad de mascotas:
+                </Typography>
+                <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  {mascotas.length}
+                </Typography>
+              </Box>
+
+              {/* Mascotas */}
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <MascotaCard
                   petImg="https://bestforpets.cl/tienda/img/cms/Blog/RAZAS/Pastor-aleman1.jpg"
