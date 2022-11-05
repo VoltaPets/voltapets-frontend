@@ -1,6 +1,6 @@
 // Librerías
 import { useState, useEffect } from 'react';
-import { addMinutes, addDays, addMonths, minutesToHours, hoursToMinutes } from 'date-fns';
+import { addDays, addMonths, hoursToMinutes } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -10,23 +10,24 @@ import {
   Box,
   Chip,
   Card,
-  CardMedia,
   Divider,
   Typography,
   Select,
-  Checkbox,
   MenuItem,
-  FormControl
+  FormControl,
+  Switch
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
 // Relative Imports
-import FormSelect from '../../../commons/FormSelect';
-import { meses, semanas } from '../../../../mock/reservaData';
+import { clpFormatter } from '../../../../utils/currencyFormat';
+import { meses, semanas, parques } from '../../../../mock/reservaData';
 import { horarios } from './datosAgenda';
+import FormSelect from '../../../commons/FormSelect';
 import Horario from './Horario';
+import EleccionMascota from './EleccionMascota';
 
 const formSettings = {
   defaultValues: {
@@ -35,9 +36,9 @@ const formSettings = {
   }
 };
 
-const SelectMinutos = ({ value, fn }) => {
+const SelectMinutos = ({ value, fn, disabled }) => {
   return (
-    <FormControl sx={{ width: '50%' }}>
+    <FormControl disabled={disabled} sx={{ width: '50%' }}>
       <Select autoWidth value={value} onChange={fn}>
         <MenuItem value="0">--</MenuItem>
         <MenuItem value="15">15 min</MenuItem>
@@ -49,65 +50,25 @@ const SelectMinutos = ({ value, fn }) => {
   );
 };
 
-const MascotaCard = ({ petImg, nombre, fn, length }) => {
-  const [checked, setChecked] = useState(false);
-
-  const handleCheck = () => {
-    setChecked(!checked);
-  };
-
-  return (
-    <Card variant="outlined" sx={{ flex: 1, height: 250, position: 'relative', borderRadius: 4 }}>
-      <CardMedia
-        component="img"
-        image={petImg}
-        sx={{
-          width: '100%',
-          height: 250,
-          objectFit: 'cover',
-          filter: checked ? 'grayscale(0%)' : 'grayscale(100%)',
-          transition: 'all 0.3s ease-in-out'
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
-          gap: 2,
-          left: 0,
-          right: 0,
-          bgcolor: 'rgba(0, 0, 0, 0.52)'
-        }}
-      >
-        <Typography variant="h6" sx={{ textAlign: 'justify', fontWeight: 'bold' }}>
-          {nombre}
-        </Typography>
-        <Checkbox
-          disabled={length === 2 && !checked ? true : false}
-          value={nombre}
-          onClick={handleCheck}
-          onChange={fn}
-          sx={{ color: 'white' }}
-        />
-      </Box>
-    </Card>
-  );
-};
+const tarifaBasica = clpFormatter.format(6000);
+const tarifaJuego = clpFormatter.format(6500);
+const tarifaSocializacion = clpFormatter.format(8000);
 
 const AgendaPaseos = ({ mascota }) => {
   // Estados
   const [mascotas, setMascotas] = useState([]);
   const [date, setDate] = useState(new Date());
+
+  // Tarifas
   const [paseoBasico, setPaseoBasico] = useState(0);
   const [juegoMascota, setJuegoMascota] = useState(0);
   const [socializacionMascota, setSocializacionMascota] = useState(0);
+
   const [totalMinutos, setTotalMinutos] = useState(0);
   const [horaFinal, setHoraFinal] = useState('--');
   const [hora, setHora] = useState(0);
+  const [selected, setSelected] = useState(false);
+  const [servicioBienestar, setServicioBienestar] = useState(false);
 
   // Hooks
   const {
@@ -131,6 +92,10 @@ const AgendaPaseos = ({ mascota }) => {
 
   const handleSocializacion = (e) => {
     setSocializacionMascota(Number(e.target.value));
+  };
+
+  const handleBienestar = (e) => {
+    setServicioBienestar(e.target.checked);
   };
 
   const handleTerminoPaseo = () => {
@@ -254,8 +219,8 @@ const AgendaPaseos = ({ mascota }) => {
                 <Grid container sx={{ flex: 1, width: '100%' }} spacing={1}>
                   {horarios.map((horario) => (
                     <Horario
-                      setHora={setHora}
                       key={horario.id}
+                      setHora={setHora}
                       hora={horario.hora}
                       estado={horario.estado}
                     />
@@ -377,6 +342,22 @@ const AgendaPaseos = ({ mascota }) => {
         </Grid>
       </Grid>
 
+      {/* 
+        date
+        hora
+        paseoBasico
+        handlePaseoBasico
+
+        juegoMascota
+        handleJuegoMascota
+        socializacionMascota
+        handleSocializacionMascota
+        totalMinutos
+        mascotas
+        handleToggleMascota
+          
+      */}
+
       {/* Personaliza tu paseo */}
       <Grid container spacing={2} sx={{ p: 2 }}>
         <Grid
@@ -443,8 +424,7 @@ const AgendaPaseos = ({ mascota }) => {
 
               <Box sx={{ width: '100%', display: 'flex', gap: 2, mb: 2 }}>
                 {/* Paseo Básico */}
-                <Card
-                  variant="outlined"
+                <Box
                   sx={{
                     flex: 1,
                     p: 1,
@@ -466,43 +446,85 @@ const AgendaPaseos = ({ mascota }) => {
                   </Typography>
 
                   <SelectMinutos value={paseoBasico} fn={handlePaseoBasico} />
-                </Card>
+                </Box>
+
+                <Divider orientation="vertical" flexItem />
 
                 {/* Servicio de Bienestar Integral */}
-                <Card variant="outlined" sx={{ display: 'flex', flexWrap: 'wrap', p: 1 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', p: 1 }}>
                   <Box component="header" sx={{ width: '100%' }}>
                     <Typography
                       variant="subtitle1"
-                      sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}
+                      sx={{ fontWeight: 'bold', textAlign: 'center' }}
                     >
                       Servicio de Bienestar Integral
                     </Typography>
                   </Box>
 
-                  {/* Juego Mascota */}
-                  <Box
-                    sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                  <Typography
+                    variant="caption"
+                    color="secondary"
+                    sx={{
+                      flex: 1,
+                      textAlign: 'center',
+                      display: !servicioBienestar ? 'block' : 'none',
+                      mb: 2
+                    }}
                   >
-                    <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
-                      Tiempo de juego <br />
-                      con la Mascota
-                    </Typography>
+                    Habilita los servicios adicionales <br />
+                    en el panel de la derecha
+                  </Typography>
 
-                    <SelectMinutos value={juegoMascota} fn={handleJuegoMascota} />
-                  </Box>
-
-                  {/* Socialización con otras mascotas */}
                   <Box
-                    sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                    sx={{
+                      display: !servicioBienestar ? 'none' : 'flex',
+                      flex: 1,
+                      transition: 'all 0.3s ease-in-out'
+                    }}
                   >
-                    <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
-                      Socialización con <br />
-                      otras mascotas
-                    </Typography>
+                    {/* Juego Mascota */}
+                    <Box
+                      sx={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
+                        Tiempo de juego <br />
+                        con la Mascota
+                      </Typography>
 
-                    <SelectMinutos value={socializacionMascota} fn={handleSocializacion} />
+                      <SelectMinutos
+                        disabled={!servicioBienestar}
+                        value={juegoMascota}
+                        fn={handleJuegoMascota}
+                      />
+                    </Box>
+
+                    {/* Socialización con otras mascotas */}
+                    <Box
+                      sx={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
+                        Socialización con <br />
+                        otras mascotas
+                      </Typography>
+
+                      <SelectMinutos
+                        disabled={!servicioBienestar}
+                        value={socializacionMascota}
+                        fn={handleSocializacion}
+                      />
+                    </Box>
                   </Box>
-                </Card>
+                </Box>
               </Box>
 
               <Box sx={{ p: 2, display: 'flex', justifyContent: 'end' }}>
@@ -550,19 +572,19 @@ const AgendaPaseos = ({ mascota }) => {
 
               {/* Mascotas */}
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <MascotaCard
+                <EleccionMascota
                   petImg="https://bestforpets.cl/tienda/img/cms/Blog/RAZAS/Pastor-aleman1.jpg"
                   nombre="Firulais"
                   fn={handleToggleMascota}
                   length={mascotas.length}
                 />
-                <MascotaCard
+                <EleccionMascota
                   petImg="https://www.publimetro.cl/resizer/zPavlS9VGbupdf6V5psc6Jm17pE=/800x0/filters:format(jpg):quality(70)/cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/FSVO2OKVDFCA5AFMIIKRUNT4UE.jpg"
                   nombre="Luna"
                   fn={handleToggleMascota}
                   length={mascotas.length}
                 />
-                <MascotaCard
+                <EleccionMascota
                   petImg="https://www.nombresdeperros.eu/wp-content/uploads/2020/04/macho-de-samoyedo-en-el-jardin.jpg"
                   nombre="Nube"
                   fn={handleToggleMascota}
@@ -578,10 +600,87 @@ const AgendaPaseos = ({ mascota }) => {
           item
           xs={12}
           md={4}
-          sx={{ display: 'flex', alignItems: 'start', justifyContent: 'center' }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'start',
+            justifyContent: 'start'
+          }}
         >
-          <Card variant="outlined" sx={{ p: 4, borderRadius: 4, flex: 1 }}>
-            a
+          <Card variant="outlined" sx={{ p: 4, borderRadius: 4, mb: 4 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }} gutterBottom>
+              ¿Deseas incluir el <b>Servicio de Bienestar Integral</b>?
+            </Typography>
+
+            {/* Habilitación de servicio Integral */}
+            <Card
+              variant="outlined"
+              sx={{
+                display: 'flex',
+                borderRadius: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 'fit-content',
+                px: 2,
+                mx: 'auto',
+                gap: 2
+              }}
+            >
+              <Typography variant="subtitle2" sx={{ textAlign: 'center' }}>
+                Habilitar servicio
+              </Typography>
+              <Switch
+                checked={servicioBienestar}
+                onChange={handleBienestar}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            </Card>
+
+            <Box sx={{ mt: 2, p: 2 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }} mb={2}>
+                Selecciona un <br />
+                parque pet friendly
+              </Typography>
+              <FormSelect
+                dataArray={parques}
+                labelText="Parque Pet Friendly"
+                name="parque"
+                control={control}
+                noHelperText
+              />
+            </Box>
+
+            <Box mt={4}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }} mb={1}>
+                Atención
+              </Typography>
+              <Typography variant="body2" sx={{ textAlign: 'justify' }} gutterBottom>
+                Para contratar los servicios de bienestar integral debes encontrarte ubicado cercano
+                a alguno de los parques Pet Friendly de la ciudad
+              </Typography>
+            </Box>
+          </Card>
+
+          <Card variant="outlined" sx={{ p: 4, borderRadius: 4, width: '100%' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+              Tarifas por minuto
+            </Typography>
+
+            <Box sx={{ display: 'flex' }}>
+              <Typography
+                variant="body2"
+                sx={{ textAlign: 'justify', flex: 1, fontWeight: 'bold', border: 1 }}
+              >
+                Paseo de necesidades <br />
+                básicas
+              </Typography>
+
+              <Box sx={{ border: 1, flex: 0.5, display: 'flex', alignItems: 'center' }}>
+                <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  {tarifaBasica}
+                </Typography>
+              </Box>
+            </Box>
           </Card>
         </Grid>
       </Grid>

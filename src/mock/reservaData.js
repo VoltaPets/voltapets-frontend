@@ -28,3 +28,11 @@ export const minutos = [
   { id: 3, nombre: '45' },
   { id: 4, nombre: '60' },
 ];
+
+export const parques = [
+  { id: 1, nombre: 'Parque Forestal' },
+  { id: 2, nombre: 'Parque Almagro' },
+  { id: 3, nombre: 'Parque San Alberto Hurtado' },
+  { id: 4, nombre: 'Esquina Santa Isabel con Lira' },
+  { id: 5, nombre: 'Parque Bustamante' },
+]

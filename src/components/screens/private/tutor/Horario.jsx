@@ -5,15 +5,18 @@ import { useState } from 'react';
 import { Grid, Chip, Typography, Card } from '@mui/material';
 
 const Horario = ({ setHora, hora, estado }) => {
-  // Estados
+  // Estado
   const [selected, setSelected] = useState(false);
 
   // Funciones
   const handleSelected = () => {
-    if(selected) {
+    if (estado === 'Reservado') return;
+
+    if (selected) {
       setSelected(false);
-      setHora('--');
+      setHora(0);
     }
+
     setSelected(!selected);
     setHora(hora);
   };
@@ -21,6 +24,7 @@ const Horario = ({ setHora, hora, estado }) => {
   return (
     <Grid item xs={3}>
       <Card
+        disabled={estado === 'Reservado' ? true : false}
         variant="outlined"
         onClick={handleSelected}
         sx={{
@@ -30,10 +34,15 @@ const Horario = ({ setHora, hora, estado }) => {
           flexDirection: 'column',
           justifyContent: 'center',
           transition: 'all 0.3s ease',
-          bgcolor: estado === 'Bloqueado' ? 'rgba(0,0,0, 0.3)' : selected ? 'rgba(244, 209, 155, 0.9)': 'white',
+          bgcolor:
+            estado === 'Bloqueado'
+              ? 'rgba(0,0,0, 0.3)'
+              : estado === 'Reservado'
+              ? 'primary.main'
+              : 'white',
           '&:hover': {
             cursor:
-              estado === 'Bloqueado' ? 'no-drop' : estado === 'Disponible' ? 'pointer' : 'default',
+              estado === 'Bloqueado' ? 'no-drop' : estado === 'Disponible' ? 'pointer' : 'no-drop',
             borderColor: estado === 'Bloqueado' ? 'none' : 'info.main'
           }
         }}
@@ -42,12 +51,14 @@ const Horario = ({ setHora, hora, estado }) => {
           {hora}:00
         </Typography>
         <Chip
-          clickable
+          clickable={estado === 'Bloqueado' ? false : estado === 'Reservado' ? false : true}
           size="small"
           disabled={estado === 'Bloqueado' ? true : false}
           label={estado}
           sx={{ fontWeight: 'bold', fontSize: '0.7em' }}
-          color={estado === 'Disponible' ? 'secondary' : 'info'}
+          color={
+            estado === 'Disponible' ? 'info' : estado === 'Reservado' ? 'warning' : 'default'
+          }
         />
       </Card>
     </Grid>

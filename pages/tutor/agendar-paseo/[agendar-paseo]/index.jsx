@@ -8,6 +8,11 @@ import { Grid, Chip, Card, Rating, CardMedia, Divider, Box, Typography } from '@
 // Relative imports
 import Layout from '../../../../src/components/commons/Layout';
 import AgendaPaseos from '../../../../src/components/screens/private/tutor/AgendaPaseos';
+import { clpFormatter } from '../../../../src/utils/currencyFormat';
+
+const tarifaBasica = clpFormatter.format(6000);
+const tarifaJuego = clpFormatter.format(7000);
+const tarifaSocializacion = clpFormatter.format(8000);
 
 function AgendarPaseoPage() {
   return (
@@ -79,19 +84,19 @@ function AgendarPaseoPage() {
                     <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
                       Paseo de necesidades básicas:{' '}
                     </Typography>
-                    <Typography variant="subtitle2">$x.xxx</Typography>
+                    <Typography variant="subtitle2">{tarifaBasica}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', gap: 2 }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
                       Tiempo de juego con la mascota:{' '}
                     </Typography>
-                    <Typography variant="subtitle2">$x.xxx</Typography>
+                    <Typography variant="subtitle2">{tarifaJuego}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', gap: 2 }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
                       Socialización con otras mascotas:{' '}
                     </Typography>
-                    <Typography variant="subtitle2">$x.xxx</Typography>
+                    <Typography variant="subtitle2">{tarifaSocializacion}</Typography>
                   </Box>
                 </Box>
               </Box>

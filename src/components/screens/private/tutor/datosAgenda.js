@@ -37,7 +37,7 @@ export const horarios = [
   {
     id: 8,
     hora: 14,
-    estado: 'Disponible',
+    estado: 'Reservado',
   },
   {
     id: 9,
@@ -47,7 +47,7 @@ export const horarios = [
   {
     id: 10,
     hora: 16,
-    estado: 'Disponible',
+    estado: 'Reservado',
   },
   {
     id: 11,

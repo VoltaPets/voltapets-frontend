@@ -62,7 +62,7 @@ export const schemaRegistroPaseador = yup.object().shape({
       /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/,
       'Debes ingresar un número válido (Ej: +569xxxxxxxx)'
     )
-    .phone('CL', true, 'Debes ingresar un número chileno  válido')
+    .phone('CL', true, 'Debes ingresar un número válido')
     .required('Debes ingresar un número de teléfono'),
   correo: yup
     .string()

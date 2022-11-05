@@ -29,7 +29,7 @@ const formSettings = {
     region: '',
     comuna: '',
     confirmarPassword: '',
-    codigoRol: 3
+    codigoRol: 3,
   },
   resolver: yupResolver(schemaRegistroTutor)
 };
