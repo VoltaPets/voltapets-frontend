@@ -28,7 +28,8 @@ const formSettings = {
     password: '',
     region: '',
     comuna: '',
-    confirmarPassword: ''
+    confirmarPassword: '',
+    codigoRol: 3
   },
   resolver: yupResolver(schemaRegistroTutor)
 };
@@ -150,10 +151,11 @@ const TutorRegisterPage = () => {
 
             {/* Región */}
             <FormSelect
+              disabled
               width={6}
               control={control}
               name="region"
-              locations={regiones}
+              dataArray={regiones}
               labelText="Regiones"
               errorName={errors.region}
               errorText={errors.region?.message}
@@ -164,7 +166,7 @@ const TutorRegisterPage = () => {
               width={6}
               control={control}
               name="comuna"
-              locations={comunas}
+              dataArray={comunas}
               labelText="Comunas"
               errorName={errors.comuna}
               errorText={errors.comuna?.message}
@@ -172,7 +174,7 @@ const TutorRegisterPage = () => {
 
             {/* Dirección */}
             <FormInput
-              width={8}
+              width={12}
               control={control}
               name="direccion"
               labelText="Dirección"

@@ -26,12 +26,13 @@ const formSettings = {
     telefono: '',
     rut: '',
     direccion: '',
-    imagen: {},
+    imagen: '',
     depto: '',
     region: 1,
     comuna: '',
     password: '',
-    confirmarPassword: ''
+    confirmarPassword: '',
+    codigoRol: 2
   },
   resolver: yupResolver(schemaRegistroPaseador)
 };

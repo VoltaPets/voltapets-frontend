@@ -1,7 +1,7 @@
 // Librerías
 import { useState, useEffect } from 'react';
-import { addDays, addMonths } from 'date-fns';
-import {es} from "date-fns/locale";
+import { addMinutes, addDays, addMonths, minutesToHours, hoursToMinutes } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { useForm, Controller } from 'react-hook-form';
 
 // MUI
@@ -25,6 +25,8 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 // Relative Imports
 import FormSelect from '../../../commons/FormSelect';
 import { meses, semanas } from '../../../../mock/reservaData';
+import { horarios } from './datosAgenda';
+import Horario from './Horario';
 
 const formSettings = {
   defaultValues: {
@@ -97,16 +99,15 @@ const MascotaCard = ({ petImg, nombre, fn, length }) => {
 };
 
 const AgendaPaseos = ({ mascota }) => {
-
   // Estados
+  const [mascotas, setMascotas] = useState([]);
   const [date, setDate] = useState(new Date());
   const [paseoBasico, setPaseoBasico] = useState(0);
   const [juegoMascota, setJuegoMascota] = useState(0);
   const [socializacionMascota, setSocializacionMascota] = useState(0);
   const [totalMinutos, setTotalMinutos] = useState(0);
-  const [mascotas, setMascotas] = useState([]);
-
-  console.log('mascotas', mascotas);
+  const [horaFinal, setHoraFinal] = useState('--');
+  const [hora, setHora] = useState(0);
 
   // Hooks
   const {
@@ -132,6 +133,17 @@ const AgendaPaseos = ({ mascota }) => {
     setSocializacionMascota(Number(e.target.value));
   };
 
+  const handleTerminoPaseo = () => {
+    const minutos = totalMinutos % 60;
+    const horas = totalMinutos % 60 === 0 ? totalMinutos / 60 : Math.floor(totalMinutos / 60);
+
+    if (minutos % 60 === 0) {
+      setHoraFinal(`${hora}:00`);
+    }
+
+    setHoraFinal(`${hora + horas}:${minutos > 9 ? minutos : `0${minutos}`}`);
+  };
+
   const handleToggleMascota = (e) => {
     const currentIndex = mascotas.indexOf(e.target.value);
     const newChecked = [...mascotas];
@@ -147,13 +159,8 @@ const AgendaPaseos = ({ mascota }) => {
 
   useEffect(() => {
     handleTotalMinutos();
-  }, [paseoBasico, juegoMascota, socializacionMascota]);
-
-  console.log("Date ", date);
-  console.log("to locale string ", date.toLocaleString());
-  console.log("to locale string ", date.toLocaleDateString('es-CL'));
-  console.log("to locale string ", date.toLocaleTimeString());
-
+    handleTerminoPaseo();
+  }, [paseoBasico, juegoMascota, socializacionMascota, hora, totalMinutos]);
 
   return (
     <>
@@ -208,19 +215,53 @@ const AgendaPaseos = ({ mascota }) => {
             </Grid>
 
             {/* Calendario */}
-            <Grid container component={Card} variant="outlined" sx={{ borderRadius: 4 }}>
-              <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
-                <StaticDatePicker
-                  disablePast
-                  minDate={addDays(new Date(), 3)}
-                  shouldDisableMonth={() => addMonths(new Date(), 2)}
-                  displayStaticWrapperAs="desktop"
-                  value={date}
-                  onChange={(newValue) => {
-                    setDate(newValue);
-                  }}
-                />
-              </LocalizationProvider>
+            <Grid
+              container
+              component={Card}
+              variant="outlined"
+              sx={{ borderRadius: 4, display: 'flex' }}
+            >
+              <Grid item xs={5}>
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
+                  <StaticDatePicker
+                    disablePast
+                    renderInput={(params) => <TextField {...params} />}
+                    minDate={addDays(new Date(), 3)}
+                    shouldDisableMonth={() => addMonths(new Date(), 2)}
+                    displayStaticWrapperAs="desktop"
+                    value={date}
+                    onChange={(newValue) => {
+                      setDate(newValue);
+                    }}
+                  />
+                </LocalizationProvider>
+              </Grid>
+
+              <Divider variant="middle" orientation="vertical" flexItem mx={1} />
+
+              {/* Horarios */}
+              <Grid
+                item
+                xs
+                p={2}
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              >
+                <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+                  Horarios disponibles
+                </Typography>
+
+                {/* Lista de horarios disponibles */}
+                <Grid container sx={{ flex: 1, width: '100%' }} spacing={1}>
+                  {horarios.map((horario) => (
+                    <Horario
+                      setHora={setHora}
+                      key={horario.id}
+                      hora={horario.hora}
+                      estado={horario.estado}
+                    />
+                  ))}
+                </Grid>
+              </Grid>
             </Grid>
           </Card>
         </Grid>
@@ -242,7 +283,11 @@ const AgendaPaseos = ({ mascota }) => {
               <Typography variant="subtitle1" sx={{ textAlign: 'justify' }}>
                 Fecha:
               </Typography>
-              <Chip size="small" label={date.toLocaleDateString('es-CL').split(0.6)} sx={{ fontWeight: 'bold' }} />
+              <Chip
+                size="small"
+                label={date.toLocaleDateString('es-CL').split(0.6)}
+                sx={{ fontWeight: 'bold' }}
+              />
             </Box>
 
             {/* Horas de paseo */}
@@ -250,8 +295,8 @@ const AgendaPaseos = ({ mascota }) => {
               <Typography variant="subtitle1" sx={{ textAlign: 'justify' }}>
                 Hora:
               </Typography>
-              <Chip size="small" label="15:00" /> -
-              <Chip size="small" label="16:00" />
+              <Chip size="small" label={`${hora}:00`} /> -
+              <Chip size="small" label={horaFinal} />
             </Box>
 
             {/* Cantidad de mascotas */}
@@ -363,7 +408,11 @@ const AgendaPaseos = ({ mascota }) => {
                   <Typography variant="body1" sx={{ textAlign: 'justify' }} gutterBottom>
                     Fecha <br /> seleccionada:
                   </Typography>
-                  <Chip size="medium" label={date.toLocaleDateString('es-CL').split(0.6)} sx={{ fontWeight: 'bold' }} />
+                  <Chip
+                    size="medium"
+                    label={date.toLocaleDateString('es-CL').split(0.6)}
+                    sx={{ fontWeight: 'bold' }}
+                  />
                 </Card>
 
                 {/* Hora inicio */}
@@ -372,7 +421,7 @@ const AgendaPaseos = ({ mascota }) => {
                     Hora de inicio <br />
                     seleccionada:
                   </Typography>
-                  <Chip size="medium" label="15:00" sx={{ fontWeight: 'bold' }} />
+                  <Chip size="medium" label={`${hora}:00`} sx={{ fontWeight: 'bold' }} />
                 </Card>
 
                 {/* Hora término */}
@@ -381,7 +430,7 @@ const AgendaPaseos = ({ mascota }) => {
                     Hora de término <br />
                     seleccionada:
                   </Typography>
-                  <Chip size="medium" label="16:00" sx={{ fontWeight: 'bold' }} />
+                  <Chip size="medium" label={horaFinal} sx={{ fontWeight: 'bold' }} />
                 </Card>
               </Box>
             </Box>
