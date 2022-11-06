@@ -1,8 +1,9 @@
 // Librerias
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 // MUI
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -16,19 +17,21 @@ import FormSelect from '../../src/components/commons/FormSelect';
 import { schemaRegistroTutor } from '../../src/utils/validations';
 import { regiones, comunas } from '../../src/mock/dataArray';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
+import { CREATE_TUTOR } from '../../src/api/endpoints/Usuario';
+import { request } from '../../src/api';
 
 const formSettings = {
   defaultValues: {
     nombre: '',
     apellido: '',
     telefono: '',
-    correo: '',
+    email: '',
     direccion: '',
-    depto: 0,
+    departamento: 0,
     password: '',
-    region: '',
-    comuna: '',
-    confirmarPassword: ''
+    region: 1,
+    codigoComuna: 0,
+    confirmPassword: ''
   },
   resolver: yupResolver(schemaRegistroTutor)
 };
@@ -36,9 +39,11 @@ const formSettings = {
 const TutorRegisterPage = () => {
   // Estados
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Hooks
   const { push } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const {
     watch,
     control,
@@ -49,15 +54,27 @@ const TutorRegisterPage = () => {
   // Funciones
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const onSubmit = (data) => {
-    console.log('Data: ', data);
-    console.log('Errors: ', errors);
-  };
+  const onSubmit = async (formData) => {
+    setLoading(true);
+    try {
+      const { data } = await request({
+        url: CREATE_TUTOR,
+        method: 'POST',
+        data: formData
+      });
 
-  useEffect(() => {
-    const subscription = watch(['depto'], (value) => console.log(value));
-    return () => subscription.unsubscribe();
-  }, [watch]);
+      
+      enqueueSnackbar("Usuario agregado correctamente", { variant: 'success' });
+      setLoading(false);
+      push('/');
+
+    } catch (error) {
+      setLoading(false);
+      enqueueSnackbar(error.message, { variant: 'error' });
+      console.log('Error: ', error);
+    }
+  };
+  console.log('errors: ', errors);
 
   return (
     <LayoutRegistro titulo="Registro de tutor">
@@ -68,8 +85,9 @@ const TutorRegisterPage = () => {
       >
         <Box
           component="form"
-          sx={{ width: '100%' }}
-          onSubmit={handleSubmit((data) => console.log(data))}
+          sx={{ width: '100%' }} // (data) => console.log(data)
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
         >
           {/* Información personal */}
           <Grid component="section" container spacing={2} mb={4}>
@@ -129,11 +147,11 @@ const TutorRegisterPage = () => {
             {/* Correo */}
             <FormInput
               control={control}
-              name="correo"
+              name="email"
               labelText="Correo"
               placeholderText="husky@voltapets.cl"
-              errorName={errors.correo}
-              errorText={errors.correo?.message}
+              errorName={errors.email}
+              errorText={errors.email?.message}
               type="text"
             />
           </Grid>
@@ -173,11 +191,11 @@ const TutorRegisterPage = () => {
             <FormSelect
               width={6}
               control={control}
-              name="comuna"
+              name="codigoComuna"
               dataArray={comunas}
               labelText="Comunas"
-              errorName={errors.comuna}
-              errorText={errors.comuna?.message}
+              errorName={errors.codigoComuna}
+              errorText={errors.codigoComuna?.message}
             />
 
             {/* Dirección */}
@@ -196,11 +214,11 @@ const TutorRegisterPage = () => {
             <FormInput
               width={4}
               control={control}
-              name="depto"
+              name="departamento"
               labelText="Nº Departamento"
               placeholderText="(Opcional)"
-              errorName={errors.depto}
-              errorText={errors.depto?.message}
+              errorName={errors.departamento}
+              errorText={errors.departamento?.message}
               type="text"
             />
           </Grid>
@@ -231,11 +249,11 @@ const TutorRegisterPage = () => {
             />
             <FormInput
               control={control}
-              name="confirmarPassword"
+              name="confirmPassword"
               labelText="Vuelve a ingresar tu contraseña"
               placeholderText="********"
-              errorName={errors.confirmarPassword}
-              errorText={errors.confirmarPassword?.message}
+              errorName={errors.confirmPassword}
+              errorText={errors.confirmPassword?.message}
               type="password"
             />
           </Grid>
@@ -243,6 +261,7 @@ const TutorRegisterPage = () => {
           {/* Actions */}
           <Box mb={2} mt={4}>
             <Button
+              disabled={loading}
               fullWidth
               variant="contained"
               type="submit"

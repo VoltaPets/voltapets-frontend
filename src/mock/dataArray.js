@@ -4,7 +4,7 @@ export const comunas = [
   { id: 1, nombre: 'Iquique', codigo: '03' },
   { id: 2, nombre: 'Pica', codigo: '04' },
   { id: 3, nombre: 'Antofagasta', codigo: '05' },
-  { id: 4, nombre: 'Mejillones', codigo: '06' },
+  { id: 4, nombre: 'Mejillones', codigo: 6 },
   { id: 5, nombre: 'Sierra Gorda', codigo: '07' },
   { id: 6, nombre: 'Santiago', codigo: '08' }
 ];

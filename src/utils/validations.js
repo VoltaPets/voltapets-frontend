@@ -31,12 +31,12 @@ export const schemaRegistroTutor = yup.object().shape({
     )
     .phone('CL', true, 'Debes ingresar un número chileno  válido')
     .required('Debes ingresar un número de teléfono'),
-  correo: yup
+  email: yup
     .string()
     .email('Debes ingresar un correo válido (Ej: ejemplo@mail.com)')
     .required('Debes ingresar un correo'),
   region: yup.string().required('Debes ingresar una región'),
-  comuna: yup.string().required('Debes ingresar una comuna'),
+  codigoComuna: yup.number().required('Debes ingresar una comuna'),
   direccion: yup.string().required('Debes ingresar tu dirección'),
   password: yup
     .string()
@@ -47,7 +47,7 @@ export const schemaRegistroTutor = yup.object().shape({
     )
     .min(6, 'La contraseña debe tener al menos 6 caracteres')
     .max(20, 'La contraseña debe tener máximo 20 caracteres'),
-  confirmarPassword: yup
+  confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Las contraseñas no coinciden')
     .required('Debes confirmar tu contraseña')
@@ -64,12 +64,12 @@ export const schemaRegistroPaseador = yup.object().shape({
     )
     .phone('CL', true, 'Debes ingresar un número válido')
     .required('Debes ingresar un número de teléfono'),
-  correo: yup
+  email: yup
     .string()
     .email('Debes ingresar un correo válido (Ej: ejemplo@mail.com)')
     .required('Debes ingresar un correo'),
   region: yup.string().required('Debes ingresar una región'),
-  comuna: yup.string().required('Debes ingresar una comuna'),
+  codigoComuna: yup.number().required('Debes ingresar una comuna'),
   direccion: yup.string().required('Debes ingresar tu dirección'),
   imagen: yup.mixed().required('Debes ingresar una imagen'),
   rut: yup
@@ -92,7 +92,7 @@ export const schemaRegistroPaseador = yup.object().shape({
     )
     .min(6, 'La contraseña debe tener al menos 6 caracteres')
     .max(20, 'La contraseña debe tener máximo 20 caracteres'),
-  confirmarPassword: yup
+  confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Las contraseñas no coinciden')
     .required('Debes confirmar tu contraseña')
