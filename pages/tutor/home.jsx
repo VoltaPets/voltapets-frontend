@@ -4,8 +4,8 @@ import { Grid, Box, Typography } from '@mui/material';
 
 // Relative Imports
 import Layout from '../../src/components/commons/Layout';
-import MascotaCard from '../../src/components/screens/private/tutor/MascotaCard';
-import BusquedaMascota from '../../src/components/screens/private/tutor/BusquedaMascota';
+import MascotaCard from '../../src/components/screens/private/tutor/home/MascotaCard';
+import BusquedaPaseador from '../../src/components/screens/private/tutor/home/BusquedaPaseador';
 
 const mascotasTutor = [
   {
@@ -62,7 +62,7 @@ function tutorHome() {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <BusquedaMascota />
+          <BusquedaPaseador />
         </Grid>
       </Grid>
     </Layout>

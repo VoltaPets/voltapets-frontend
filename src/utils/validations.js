@@ -71,12 +71,10 @@ export const schemaRegistroPaseador = yup.object().shape({
   region: yup.string().required('Debes ingresar una región'),
   comuna: yup.string().required('Debes ingresar una comuna'),
   direccion: yup.string().required('Debes ingresar tu dirección'),
-  imagen:yup.object().shape({
-    file: yup.mixed().required('Debes ingresar una imagen'),
-    upload_preset: yup.string().required('Debes ingresar una imagen'),
-  }).nullable(),
+  imagen: yup.mixed().required('Debes ingresar una imagen'),
   rut: yup
     .string()
+    .min(10, 'Debes ingresar un rut válido')
     .required('Ingresa tu rut')
     .test(
       'rut',

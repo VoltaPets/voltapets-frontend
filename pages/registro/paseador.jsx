@@ -1,6 +1,6 @@
 // Librería
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
@@ -26,40 +26,46 @@ const formSettings = {
     telefono: '',
     rut: '',
     direccion: '',
-    imagen: '',
-    depto: '',
+    imagen: null,
     region: 1,
+    depto: 0,
     comuna: '',
     password: '',
-    confirmarPassword: '',
-    codigoRol: 2
+    confirmarPassword: ''
   },
   resolver: yupResolver(schemaRegistroPaseador)
 };
 
 function PaseadorRegisterPage() {
+  // Estados
   const [showPassword, setShowPassword] = useState(false);
-
-  // Funciones
-  const handleShowPassword = () => setShowPassword(!showPassword);
-  
-  const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append('file', data.imagen);
-    
-    console.log(formData);
-  };
 
   // Hooks
   const { push } = useRouter();
   const {
+    watch,
     control,
     handleSubmit,
     register,
-    formState: { errors, isSubmitSuccessful }
+    unregister,
+    formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful }
   } = useForm(formSettings);
 
-  console.log('errors', errors);
+  // Funciones
+  const handleShowPassword = () => setShowPassword(!showPassword);
+
+  const onSubmit = (data) => {
+    console.log('Data: ', data);
+    console.log('Errors: ', errors);
+  };
+
+  // Effects
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      console.log('Value: ', value.depto);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <LayoutRegistro titulo="Registro de paseador">
@@ -140,7 +146,7 @@ function PaseadorRegisterPage() {
             <FormInput
               control={control}
               name="rut"
-              labelText="Rut / Pasaporte"
+              labelText="Rut"
               maxLength={10}
               errorName={errors.rut}
               errorText={errors.rut?.message}
@@ -154,7 +160,13 @@ function PaseadorRegisterPage() {
               <Typography variant="subtitle1" color="secondary" component="h2" gutterBottom>
                 Foto de perfil
               </Typography>
-              <FilePicker register={register} errorText={errors.imagen?.message} />
+              <input type={'file'} {...register('imagen', { required: true })} />
+              <Typography variant="body2" color="secondary" component="p">
+                {errors.imagen && 'Debes subir una foto de perfil'}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" component="p" mt={2}>
+                Sube una foto de perfil para que los tutores puedan reconocerte.
+              </Typography>
             </Grid>
           </Grid>
 
@@ -198,12 +210,24 @@ function PaseadorRegisterPage() {
             />
 
             <FormInput
+              width={8}
               control={control}
               name="direccion"
               labelText="Dirección"
               placeholderText="av. Volta Pets 123"
               errorName={errors.direccion}
               errorText={errors.direccion?.message}
+              type="text"
+            />
+
+            <FormInput
+              width={4}
+              control={control}
+              name="depto"
+              labelText="Nº Departamento"
+              placeholderText="(Opcional)"
+              errorName={errors.depto}
+              errorText={errors.depto?.message}
               type="text"
             />
           </Grid>

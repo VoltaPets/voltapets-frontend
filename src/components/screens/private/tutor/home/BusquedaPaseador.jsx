@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { Box, Card, Button, Grid, Typography } from '@mui/material';
 
 // Relative Imports
-import FormInput from '../../../commons/FormInput';
-import FormSelect from '../../../commons/FormSelect';
-import { regiones, comunas } from '../../../../mock/dataArray';
+import FormInput from '../../../../commons/FormInput';
+import FormSelect from '../../../../commons/FormSelect';
+import { regiones, comunas } from '../../../../../mock/dataArray';
 import PaseadorServicioCard from './PaseadorServicioCard';
 
 const formSettings = {
@@ -70,7 +70,7 @@ const paseadores = [
   }
 ];
 
-const BusquedaMascota = () => {
+const BusquedaPaseador = () => {
   const { control, handleSubmit, reset } = useForm(formSettings);
 
   const handleReset = () => {
@@ -169,4 +169,4 @@ const BusquedaMascota = () => {
   );
 };
 
-export default BusquedaMascota;
+export default BusquedaPaseador;

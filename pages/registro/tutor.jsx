@@ -13,7 +13,6 @@ import { Box, Button, Card, CardMedia, Divider, Grid, Typography } from '@mui/ma
 // Relative imports
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
-import Link from '../../src/components/commons/Link';
 import { schemaRegistroTutor } from '../../src/utils/validations';
 import { regiones, comunas } from '../../src/mock/dataArray';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
@@ -25,11 +24,11 @@ const formSettings = {
     telefono: '',
     correo: '',
     direccion: '',
+    depto: 0,
     password: '',
     region: '',
     comuna: '',
-    confirmarPassword: '',
-    codigoRol: 3,
+    confirmarPassword: ''
   },
   resolver: yupResolver(schemaRegistroTutor)
 };
@@ -41,6 +40,7 @@ const TutorRegisterPage = () => {
   // Hooks
   const { push } = useRouter();
   const {
+    watch,
     control,
     handleSubmit,
     formState: { errors }
@@ -49,7 +49,15 @@ const TutorRegisterPage = () => {
   // Funciones
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  console.log(errors);
+  const onSubmit = (data) => {
+    console.log('Data: ', data);
+    console.log('Errors: ', errors);
+  };
+
+  useEffect(() => {
+    const subscription = watch(['depto'], (value) => console.log(value));
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <LayoutRegistro titulo="Registro de tutor">
@@ -174,13 +182,25 @@ const TutorRegisterPage = () => {
 
             {/* Dirección */}
             <FormInput
-              width={12}
+              width={8}
               control={control}
               name="direccion"
               labelText="Dirección"
               placeholderText="av. Volta Pets 123"
               errorName={errors.direccion}
               errorText={errors.direccion?.message}
+              type="text"
+            />
+
+            {/* Depto (opcional) */}
+            <FormInput
+              width={4}
+              control={control}
+              name="depto"
+              labelText="Nº Departamento"
+              placeholderText="(Opcional)"
+              errorName={errors.depto}
+              errorText={errors.depto?.message}
               type="text"
             />
           </Grid>

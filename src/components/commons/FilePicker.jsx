@@ -1,18 +1,25 @@
 // Libraries
 import { useState } from 'react';
+import { Controller } from 'react-hook-form';
 
 // MUI
 import { Box, Typography } from '@mui/material';
 
-const FilePicker = ({ register, errorText }) => {
-  // const handleChange = (e) => {
-  //   setImage(e.target.files[0]);
+const FilePicker = ({ register, control, errorText }) => {
+  const [imagen, setImagen] = useState(null);
+  const [isFilePicked, setIsFilePicked] = useState(false);
 
-  //   const formData = new FormData();
-  //   formData.append('file', image);
-  //   formData.append('upload_preset', 'public');
-  //   console.log(formData);
-  // };
+  const handleChange = (e) => {
+    console.log('e.target.files[0]: ', e);
+    // setImagen(e.target.files[0]);
+    // setisFilePicked(true);
+
+    // const formData = new FormData();
+    // formData.append('file', imagen);
+    // formData.append('upload_preset', 'public');
+
+    // console.log(formData);
+  };
 
   // const uploadFile = async (e) => {
   //   setLoading(true);
@@ -39,7 +46,13 @@ const FilePicker = ({ register, errorText }) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 2 }}>
-      <input {...register('imagen')} type="file" id="imagen" name="imagen" />
+      <input
+        {...register('imagen', { required: true })}
+        type="file"
+        id="imagen"
+        onChange={handleChange}
+        name="imagen"
+      />
       <Typography variant="caption">{errorText}</Typography>
     </Box>
   );

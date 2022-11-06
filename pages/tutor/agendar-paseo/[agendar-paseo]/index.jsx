@@ -7,7 +7,7 @@ import { Grid, Chip, Card, Rating, CardMedia, Divider, Box, Typography } from '@
 
 // Relative imports
 import Layout from '../../../../src/components/commons/Layout';
-import AgendaPaseos from '../../../../src/components/screens/private/tutor/AgendaPaseos';
+import AgendaPaseos from '../../../../src/components/screens/private/tutor/paseo/AgendaPaseos';
 import { clpFormatter } from '../../../../src/utils/currencyFormat';
 
 const tarifaBasica = clpFormatter.format(6000);
