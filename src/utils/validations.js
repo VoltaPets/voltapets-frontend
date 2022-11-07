@@ -36,8 +36,9 @@ export const schemaRegistroTutor = yup.object().shape({
     .email('Debes ingresar un correo válido (Ej: ejemplo@mail.com)')
     .required('Debes ingresar un correo'),
   region: yup.string().required('Debes ingresar una región'),
-  codigoComuna: yup.number().required('Debes ingresar una comuna'),
-  direccion: yup.string().required('Debes ingresar tu dirección'),
+  codigoComuna: yup.number().required('Debes ingresar una comuna').cast(),
+  departamento: yup.number().cast(),
+  direccion: yup.string().required('Debes ingresar tu dirección', 22),
   password: yup
     .string()
     .required('Debes ingresar una contraseña')

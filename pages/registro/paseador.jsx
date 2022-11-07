@@ -16,20 +16,21 @@ import FormSelect from '../../src/components/commons/FormSelect';
 import FilePicker from '../../src/components/commons/FilePicker';
 import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
+import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
 
 // TODO: Agregar envío de foto de perfil al backend
 const formSettings = {
   defaultValues: {
     nombre: '',
     apellido: '',
-    correo: '',
+    email: '',
     telefono: '',
     rut: '',
     direccion: '',
     imagen: null,
     region: 1,
     depto: 0,
-    comuna: '',
+    codigoComuna: '',
     password: '',
     confirmarPassword: ''
   },
@@ -39,6 +40,8 @@ const formSettings = {
 function PaseadorRegisterPage() {
   // Estados
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(true);
 
   // Hooks
   const { push } = useRouter();
@@ -47,7 +50,6 @@ function PaseadorRegisterPage() {
     control,
     handleSubmit,
     register,
-    unregister,
     formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful }
   } = useForm(formSettings);
 
@@ -69,6 +71,8 @@ function PaseadorRegisterPage() {
 
   return (
     <LayoutRegistro titulo="Registro de paseador">
+      <RegistroModal open={open} setOpen={setOpen} />
+
       {/* Formulario */}
       <Card
         elevation={4}
@@ -202,11 +206,11 @@ function PaseadorRegisterPage() {
             <FormSelect
               width={6}
               control={control}
-              name="comuna"
+              name="codigoComuna"
               dataArray={comunas}
               labelText="Comunas"
-              errorName={errors.comuna}
-              errorText={errors.comuna?.message}
+              errorName={errors.codigoComuna}
+              errorText={errors.codigoComuna?.message}
             />
 
             <FormInput

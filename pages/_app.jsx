@@ -27,7 +27,7 @@ function MyApp(props) {
           <SnackbarProvider
             maxSnack={3}
             autoHideDuration={4000}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
             <Component {...pageProps} />
           </SnackbarProvider>

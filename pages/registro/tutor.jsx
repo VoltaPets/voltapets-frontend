@@ -1,5 +1,5 @@
 // Librerias
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import KeyIcon from '@mui/icons-material/Key';
-import { Box, Button, Card, CardMedia, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CircularProgress, Grid, Typography } from '@mui/material';
 
 // Relative imports
 import FormInput from '../../src/components/commons/FormInput';
@@ -19,6 +19,7 @@ import { regiones, comunas } from '../../src/mock/dataArray';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import { CREATE_TUTOR } from '../../src/api/endpoints/Usuario';
 import { request } from '../../src/api';
+import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
 
 const formSettings = {
   defaultValues: {
@@ -40,14 +41,15 @@ const TutorRegisterPage = () => {
   // Estados
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   // Hooks
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const {
-    watch,
     control,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm(formSettings);
 
@@ -63,21 +65,34 @@ const TutorRegisterPage = () => {
         data: formData
       });
 
-      
-      enqueueSnackbar("Usuario agregado correctamente", { variant: 'success' });
+      enqueueSnackbar(data.mensaje, { variant: 'success' });
       setLoading(false);
-      push('/');
-
+      setOpen(true);
     } catch (error) {
-      setLoading(false);
-      enqueueSnackbar(error.message, { variant: 'error' });
-      console.log('Error: ', error);
+      if (error.isAxiosError) {
+        setLoading(false);
+        // console.log('Error: ', error);
+
+        const { data } = error.response;
+
+        if (data?.errors) {
+          for (const error in data.errors) {
+            data.errors[error].map((e) => enqueueSnackbar(e, { variant: 'error' }));
+          }
+        }
+
+        if (data?.mensaje) {
+          enqueueSnackbar(data.mensaje, { variant: 'error' });
+        }
+      } else {
+        enqueueSnackbar('Error al agregar usuario', { variant: 'error' });
+      }
     }
   };
-  console.log('errors: ', errors);
 
   return (
     <LayoutRegistro titulo="Registro de tutor">
+      <RegistroModal open={open} setOpen={setOpen} reset={reset} />
       {/* Formulario */}
       <Card
         elevation={4}
@@ -247,6 +262,7 @@ const TutorRegisterPage = () => {
               type={showPassword ? 'text' : 'password'}
               handleShowPassword={handleShowPassword}
             />
+
             <FormInput
               control={control}
               name="confirmPassword"
@@ -259,7 +275,11 @@ const TutorRegisterPage = () => {
           </Grid>
 
           {/* Actions */}
-          <Box mb={2} mt={4}>
+          <Box
+            mb={2}
+            mt={4}
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          >
             <Button
               disabled={loading}
               fullWidth
@@ -267,7 +287,7 @@ const TutorRegisterPage = () => {
               type="submit"
               sx={{ textTransform: 'inherit', color: '#fff', fontWeight: 'bold' }}
             >
-              Registrarme
+              {loading ? <CircularProgress color="inherit" /> : 'Registrarse'}
             </Button>
           </Box>
         </Box>

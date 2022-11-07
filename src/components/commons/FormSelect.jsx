@@ -13,7 +13,7 @@ export default function FormSelect({
   errorName,
   errorText,
   dataArray,
-  noHelperText
+  noHelperText = false
 }) {
   return (
     <Grid item xs={12} sm={width} sx={{ height: noHelperText ? 'auto' : 80 }}>
@@ -44,7 +44,7 @@ export default function FormSelect({
                 </MenuItem>
               ))}
             </Select>
-            {noHelperText ? <FormHelperText>{errorText}</FormHelperText> : null}
+            {noHelperText ? null : <FormHelperText>{errorText}</FormHelperText>}
           </FormControl>
         )}
       />
