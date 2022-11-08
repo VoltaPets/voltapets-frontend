@@ -56,6 +56,7 @@ function PaseadorRegisterPage() {
   const {
     control,
     resetField,
+    reset,
     handleSubmit,
     register,
     formState: { errors }
@@ -63,6 +64,23 @@ function PaseadorRegisterPage() {
 
   // Funciones
   const handleShowPassword = () => setShowPassword(!showPassword);
+
+  const handleImageChange = (e) => {
+    let imagenElegida = document.getElementById('chosen-image');
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      imagenElegida.src = reader.result;
+    };
+  };
+
+  const handleImageDelete = () => {
+    let imagenElegida = document.getElementById('chosen-image');
+    imagenElegida.src = '/logo.jpg';
+    resetField('imagen');
+  };
 
   const onSubmit = async (dataFormulario) => {
     setLoading(true);
@@ -135,6 +153,8 @@ function PaseadorRegisterPage() {
     }
   };
 
+  // Efectos
+
   useEffect(() => {
     if (userId) {
       uploadImage(file);
@@ -153,7 +173,7 @@ function PaseadorRegisterPage() {
 
   return (
     <LayoutRegistro titulo="Registro de paseador">
-      <RegistroModal open={open} setOpen={setOpen} />
+      <RegistroModal open={open} setOpen={setOpen} reset={reset} />
 
       {/* Formulario */}
       <Card
@@ -205,7 +225,7 @@ function PaseadorRegisterPage() {
 
             {/* Correo */}
             <FormInput
-              width={6}
+              width={7}
               control={control}
               name="email"
               labelText="Correo"
@@ -217,7 +237,7 @@ function PaseadorRegisterPage() {
 
             {/* Teléfono */}
             <FormInput
-              width={6}
+              width={5}
               control={control}
               name="telefono"
               labelText="Telefono"
@@ -246,14 +266,37 @@ function PaseadorRegisterPage() {
               <Typography variant="subtitle1" color="secondary" component="h2" gutterBottom>
                 Foto de perfil
               </Typography>
-              <input type={'file'} {...register('imagen', { required: true })} />
-              <Button
-                variant="text"
-                sx={{ fontWeight: 'bold', textTransform: 'none' }}
-                onClick={() => resetField('imagen')}
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'start',
+                  alignItems: 'center',
+                  gap: 1
+                }}
               >
-                Borrar
-              </Button>
+                <Box sx={{ display: 'flex' }}>
+                  <input
+                    type={'file'}
+                    {...register('imagen', { required: true })}
+                    onChange={handleImageChange}
+                  />
+                  <Button
+                    variant="text"
+                    sx={{ fontWeight: 'bold', textTransform: 'none' }}
+                    onClick={handleImageDelete}
+                  >
+                    Borrar
+                  </Button>
+                </Box>
+                <img
+                  id="chosen-image"
+                  src="/logo.jpg"
+                  style={{ width: 200, height: 200, objectFit: 'cover' }}
+                />
+              </Box>
+
               <Typography variant="body2" color="secondary" component="p">
                 {errors.imagen && 'Debes subir una foto de perfil'}
               </Typography>
@@ -316,11 +359,11 @@ function PaseadorRegisterPage() {
             <FormInput
               width={4}
               control={control}
-              name="depto"
+              name="departamento"
               labelText="Nº Departamento"
               placeholderText="(Opcional)"
-              errorName={errors.depto}
-              errorText={errors.depto?.message}
+              errorName={errors.departamento}
+              errorText={errors.departamento?.message}
               type="text"
             />
           </Grid>
