@@ -35,7 +35,7 @@ const formSettings = {
     password: '',
     confirmPassword: '',
     region: 1,
-    codigoComuna: 0
+    codigoComuna: ''
   },
   resolver: yupResolver(schemaRegistroPaseador)
 };
@@ -55,7 +55,7 @@ function PaseadorRegisterPage() {
   const { enqueueSnackbar } = useSnackbar();
   const {
     control,
-    watch,
+    resetField,
     handleSubmit,
     register,
     formState: { errors }
@@ -247,6 +247,13 @@ function PaseadorRegisterPage() {
                 Foto de perfil
               </Typography>
               <input type={'file'} {...register('imagen', { required: true })} />
+              <Button
+                variant="text"
+                sx={{ fontWeight: 'bold', textTransform: 'none' }}
+                onClick={() => resetField('imagen')}
+              >
+                Borrar
+              </Button>
               <Typography variant="body2" color="secondary" component="p">
                 {errors.imagen && 'Debes subir una foto de perfil'}
               </Typography>
