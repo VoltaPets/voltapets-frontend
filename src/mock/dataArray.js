@@ -1,7 +1,7 @@
 export const regiones = [{ id: 1, nombre: 'Región Metropolitana de Santiago' }];
 
 export const comunas = [
-  { id: 0, nombre: 'Iquique' },
+  { id: 1, nombre: 'Iquique' },
   { id: 2, nombre: 'Pica' },
   { id: 3, nombre: 'Antofagasta' },
   { id: 4, nombre: 'Mejillones' },

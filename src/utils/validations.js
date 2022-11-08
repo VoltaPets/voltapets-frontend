@@ -37,7 +37,6 @@ export const schemaRegistroTutor = yup.object().shape({
     .required('Debes ingresar un correo'),
   region: yup.string().required('Debes ingresar una región'),
   codigoComuna: yup.number().required('Debes ingresar una comuna').cast(),
-  departamento: yup.number().cast(),
   direccion: yup.string().required('Debes ingresar tu dirección', 22),
   password: yup
     .string()
@@ -73,7 +72,7 @@ export const schemaRegistroPaseador = yup.object().shape({
   codigoComuna: yup.number().required('Debes ingresar una comuna'),
   direccion: yup.string().required('Debes ingresar tu dirección'),
   imagen: yup.mixed().required('Debes ingresar una imagen'),
-  rut: yup
+  rutDv: yup
     .string()
     .min(10, 'Debes ingresar un rut válido')
     .required('Ingresa tu rut')

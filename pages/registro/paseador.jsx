@@ -4,35 +4,38 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 // MUI
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import { Box, Card, CardMedia, Grid, Typography, Button } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, Typography, Button } from '@mui/material';
 
 // Relative imports
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
-import FilePicker from '../../src/components/commons/FilePicker';
 import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
 import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
+import { CREATE_PASEADOR, CREATE_PASEADOR_IMG } from '../../src/api/endpoints/Usuario';
+import { CLOUDINARY_URL } from '../../src/constant';
+import { request } from '../../src/api';
 
 // TODO: Agregar envío de foto de perfil al backend
 const formSettings = {
   defaultValues: {
     nombre: '',
     apellido: '',
-    email: '',
     telefono: '',
-    rut: '',
+    email: '',
     direccion: '',
+    departamento: 0,
+    rutDv: '',
     imagen: null,
-    region: 1,
-    depto: 0,
-    codigoComuna: '',
     password: '',
-    confirmarPassword: ''
+    confirmPassword: '',
+    region: 1,
+    codigoComuna: 0
   },
   resolver: yupResolver(schemaRegistroPaseador)
 };
@@ -40,34 +43,113 @@ const formSettings = {
 function PaseadorRegisterPage() {
   // Estados
   const [showPassword, setShowPassword] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [file, setFile] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
+  const [imgPath, setImgPath] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   // Hooks
   const { push } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const {
-    watch,
     control,
+    watch,
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful }
+    formState: { errors }
   } = useForm(formSettings);
 
   // Funciones
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const onSubmit = (data) => {
-    console.log('Data: ', data);
-    console.log('Errors: ', errors);
+  const onSubmit = async (dataFormulario) => {
+    setLoading(true);
+    try {
+      const { data } = await request({
+        url: CREATE_PASEADOR,
+        method: 'POST',
+        data: dataFormulario
+      });
+      setUserId(data.codigoUsuario);
+
+      const formData = new FormData();
+      formData.append('file', dataFormulario.imagen[0]);
+      formData.append('upload_preset', 'profile');
+      setFile(formData);
+    } catch (error) {
+      setLoading(false);
+      console.log('Error al crear usuario: ', error);
+    }
   };
 
-  // Effects
+  const uploadImage = async (formData) => {
+    try {
+      const data = await fetch(CLOUDINARY_URL, {
+        method: 'POST',
+        body: formData
+      }).then((res) => res.json());
+      const imgUrl = data.secure_url.split('.com');
+      setImgUrl(imgUrl[0]);
+      setImgPath(imgUrl[1]);
+    } catch (error) {
+      setLoading(false);
+      console.log('Error Upload to Cloud: ', error);
+    }
+  };
+
+  const updateUserImage = async () => {
+    const imgData = {
+      codigoUsuario: userId,
+      url: imgUrl,
+      path: imgPath
+    };
+
+    try {
+      await request({
+        url: CREATE_PASEADOR_IMG,
+        method: 'PUT',
+        data: imgData
+      });
+      enqueueSnackbar('Usuario creado con éxito', { variant: 'success' });
+      setOpen(true);
+      setLoading(false);
+    } catch (error) {
+      if (error.isAxiosError) {
+        setLoading(false);
+        const { data } = error.response;
+
+        if (data?.errors) {
+          for (const error in data.errors) {
+            data.errors[error].map((e) => enqueueSnackbar(e, { variant: 'error' }));
+          }
+        }
+
+        if (data?.mensaje) {
+          enqueueSnackbar(data.mensaje, { variant: 'error' });
+        }
+      } else {
+        enqueueSnackbar('Error al agregar usuario', { variant: 'error' });
+      }
+    }
+  };
+
   useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      console.log('Value: ', value.depto);
-    });
-    return () => subscription.unsubscribe();
-  }, [watch]);
+    if (userId) {
+      uploadImage(file);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (imgUrl && imgPath) {
+      updateUserImage();
+    }
+    return () => {
+      setImgUrl(null);
+      setImgPath(null);
+    };
+  }, [imgUrl, imgPath]);
 
   return (
     <LayoutRegistro titulo="Registro de paseador">
@@ -125,11 +207,11 @@ function PaseadorRegisterPage() {
             <FormInput
               width={6}
               control={control}
-              name="correo"
+              name="email"
               labelText="Correo"
               placeholderText="husky@voltapets.cl"
-              errorName={errors.correo}
-              errorText={errors.correo?.message}
+              errorName={errors.email}
+              errorText={errors.email?.message}
               type="text"
             />
 
@@ -149,11 +231,11 @@ function PaseadorRegisterPage() {
             {/* Rut */}
             <FormInput
               control={control}
-              name="rut"
+              name="rutDv"
               labelText="Rut"
               maxLength={10}
-              errorName={errors.rut}
-              errorText={errors.rut?.message}
+              errorName={errors.rutDv}
+              errorText={errors.rutDv?.message}
               type="text"
             />
           </Grid>
@@ -261,11 +343,11 @@ function PaseadorRegisterPage() {
             />
             <FormInput
               control={control}
-              name="confirmarPassword"
+              name="confirmPassword"
               labelText="Vuelve a ingresar tu contraseña"
               placeholderText="********"
-              errorName={errors.confirmarPassword}
-              errorText={errors.confirmarPassword?.message}
+              errorName={errors.confirmPassword}
+              errorText={errors.confirmPassword?.message}
               type="password"
             />
           </Grid>
@@ -273,12 +355,13 @@ function PaseadorRegisterPage() {
           {/* Actions */}
           <Box mb={2} mt={4}>
             <Button
+              disabled={loading}
               fullWidth
               variant="contained"
               type="submit"
               sx={{ textTransform: 'inherit', color: '#fff', fontWeight: 'bold' }}
             >
-              Registrarme
+              {loading ? <CircularProgress color="inherit" /> : 'Registrarme'}
             </Button>
           </Box>
         </Box>

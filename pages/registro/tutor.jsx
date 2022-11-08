@@ -30,9 +30,9 @@ const formSettings = {
     direccion: '',
     departamento: 0,
     password: '',
+    confirmPassword: '',
     region: 1,
-    codigoComuna: 0,
-    confirmPassword: ''
+    codigoComuna: 0
   },
   resolver: yupResolver(schemaRegistroTutor)
 };
@@ -71,8 +71,6 @@ const TutorRegisterPage = () => {
     } catch (error) {
       if (error.isAxiosError) {
         setLoading(false);
-        // console.log('Error: ', error);
-
         const { data } = error.response;
 
         if (data?.errors) {
@@ -89,6 +87,8 @@ const TutorRegisterPage = () => {
       }
     }
   };
+
+  console.log(errors);
 
   return (
     <LayoutRegistro titulo="Registro de tutor">
@@ -310,16 +310,16 @@ const TutorRegisterPage = () => {
           Registro de <br />
           Tutor
         </Typography>
-        <Typography
-          variant="body1"
-          component="p"
-          align="center"
-          mb={2}
-          sx={{ letterSpacing: 1, fontSize: '0.9em' }}
-        >
+        <Typography variant="body1" component="p" align="justify" mb={2}>
           En <strong style={{ color: '#E27149', fontSize: '1.2em' }}>Volta Pets</strong> te
           ofrecemos un espacio en donde puedes darle a tu compañero peludo un servicio integral y
           encontrar a los mejores paseadores para darle un mejor bienestar a tu mascota.
+        </Typography>
+
+        <Typography variant="body1" component="p" align="justify" mb={2}>
+          <strong style={{ color: '#E27149', fontSize: '1.2em' }}>Advertencia</strong> las razas de
+          perros potencialmente peligrosos (PPP) no pueden ser registrados en{' '}
+          <strong style={{ color: '#E27149', fontSize: '1.2em' }}>Volta Pets</strong> .
         </Typography>
         <Box component="footer" sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Button

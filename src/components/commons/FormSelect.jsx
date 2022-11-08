@@ -38,6 +38,7 @@ export default function FormSelect({
               label={labelText}
               color="secondary"
             >
+              <MenuItem value="">Elegir {`${labelText}`}</MenuItem>
               {dataArray?.map((location) => (
                 <MenuItem key={location.id} value={location.id}>
                   {location.nombre}
