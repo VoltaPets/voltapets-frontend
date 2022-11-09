@@ -26,6 +26,7 @@ const RegistroModal = ({ open, setOpen, paseador = false, reset }) => {
   const handleClose = () => {
     setOpen(false);
     reset();
+    push('/');
   };
 
   return (
