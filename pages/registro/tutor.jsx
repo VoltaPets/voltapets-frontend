@@ -1,5 +1,5 @@
 // Librerias
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
@@ -17,9 +17,10 @@ import FormSelect from '../../src/components/commons/FormSelect';
 import { schemaRegistroTutor } from '../../src/utils/validations';
 import { regiones, comunas } from '../../src/mock/dataArray';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
-import { CREATE_TUTOR } from '../../src/api/endpoints/Usuario';
-import { request } from '../../src/api';
 import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
+import { CREATE_TUTOR, CREATE_USER_IMG } from '../../src/api/endpoints/Usuario';
+import { CLOUDINARY_DEFAULT_IMAGE } from '../../src/constant/';
+import { request } from '../../src/api';
 
 const formSettings = {
   defaultValues: {
@@ -32,7 +33,7 @@ const formSettings = {
     password: '',
     confirmPassword: '',
     region: 1,
-    codigoComuna: 0
+    codigoComuna: ''
   },
   resolver: yupResolver(schemaRegistroTutor)
 };
@@ -42,14 +43,18 @@ const TutorRegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [file, setFile] = useState(null);
 
   // Hooks
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const {
+    watch,
     control,
     handleSubmit,
     reset,
+    register,
     formState: { errors }
   } = useForm(formSettings);
 
@@ -64,31 +69,45 @@ const TutorRegisterPage = () => {
         method: 'POST',
         data: formData
       });
-
-      enqueueSnackbar(data.mensaje, { variant: 'success' });
-      setLoading(false);
-      setOpen(true);
+      setUserId(data.codigoTutor);
     } catch (error) {
-      if (error.isAxiosError) {
-        setLoading(false);
-        const { data } = error.response;
-
-        if (data?.errors) {
-          for (const error in data.errors) {
-            data.errors[error].map((e) => enqueueSnackbar(e, { variant: 'error' }));
-          }
-        }
-
-        if (data?.mensaje) {
-          enqueueSnackbar(data.mensaje, { variant: 'error' });
-        }
-      } else {
-        enqueueSnackbar('Error al agregar usuario', { variant: 'error' });
-      }
+      console.log(error);
+      enqueueSnackbar('Error al crear el usuario', { variant: 'error' });
     }
   };
 
-  console.log(errors);
+  const updateUserImage = async () => {
+    const img = new URL(CLOUDINARY_DEFAULT_IMAGE);
+    const imgUrl = img.origin;
+    const imgPath = img.pathname;
+
+    const imgData = {
+      codigoUsuario: userId,
+      url: imgUrl,
+      path: imgPath
+    };
+
+    try {
+      await request({
+        url: CREATE_USER_IMG,
+        method: 'PUT',
+        data: imgData
+      });
+
+      enqueueSnackbar('Usuario creado correctamente', { variant: 'success' });
+      setOpen(true);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar('Error al agregar imagen', { variant: 'error' });
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      updateUserImage();
+    }
+  }, [userId]);
 
   return (
     <LayoutRegistro titulo="Registro de tutor">
@@ -100,7 +119,7 @@ const TutorRegisterPage = () => {
       >
         <Box
           component="form"
-          sx={{ width: '100%' }} // (data) => console.log(data)
+          sx={{ width: '100%' }} 
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
