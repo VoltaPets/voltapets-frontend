@@ -17,11 +17,10 @@ import FormSelect from '../../src/components/commons/FormSelect';
 import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
 import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
-import { CREATE_PASEADOR, CREATE_PASEADOR_IMG } from '../../src/api/endpoints/Usuario';
+import { CREATE_PASEADOR, CREATE_USER_IMG } from '../../src/api/endpoints/Usuario';
 import { CLOUDINARY_URL } from '../../src/constant';
 import { request } from '../../src/api';
 
-// TODO: Agregar envío de foto de perfil al backend
 const formSettings = {
   defaultValues: {
     nombre: '',
@@ -108,9 +107,9 @@ function PaseadorRegisterPage() {
         method: 'POST',
         body: formData
       }).then((res) => res.json());
-      const imgUrl = data.secure_url.split('.com');
-      setImgUrl(imgUrl[0]);
-      setImgPath(imgUrl[1]);
+      const imgUrl = new URL(data.secure_url);
+      setImgUrl(imgUrl.origin);
+      setImgPath(imgUrl.pathname);
     } catch (error) {
       setLoading(false);
       console.log('Error Upload to Cloud: ', error);
@@ -126,7 +125,7 @@ function PaseadorRegisterPage() {
 
     try {
       await request({
-        url: CREATE_PASEADOR_IMG,
+        url: CREATE_USER_IMG,
         method: 'PUT',
         data: imgData
       });
