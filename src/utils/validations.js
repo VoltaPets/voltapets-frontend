@@ -13,7 +13,7 @@ export const recoverySchema = yup.object().shape({
 });
 
 export const loginSchema = yup.object().shape({
-  username: yup
+  email: yup
     .string()
     .email('Debes ingresar un correo válido (ejemplo@mail.com)')
     .required('Debes ingresar un correo'),
