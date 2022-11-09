@@ -18,7 +18,7 @@ export default function FormInput({
   width = 12
 }) {
   return (
-    <Grid item xs={width} sx={{ height: 80 }}>
+    <Grid item xs={width} sx={{ height: 80, mb: 2 }}>
       <Controller
         name={name}
         control={control}

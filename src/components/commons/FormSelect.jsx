@@ -9,11 +9,11 @@ export default function FormSelect({
   disabled,
   labelText,
   name,
-  width,
+  width = 12,
   errorName,
   errorText,
   dataArray,
-  noHelperText
+  noHelperText = false
 }) {
   return (
     <Grid item xs={12} sm={width} sx={{ height: noHelperText ? 'auto' : 80 }}>
@@ -38,13 +38,14 @@ export default function FormSelect({
               label={labelText}
               color="secondary"
             >
+              <MenuItem value="">Elegir {`${labelText}`}</MenuItem>
               {dataArray?.map((location) => (
                 <MenuItem key={location.id} value={location.id}>
                   {location.nombre}
                 </MenuItem>
               ))}
             </Select>
-            {noHelperText ? <FormHelperText>{errorText}</FormHelperText> : null}
+            {noHelperText ? null : <FormHelperText>{errorText}</FormHelperText>}
           </FormControl>
         )}
       />

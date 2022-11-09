@@ -1,17 +1,17 @@
 export const regiones = [{ id: 1, nombre: 'Región Metropolitana de Santiago' }];
 
 export const comunas = [
-  { id: 1, nombre: 'Iquique', codigo: '03' },
-  { id: 2, nombre: 'Pica', codigo: '04' },
-  { id: 3, nombre: 'Antofagasta', codigo: '05' },
-  { id: 4, nombre: 'Mejillones', codigo: '06' },
-  { id: 5, nombre: 'Sierra Gorda', codigo: '07' },
-  { id: 6, nombre: 'Santiago', codigo: '08' }
+  { id: 1, nombre: 'Iquique' },
+  { id: 2, nombre: 'Pica' },
+  { id: 3, nombre: 'Antofagasta' },
+  { id: 4, nombre: 'Mejillones' },
+  { id: 5, nombre: 'Sierra Gorda' },
+  { id: 6, nombre: 'Santiago' }
 ];
 
 export const tipoMascota = [
   { id: 1, nombre: 'Perro' },
-  { id: 2, nombre: 'Gato' },
+  { id: 2, nombre: 'Gato' }
 ];
 
 export const razaGato = [

@@ -1,5 +1,6 @@
 // Libraries
 import Head from 'next/head';
+import { SnackbarProvider } from 'notistack';
 
 // MUI
 import { CacheProvider } from '@emotion/react';
@@ -23,7 +24,13 @@ function MyApp(props) {
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={voltaPetsTheme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <SnackbarProvider
+            maxSnack={3}
+            autoHideDuration={4000}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </ThemeProvider>
       </CacheProvider>
     </>

@@ -148,7 +148,7 @@ const Header = () => {
             >
               <HeaderLink href="/paseador/info">Quiero ser un paseador</HeaderLink>
               <Button
-                onClick={() => push('usuarios/login')}
+                onClick={() => push('/usuarios/login')}
                 color="secondary"
                 variant="contained"
                 sx={{ textTransform: 'inherit', fontWeight: 'bold' }}

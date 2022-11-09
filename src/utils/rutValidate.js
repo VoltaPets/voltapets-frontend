@@ -4,7 +4,7 @@
  * @returns Validación de rut
  */
 export const rutValidate = (rut) => {
-  if (!/^[0-9]+-[0-9kK]{1}/.test(rut)) {
+  if (!/^[0-9]{7,8}-[0-9kK]{1}/.test(rut)) {
     return false;
   }
 
