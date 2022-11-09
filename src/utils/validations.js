@@ -86,7 +86,6 @@ export const schemaRegistroPaseador = yup.object().shape({
   imagen: yup.mixed().required('Debes ingresar una imagen'),
   rutDv: yup
     .string()
-    .trim()
     .min(10, 'Debes ingresar un rut válido')
     .required('Ingresa tu rut')
     .test(
