@@ -7,7 +7,7 @@ export default function Link({ href = '', children, ...props }) {
       <MUILink
         {...props}
         underline="none"
-        sx={{ display: 'flex', alignItems: 'center', color: '#fff' }}
+        sx={{ display: 'flex', alignItems: 'center', color: 'secondary.main' }}
       >
         {children}
       </MUILink>
