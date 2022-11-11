@@ -80,8 +80,6 @@ const Header = ({ user }) => {
     setAnchorElNav(null);
   };
 
-  console.log('USER', user);
-
   return (
     <>
       <AppBar

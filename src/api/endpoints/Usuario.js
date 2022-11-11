@@ -7,3 +7,6 @@ export const CREATE_PASEADOR = `${API_BASE_URL}/paseador/registrar`;
 
 // Obtención de usuario de un token
 export const USER_TOKEN = `${API_BASE_URL}/usuario/getUsuarioToken`;
+
+// Perfil de usuario
+export const PASEADOR_PROFILE = `${API_BASE_URL}/paseador/perfil`;

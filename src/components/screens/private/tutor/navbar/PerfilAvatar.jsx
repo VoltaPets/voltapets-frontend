@@ -16,7 +16,7 @@ const PerfilAvatar = ({ nombre, apellido, imagen, rol }) => {
   const { push } = useRouter();
 
   const open = Boolean(anchorEl);
-
+  const imagenPerfil = imagen ? imagen?.url + imagen?.path : '/logo.jpg';
   // Funciones
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -68,7 +68,7 @@ const PerfilAvatar = ({ nombre, apellido, imagen, rol }) => {
         <IconButton onClick={handleClick}>
           <Avatar
             alt="Foto perfil"
-            src={imagen?.url + imagen?.path}
+            src={imagenPerfil}
             onError={(e) => {
               e.currentTarget.src = '/logo.jpg';
               e.currentTarget.onerror = null;

@@ -64,8 +64,6 @@ function LoginPage() {
         data: form
       });
 
-      console.log('data', data);
-
       const siguientePagina = query?.next || '/';
       if (data && isLoginResponse(data)) {
         localStorage.setItem('token', data.token);
