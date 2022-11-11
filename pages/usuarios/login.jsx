@@ -14,12 +14,14 @@ import { Avatar, Box, Button, Card, CardMedia, Grid, Typography } from '@mui/mat
 import Link from '../../src/components/commons/Link';
 import TextInput from '../../src/components/commons/FormInput';
 import { loginSchema } from '../../src/utils/validations';
+import { request } from '../../src/api';
+import { LOGIN, isLoginResponse } from '../../src/api/endpoints/Login';
 
 
 const formSettings = {
   resolver: yupResolver(loginSchema),
   defaultValues: {
-    username: '',
+    email: '',
     password: ''
   }
 };
@@ -27,8 +29,10 @@ const formSettings = {
 function LoginPage() {
   // Estados
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Hooks
+  const { enqueueSnackbar } = useSnackbar();
   const {
     control,
     handleSubmit,
@@ -38,6 +42,35 @@ function LoginPage() {
   // Function
   const handleShowPassword = () => setShowPassword(!showPassword);
 
+  const onSubmit = async (form) => {
+    setLoading(true);
+    try {
+      const { data } = await request({
+        url: LOGIN,
+        method: 'POST',
+        data: form
+      });
+
+      if (data && isLoginResponse(data)) {
+        localStorage.setItem('token', data.token);
+        
+      }
+
+      enqueueSnackbar('Has iniciado sesión correctamente', { variant: 'info' });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error.isAxiosError) {
+        if (error.response) {
+          const { data } = error.response;
+          enqueueSnackbar(data.mensaje, { variant: 'error' });
+        } else {
+          enqueueSnackbar('Error en la conexión', { variant: 'error' });
+        }
+      }
+      console.error(error);
+    }
+  };
   return (
     <>
       <Head>
@@ -105,7 +138,7 @@ function LoginPage() {
             <Grid
               container
               component="form"
-              onSubmit={handleSubmit((data) => console.log(data))}
+              onSubmit={handleSubmit(onSubmit)}
               noValidate
               sx={{ mt: 2 }}
             >
@@ -113,10 +146,10 @@ function LoginPage() {
               <Grid item xs={12} height={85}>
                 <TextInput
                   control={control}
-                  name="username"
+                  name="email"
                   labelText="Nombre de usuario"
-                  errorName={errors.username}
-                  errorText={errors.username?.message}
+                  errorName={errors.email}
+                  errorText={errors.email?.message}
                   type="text"
                   placeholderText="ejemplo@mail.cl"
                 />
