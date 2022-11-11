@@ -1,6 +1,6 @@
 // Librerías
 import { useState } from 'react';
-import { useRouter } from 'next';
+import { useRouter } from 'next/router';
 
 // MUI
 import { Box, IconButton, Avatar, Typography, Menu, MenuItem } from '@mui/material';
@@ -12,6 +12,9 @@ const PerfilAvatar = ({ nombre, apellido, imagen, rol }) => {
   // Estados
   const [anchorEl, setAnchorEl] = useState(null);
 
+  // Hooks
+  const { push } = useRouter();
+
   const open = Boolean(anchorEl);
 
   // Funciones
@@ -19,14 +22,18 @@ const PerfilAvatar = ({ nombre, apellido, imagen, rol }) => {
     setAnchorEl(e.currentTarget);
   };
 
+  const handleHome = () => {
+    rol === 'Tutor' ? push('/tutor/home') : push('/paseador/home');
+  };
+
   const handleProfile = () => {
-    push("/tutor/profile")
+    rol === 'Tutor' ? push('/tutor/profile') : push('/paseador/profile');
   };
 
   const handleLogout = () => {
-    localStorage.clear()
+    localStorage.clear();
     window.location.href = '/';
-  }
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -62,6 +69,10 @@ const PerfilAvatar = ({ nombre, apellido, imagen, rol }) => {
           <Avatar
             alt="Foto perfil"
             src={imagen?.url + imagen?.path}
+            onError={(e) => {
+              e.currentTarget.src = '/logo.jpg';
+              e.currentTarget.onerror = null;
+            }}
             sx={{ height: 50, width: 50 }}
           />
         </IconButton>
@@ -80,7 +91,8 @@ const PerfilAvatar = ({ nombre, apellido, imagen, rol }) => {
             horizontal: 'right'
           }}
         >
-          <MenuItem onClick={handleClose}>Mi Perfil</MenuItem>
+          <MenuItem onClick={handleHome}>Mi espacio</MenuItem>
+          <MenuItem onClick={handleProfile}>Mi Perfil</MenuItem>
           <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
         </Menu>
       </Box>

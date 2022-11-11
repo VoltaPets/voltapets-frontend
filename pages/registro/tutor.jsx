@@ -71,6 +71,7 @@ const TutorRegisterPage = () => {
       });
       setUserId(data.codigoTutor);
     } catch (error) {
+      setLoading(false);
       console.log(error);
       enqueueSnackbar('Error al crear el usuario', { variant: 'error' });
     }
@@ -98,6 +99,7 @@ const TutorRegisterPage = () => {
       setOpen(true);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
       enqueueSnackbar('Error al agregar imagen', { variant: 'error' });
     }
@@ -107,6 +109,9 @@ const TutorRegisterPage = () => {
     if (userId) {
       updateUserImage();
     }
+    return () => {
+      setUserId(null);
+    };
   }, [userId]);
 
   return (
@@ -117,12 +122,7 @@ const TutorRegisterPage = () => {
         elevation={4}
         sx={{ width: '100%', maxWidth: 520, px: 4, py: 2, bgcolor: 'rgba(255,255,255, 0.96)' }}
       >
-        <Box
-          component="form"
-          sx={{ width: '100%' }} 
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-        >
+        <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Información personal */}
           <Grid component="section" container spacing={2} mb={4}>
             <Grid

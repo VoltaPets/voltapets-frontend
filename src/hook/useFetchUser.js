@@ -37,7 +37,7 @@ export async function fetchUser() {
   }
 }
 
-export function useFetchUser({ required } = {}) {
+export function useFetchUser({ required, nextPage } = {}) {
   const [loading, setLoading] = useState(() => !(typeof window !== 'undefined' && window.__user));
 
   const { replace } = useRouter();

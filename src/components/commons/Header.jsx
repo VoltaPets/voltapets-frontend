@@ -31,6 +31,19 @@ const linksArray = [
   { name: 'Mascotas perdidas', href: '/mascotas-perdidas' }
 ];
 
+const linksArrayTutor = [
+  { name: 'Mis Mascotas', href: '/tutor/mis-mascotas' },
+  { name: 'Paseos agendados', href: '/tutor/paseos-agendados' },
+  { name: 'Gestion Anuncio', href: '' },
+  { name: 'Calificar Paseos', href: '/tutor/calificar-paseos' }
+];
+
+const linksArrayPaseador = [
+  { name: 'Agenda de Paseos', href: '/paseador/agenda-paseos' },
+  { name: 'Historial de Paseos', href: '/paseador/historial-paseos' },
+  { name: 'Cancelar Paseos', href: '/paseador/cancelar-paseo' }
+];
+
 const linksArrayMobile = [
   { name: 'Nuestros servicios', href: '/nuestros-servicios' },
   { name: 'Adopción', href: '/adopcion' },
@@ -51,7 +64,7 @@ const HeaderLink = styled(Link)(({ theme }) => ({
   }
 }));
 
-const Header = ({user}) => {
+const Header = ({ user }) => {
   // Estados
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -67,11 +80,7 @@ const Header = ({user}) => {
     setAnchorElNav(null);
   };
 
-  // Handle scroll position to change header color and shadow effect on scroll down and up respectively
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
-  };
+  console.log('USER', user);
 
   return (
     <>
@@ -100,6 +109,8 @@ const Header = ({user}) => {
               />
             </Box>
           </Link>
+
+          {/* Web Mobile */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'end' }}>
             <IconButton size="large" onClick={handleOpenNavMenu} color="secondary" sx={{ mr: 4 }}>
               <MenuIcon />
@@ -116,33 +127,61 @@ const Header = ({user}) => {
                 display: { xs: 'block', md: 'none' }
               }}
             >
-              {linksArrayMobile.map((link, index) => (
-                <MenuItem key={index} onClick={() => push(`/${link.href}`)}>
-                  <Typography variant="body1" sx={{ color: 'secondary.main' }}>
-                    {link.name}
-                  </Typography>
-                </MenuItem>
-              ))}
+              {user && user.rol === 'Tutor'
+                ? linksArrayTutor.map((link, index) => (
+                    <MenuItem key={index} onClick={() => push(`/${link.href}`)}>
+                      <Typography variant="body1" sx={{ color: 'secondary.main' }}>
+                        {link.name}
+                      </Typography>
+                    </MenuItem>
+                  ))
+                : user && user.rol === 'Paseador'
+                ? linksArrayPaseador.map((link, index) => (
+                    <HeaderLink key={index} href={link.href}>
+                      {link.name}
+                    </HeaderLink>
+                  ))
+                : linksArrayMobile.map((link, index) => (
+                    <MenuItem key={index} onClick={() => push(`/${link.href}`)}>
+                      <Typography variant="body1" sx={{ color: 'secondary.main' }}>
+                        {link.name}
+                      </Typography>
+                    </MenuItem>
+                  ))}
             </Menu>
-            <PerfilAvatar {...user} /> 
+            <PerfilAvatar {...user} />
           </Box>
 
+          {/* Web Desktop */}
           <Grid container sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Grid
               item
               xs
-              sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem' }}
+              sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: '0.8rem', px: 4 }}
             >
-              {linksArray.map((link, index) => (
-                <HeaderLink key={index} href={link.href}>
-                  {link.name}
-                </HeaderLink>
-              ))}
+              {user && user.rol === 'Tutor'
+                ? linksArrayTutor.map((link, index) => (
+                    <HeaderLink key={index} href={link.href}>
+                      {link.name}
+                    </HeaderLink>
+                  ))
+                : user && user.rol === 'Paseador'
+                ? linksArrayPaseador.map((link, index) => (
+                    <HeaderLink key={index} href={link.href}>
+                      {link.name}
+                    </HeaderLink>
+                  ))
+                : linksArray.map((link, index) => (
+                    <HeaderLink key={index} href={link.href}>
+                      {link.name}
+                    </HeaderLink>
+                  ))}
             </Grid>
+
             {user ? (
               <Grid
                 item
-                xs={6}
+                xs={5}
                 sx={{ display: 'flex', justifyContent: 'end', textAlign: 'center', px: 2 }}
               >
                 <PerfilAvatar {...user} />
@@ -157,7 +196,8 @@ const Header = ({user}) => {
                   alignItems: 'center',
                   gap: 2,
                   textAlign: 'center',
-                  fontSize: '0.8rem'
+                  fontSize: '0.8rem',
+                  px: 2
                 }}
               >
                 <HeaderLink href="/paseador/info">Quiero ser un paseador</HeaderLink>

@@ -36,9 +36,11 @@ const mascotasTutor = [
 
 function tutorHome() {
   return (
-    <Layout description="Página principal del tutor"
+    <Layout
+      description="Página principal del tutor"
       title="Tutor - Home"
       authRequired={true}
+      nextPage="/tutor/home"
     >
       <Grid container>
         <Grid item xs={12}>
