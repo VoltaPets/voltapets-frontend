@@ -1,4 +1,4 @@
-    // Libraries
+// Libraries
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
@@ -8,7 +8,16 @@ import Head from 'next/head';
 
 //MUI
 import PetsIcon from '@mui/icons-material/Pets';
-import { Avatar, Box, Button, Card, CardMedia, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  Grid,
+  Typography,
+  CircularProgress
+} from '@mui/material';
 
 // Related Imports
 import Link from '../../src/components/commons/Link';
@@ -16,7 +25,6 @@ import TextInput from '../../src/components/commons/FormInput';
 import { loginSchema } from '../../src/utils/validations';
 import { request } from '../../src/api';
 import { LOGIN, isLoginResponse } from '../../src/api/endpoints/Login';
-
 
 const formSettings = {
   resolver: yupResolver(loginSchema),
@@ -32,6 +40,7 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   // Hooks
+  const { query } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const {
     control,
@@ -45,15 +54,39 @@ function LoginPage() {
   const onSubmit = async (form) => {
     setLoading(true);
     try {
+      if (localStorage.getItem('token')) {
+        localStorage.removeItem('token');
+      }
+
       const { data } = await request({
         url: LOGIN,
         method: 'POST',
         data: form
       });
 
+      console.log('data', data);
+
+      const siguientePagina = query?.next || '/';
       if (data && isLoginResponse(data)) {
         localStorage.setItem('token', data.token);
-        
+
+        if (typeof siguientePagina === 'string') {
+          window.location.href = siguientePagina;
+        }
+
+        switch (data.codigoRol) {
+          case 1:
+            window.location.href = '/admin';
+            break;
+          case 2:
+            window.location.href = '/paseador/home';
+            break;
+          case 3:
+            window.location.href = '/tutor/home';
+            break;
+          default:
+            window.location.href = '/';
+        }
       }
 
       enqueueSnackbar('Has iniciado sesión correctamente', { variant: 'info' });
@@ -133,6 +166,11 @@ function LoginPage() {
             <Typography variant="h5" component="h1">
               Inicio de sesión
             </Typography>
+            {query.next && (
+              <Typography variant="body2" mt={2} color="info.main">
+                Debes iniciar sesión para acceder a esta página
+              </Typography>
+            )}
 
             {/* Formulario */}
             <Grid
@@ -145,6 +183,7 @@ function LoginPage() {
               {/* Nombre de usuario */}
               <Grid item xs={12} height={85}>
                 <TextInput
+                  disabled={loading}
                   control={control}
                   name="email"
                   labelText="Nombre de usuario"
@@ -158,6 +197,7 @@ function LoginPage() {
               {/* Contraseña */}
               <Grid item xs={12} mt={1} height={85}>
                 <TextInput
+                  disabled={loading}
                   control={control}
                   name="password"
                   labelText="Contraseña"
@@ -171,13 +211,14 @@ function LoginPage() {
               {/* Acción */}
               <Grid item xs={12} mt={2}>
                 <Button
+                  disabled={loading}
                   fullWidth
                   type="submit"
                   variant="contained"
                   color="secondary"
                   sx={{ color: '#fff', fontWeight: 'bold' }}
                 >
-                  Iniciar sesión
+                  {loading ? <CircularProgress /> : 'Iniciar sesión'}
                 </Button>
               </Grid>
             </Grid>

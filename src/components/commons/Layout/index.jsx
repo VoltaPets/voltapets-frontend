@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 // Relative Imports
 import Header from '../Header';
 import Footer from '../Footer';
+import { useFetchUser } from '../../../hook/useFetchUser';
 
 const Layout = ({
   authRequired = false,
@@ -16,6 +17,8 @@ const Layout = ({
   title = 'Volta Pets',
   nextPage
 }) => {
+  const { user } = useFetchUser({ required: authRequired, nextPage });
+
   return (
     <Box sx={{ maxwidth: '100vw' }}>
       <Head>
@@ -32,7 +35,7 @@ const Layout = ({
           height: '100vh'
         }}
       >
-        <Header />
+        <Header user={user} />
         <Box sx={{ flex: 1, width: '100%' }}>{children}</Box>
 
         {/* <Footer /> */}

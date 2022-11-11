@@ -23,8 +23,6 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 const Agenda = () => {
   const [date, setDate] = useState(new Date());
 
-  console.log('date', date);
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StaticDatePicker

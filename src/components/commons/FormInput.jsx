@@ -15,6 +15,7 @@ export default function FormInput({
   errorText = null,
   maxLength,
   handleShowPassword,
+  disabled = false,
   width = 12
 }) {
   return (
@@ -29,6 +30,7 @@ export default function FormInput({
             color="secondary"
             fullWidth
             required
+            disabled={disabled}
             id={name}
             name={name}
             label={labelText}
