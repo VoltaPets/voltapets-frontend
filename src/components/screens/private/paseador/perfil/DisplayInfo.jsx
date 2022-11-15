@@ -1,16 +1,20 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Skeleton } from '@mui/material';
 
-const DisplayInfo = ({ titulo, contenido }) => {
+const DisplayInfo = ({ titulo, contenido, loading }) => {
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Typography variant="body2" sx={{ textAlign: 'justify', fontWeight: 'bold', flex: 0.2 }}>
+    <Box sx={{ display: 'flex', flex: 1 }}>
+      <Typography variant="body2" sx={{ textAlign: 'justify', fontWeight: 'bold', flex: 0.3 }}>
         {titulo}:
       </Typography>
-      <Typography variant="body2" sx={{ textAlign: 'justify', flex: 1 }}>
-        {contenido}
-      </Typography>
+      {loading ? (
+        <Skeleton sx={{ width: '30%', flex: 1 }} />
+      ) : (
+        <Typography variant="body2" sx={{ textAlign: 'justify', flex: 1 }}>
+          {contenido ? contenido : 'No especificado'}
+        </Typography>
+      )}
     </Box>
   );
 };

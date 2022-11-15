@@ -90,10 +90,9 @@ const Header = ({ user }) => {
           transition: '0.4s',
           display: 'flex',
           top: 0,
+          boxShadow: 1,
           borderRadius: { xs: 0, lg: 2 },
           bgcolor: '#fff',
-          borderBottom: { xs: 0, md: 1 },
-          borderColor: { xs: 'transparent', md: 'divider' }
         }}
       >
         <Toolbar sx={{ bgcolor: '#fff', px: '0 !important' }}>

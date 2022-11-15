@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+
+
 /**
  * Intercepta la petición para inyectar configuraciones, como por ejemplo: headers de
  * autorización.
