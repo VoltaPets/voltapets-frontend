@@ -25,12 +25,11 @@ import {
 import { request } from '../../../../../api';
 import { UPDATE_USER_IMG } from '../../../../../api/endpoints/Usuario';
 
-const ModalProfileImg = ({ open, onClose, onChange, img }) => {
+const ModalProfileImg = ({ open, onClose }) => {
   // Estados
   const [imgFile, setImgFile] = useState(null);
   const [public_id, setPublic_id] = useState(null);
   const [signature, setSignature] = useState(null);
-  const [timestamp, setTimestamp] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   // Hooks

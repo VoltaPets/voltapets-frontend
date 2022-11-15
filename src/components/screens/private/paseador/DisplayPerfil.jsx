@@ -7,6 +7,9 @@ import { Card, Skeleton, Button, Box, Typography, Rating, CardMedia } from '@mui
 // Relative Imporst
 import DisplayInfo from './perfil/DisplayInfo';
 import ModalProfileImg from './perfil/ModalProfileImg';
+import ModalEdicion from './perfil/ModalEdicion';
+import { request } from '../../../../api';
+import { GET_COMUNAS } from '../../../../api/endpoints/Ubicacion';
 
 const DisplayPerfil = ({ perfil }) => {
   // Variables
@@ -20,29 +23,48 @@ const DisplayPerfil = ({ perfil }) => {
   const calificacion = perfil?.calificacion ? perfil?.calificacion : 0;
 
   // Estados
-  const [open, setOpen] = useState(false);
-  const [imgPerfil, setImgPerfil] = useState(imagenPerfil.toString());
+  const [openProfileImg, setOpenProfileImg] = useState(false);
+  const [openEdicion, setOpenEdicion] = useState(false);
+  const [comunasArray, setComunasArray] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Handlers
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenProfileImg = () => {
+    setOpenProfileImg(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseProfileImg = () => {
+    setOpenProfileImg(false);
+  };
+
+  const handleOpenEdicion = () => {
+    setOpenEdicion(true);
+  };
+
+  const handleCloseEdicion = () => {
+    setOpenEdicion(false);
+  };
+
+  const getComunas = async (idComuna) => {
+    const { data } = await request({
+      url: GET_COMUNAS(idComuna),
+      method: 'GET'
+    });
+    setComunasArray(data);
   };
 
   // Effect
   useEffect(() => {
     if (perfil) {
       setLoading(false);
+      getComunas(7);
     }
   }, [perfil]);
 
   return (
     <>
-      <ModalProfileImg open={open} onClose={handleClose} img={imgPerfil} onChange={setImgPerfil} />
+      <ModalProfileImg open={openProfileImg} onClose={handleCloseProfileImg} />
+      <ModalEdicion open={openEdicion} onClose={handleCloseEdicion} comunas={comunasArray} />
       <Box
         sx={{
           bgcolor: '#fff',
@@ -107,7 +129,7 @@ const DisplayPerfil = ({ perfil }) => {
                   width: 'fit-content',
                   mx: 'auto'
                 }}
-                onClick={handleOpen}
+                onClick={handleOpenProfileImg}
               >
                 Cambiar imagen
               </Button>
@@ -189,6 +211,7 @@ const DisplayPerfil = ({ perfil }) => {
                   color="info"
                   size="large"
                   variant="contained"
+                  onClick={handleOpenEdicion}
                   sx={{ fontWeight: 'bold', textTransform: 'inherit', color: '#fff', flex: 1 }}
                 >
                   Editar
