@@ -28,6 +28,7 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -196,7 +197,10 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
               variant="contained"
               color="secondary"
               sx={{ mt: 2, width: '100%', textTransform: 'inherit', fontWeight: 'bold' }}
-              onClick={onClose}
+              onClick={() => {
+                reset();
+                onClose();
+              }}
             >
               Cancelar
             </Button>

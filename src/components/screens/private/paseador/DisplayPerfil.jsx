@@ -157,7 +157,7 @@ const DisplayPerfil = ({ perfil }) => {
                   </>
                 ) : (
                   <Typography variant="caption" sx={{ textAlign: 'justify' }}>
-                    {descripcionPerfil}
+                    {descripcionPerfil ? descripcionPerfil : 'Editar perfil para agregar descripción'}
                   </Typography>
                 )}
               </Card>
