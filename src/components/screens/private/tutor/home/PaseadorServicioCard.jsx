@@ -1,7 +1,7 @@
+// MUI
 import { Card, Chip, CardMedia, Rating, Divider, Grid, Box, Typography } from '@mui/material';
 
 const TutorServicioCard = ({ paseador }) => {
-  console.log('paseador', paseador);
   return (
     <Grid item xs={12} sm={6}>
       <Card

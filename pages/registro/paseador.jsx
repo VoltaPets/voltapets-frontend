@@ -14,10 +14,10 @@ import { Box, Card, CircularProgress, Grid, Typography, Button } from '@mui/mate
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
-import { comunas, regiones } from '../../src/mock/dataArray';
 import { schemaRegistroPaseador } from '../../src/utils/validations';
 import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
 import { CREATE_PASEADOR, CREATE_USER_IMG } from '../../src/api/endpoints/Usuario';
+import { GET_COMUNAS, GET_REGIONES } from '../../src/api/endpoints/Ubicacion';
 import { CLOUDINARY_URL } from '../../src/constant';
 import { request } from '../../src/api';
 
@@ -33,7 +33,7 @@ const formSettings = {
     imagen: null,
     password: '',
     confirmPassword: '',
-    region: 1,
+    region: 7,
     codigoComuna: ''
   },
   resolver: yupResolver(schemaRegistroPaseador)
@@ -48,6 +48,8 @@ function PaseadorRegisterPage() {
   const [imgPath, setImgPath] = useState(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [comunas, setComunas] = useState([]);
+  const [regiones, setRegiones] = useState([]);
 
   // Hooks
   const { push } = useRouter();
@@ -152,7 +154,35 @@ function PaseadorRegisterPage() {
     }
   };
 
+  const obtenerComunas = async () => {
+    try {
+      const { data } = await request({
+        url: GET_COMUNAS(7),
+        method: 'GET'
+      });
+      setComunas(data);
+    } catch (error) {
+      console.log('Error al obtener comunas: ', error);
+    }
+  };
+
+  const obtenerRegiones = async () => {
+    try {
+      const { data } = await request({
+        url: GET_REGIONES,
+        method: 'GET'
+      });
+      setRegiones(data);
+    } catch (error) {
+      console.log('Error al obtener regiones: ', error);
+    }
+  };
+
   // Efectos
+  useEffect(() => {
+    obtenerRegiones();
+    obtenerComunas();
+  }, []);
 
   useEffect(() => {
     if (userId) {
@@ -324,6 +354,7 @@ function PaseadorRegisterPage() {
             </Grid>
 
             <FormSelect
+              region
               disabled
               width={6}
               control={control}
@@ -335,6 +366,7 @@ function PaseadorRegisterPage() {
             />
 
             <FormSelect
+              comuna
               width={6}
               control={control}
               name="codigoComuna"

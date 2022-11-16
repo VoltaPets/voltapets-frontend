@@ -28,8 +28,6 @@ const MascotasModal = ({ open, setOpen, mascota, isAdopcion = false }) => {
     setOpen(false);
   };
 
-  console.log(mascota)
-
   return (
     <Dialog
       open={open}

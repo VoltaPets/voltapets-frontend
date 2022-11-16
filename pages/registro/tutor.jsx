@@ -15,11 +15,11 @@ import { Box, Button, Card, CircularProgress, Grid, Typography } from '@mui/mate
 import FormInput from '../../src/components/commons/FormInput';
 import FormSelect from '../../src/components/commons/FormSelect';
 import { schemaRegistroTutor } from '../../src/utils/validations';
-import { regiones, comunas } from '../../src/mock/dataArray';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
 import { CREATE_TUTOR, CREATE_USER_IMG } from '../../src/api/endpoints/Usuario';
 import { CLOUDINARY_DEFAULT_IMAGE } from '../../src/constant/';
+import { GET_COMUNAS, GET_REGIONES } from '../../src/api/endpoints/Ubicacion';
 import { request } from '../../src/api';
 
 const formSettings = {
@@ -32,7 +32,7 @@ const formSettings = {
     departamento: 0,
     password: '',
     confirmPassword: '',
-    region: 1,
+    region: 7,
     codigoComuna: ''
   },
   resolver: yupResolver(schemaRegistroTutor)
@@ -44,7 +44,8 @@ const TutorRegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [file, setFile] = useState(null);
+  const [regiones, setRegiones] = useState([]);
+  const [comunas, setComunas] = useState([]);
 
   // Hooks
   const { push } = useRouter();
@@ -71,6 +72,7 @@ const TutorRegisterPage = () => {
       });
       setUserId(data.codigoTutor);
     } catch (error) {
+      setLoading(false);
       console.log(error);
       enqueueSnackbar('Error al crear el usuario', { variant: 'error' });
     }
@@ -98,16 +100,50 @@ const TutorRegisterPage = () => {
       setOpen(true);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
       enqueueSnackbar('Error al agregar imagen', { variant: 'error' });
     }
   };
 
+  const obtenerRegiones = async () => {
+    try {
+      const { data } = await request({
+        url: GET_REGIONES,
+        method: 'GET'
+      });
+      setRegiones(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const obtenerComunas = async () => {
+    try {
+      const { data } = await request({
+        url: GET_COMUNAS(7),
+        method: 'GET'
+      });
+      setComunas(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Effects
   useEffect(() => {
     if (userId) {
       updateUserImage();
     }
+    return () => {
+      setUserId(null);
+    };
   }, [userId]);
+
+  useEffect(() => {
+    obtenerRegiones();
+    obtenerComunas();
+  }, []);
 
   return (
     <LayoutRegistro titulo="Registro de tutor">
@@ -117,12 +153,7 @@ const TutorRegisterPage = () => {
         elevation={4}
         sx={{ width: '100%', maxWidth: 520, px: 4, py: 2, bgcolor: 'rgba(255,255,255, 0.96)' }}
       >
-        <Box
-          component="form"
-          sx={{ width: '100%' }} 
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-        >
+        <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Información personal */}
           <Grid component="section" container spacing={2} mb={4}>
             <Grid
@@ -211,6 +242,7 @@ const TutorRegisterPage = () => {
 
             {/* Región */}
             <FormSelect
+              region
               disabled
               width={6}
               control={control}
@@ -223,6 +255,7 @@ const TutorRegisterPage = () => {
 
             {/* Comuna */}
             <FormSelect
+              comuna
               width={6}
               control={control}
               name="codigoComuna"
