@@ -94,7 +94,7 @@ function LoginPage() {
       if (error.isAxiosError) {
         if (error.response) {
           const { data } = error.response;
-          enqueueSnackbar(data.mensaje, { variant: 'error' });
+          data.mensaje && enqueueSnackbar(data.mensaje, { variant: 'error' });
         } else {
           enqueueSnackbar('Error en la conexión', { variant: 'error' });
         }
