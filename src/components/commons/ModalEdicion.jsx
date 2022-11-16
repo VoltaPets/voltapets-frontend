@@ -45,8 +45,6 @@ const ModalEdicion = ({ open, onClose, comunas, tutor = false, Profile }) => {
     resolver: yupResolver(schemaEdicionPerfil)
   });
 
-  console.log(Profile.codigoComuna);
-
   // Funciones
   const onSubmit = async (editData) => {
     setLoading(true);
