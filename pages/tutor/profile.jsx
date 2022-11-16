@@ -7,6 +7,7 @@ import { Grid } from '@mui/material';
 // Relative imports
 import Layout from '../../src/components/commons/Layout';
 import DisplayPerfilTutor from '../../src/components/screens/private/tutor/perfil/DisplayPerfilTutor';
+import DisplayDashboard from "../../src/components/screens/private/tutor/perfil/DisplayDashboard"
 import { TUTOR_PROFILE } from '../../src/api/endpoints/Usuario';
 import { request } from '../../src/api';
 
@@ -62,6 +63,18 @@ function tutorProfile() {
           }}
         >
           <DisplayPerfilTutor perfil={perfil} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <DisplayDashboard />
         </Grid>
       </Grid>
     </Layout>
