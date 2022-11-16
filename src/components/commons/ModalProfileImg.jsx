@@ -16,14 +16,9 @@ import {
 } from '@mui/material';
 
 // Relative imports
-import {
-  CLOUDINARY_URL,
-  CLOUDINARY_DESTROY_URL,
-  CLOUDINARY_API_KEY,
-  API_BASE_URL
-} from '../../../../../constant';
-import { request } from '../../../../../api';
-import { UPDATE_USER_IMG } from '../../../../../api/endpoints/Usuario';
+import { CLOUDINARY_URL } from '../../constant';
+import { request } from '../../../src/api';
+import { UPDATE_USER_IMG } from '../../../src/api/endpoints/Usuario';
 
 const ModalProfileImg = ({ open, onClose }) => {
   // Estados

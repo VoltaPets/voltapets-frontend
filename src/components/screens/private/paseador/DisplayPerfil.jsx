@@ -7,7 +7,7 @@ import { Card, Skeleton, Button, Box, Typography, Rating, CardMedia } from '@mui
 // Relative Imporst
 import DisplayInfo from './perfil/DisplayInfo';
 import ModalProfileImg from './perfil/ModalProfileImg';
-import ModalEdicion from './perfil/ModalEdicion';
+import ModalEdicion from '../../../commons/ModalEdicion';
 import { request } from '../../../../api';
 import { GET_COMUNAS } from '../../../../api/endpoints/Ubicacion';
 

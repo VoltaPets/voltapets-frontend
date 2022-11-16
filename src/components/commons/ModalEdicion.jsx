@@ -9,11 +9,11 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { Dialog, Box, Grid, Button, Typography, Switch, Divider } from '@mui/material';
 
 // Relative imports
-import FormSelect from '../../../../commons/FormSelect';
-import FormInput from '../../../../commons/FormInput';
-import { request } from '../../../../../api';
-import { schemaEdicionPerfil } from './editSchema';
-import { UPDATE_PROFILE } from '../../../../../api/endpoints/Usuario';
+import FormSelect from './FormSelect';
+import FormInput from './FormInput';
+import { request } from '../../api';
+import { schemaEdicionPerfil } from '../screens/private/paseador/perfil/editSchema';
+import { UPDATE_PASEADOR_PROFILE } from '../../api/endpoints/Usuario';
 
 const ModalEdicion = ({ open, onClose, comunas }) => {
   // Estados
@@ -51,7 +51,7 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
     try {
       await request({
         method: 'PUT',
-        url: UPDATE_PROFILE,
+        url: UPDATE_PASEADOR_PROFILE,
         data: editData
       });
 

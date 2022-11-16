@@ -35,8 +35,6 @@ function tutorProfile() {
     }
   };
 
-  console.log(perfil);
-
   // Efectos
   useEffect(() => {
     getPerfil();
