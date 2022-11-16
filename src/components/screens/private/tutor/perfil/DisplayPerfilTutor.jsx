@@ -2,11 +2,19 @@
 import { useRouter } from 'next/router';
 
 // MUI
-import { Box, Card, Button, CardMedia, Typography, Divider } from '@mui/material';
+import { Box, Card, Button, CardMedia, Typography } from '@mui/material';
 
-const DisplayPerfilTutor = () => {
+// Relative imports
+import DisplayInfo from '../../../../commons/DisplayInfo';
+
+const DisplayPerfilTutor = ({ perfil }) => {
   // Hooks
   const { push } = useRouter();
+
+  // Variables
+  const fullName = `${perfil.nombre} ${perfil.apellido}`;
+  const imgPerfil = perfil?.imagen.url + perfil?.imagen.path;
+  const telefonoPerfil = perfil?.telefono.match(/.{1,4}/g).join(' ');
 
   return (
     <Card variant="outlined" sx={{ borderRadius: 4, p: 2, width: '90%', display: 'flex' }}>
@@ -43,8 +51,7 @@ const DisplayPerfilTutor = () => {
             <CardMedia
               component="img"
               sx={{ width: 250, height: 250, borderRadius: '50%' }}
-              image="/logo.jpg"
-              alt="Logo"
+              image={imgPerfil}
             />
             <Button
               variant="contained"
@@ -62,25 +69,85 @@ const DisplayPerfilTutor = () => {
 
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-              Nombre Tutor
+              {fullName}
             </Typography>
           </Box>
         </Box>
       </Box>
+
       {/* Datos */}
-      <Box sx={{ flex: 1, border: 1 }}>
-        <Card variant="outlined">
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-              Información personal
-            </Typography>
-            <Button
-              variant="contained"
-              color="info"
-              sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
+      <Box sx={{ flex: 1 }}>
+        <Card
+          variant="outlined"
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            justifyContent: 'space-between'
+          }}
+        >
+          {/* Información personal */}
+          <Box mb={4}>
+            <Box
+              sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}
             >
-              Editar Perfil
-            </Button>
+              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                Información personal
+              </Typography>
+              <Button
+                variant="contained"
+                color="info"
+                sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
+              >
+                Editar Perfil
+              </Button>
+            </Box>
+            <Box sx={{ display: 'flex', mt: 2 }}>
+              <DisplayInfo titulo="Nombre" contenido={perfil?.nombre} />
+              <DisplayInfo titulo="Apellido" contenido={perfil?.apellido} />
+            </Box>
+            <Box sx={{ display: 'flex', mt: 2 }}>
+              <DisplayInfo titulo="Correo" contenido={perfil?.email} />
+              <DisplayInfo titulo="Telefono" contenido={telefonoPerfil} />
+            </Box>
+          </Box>
+
+          {/* Domicilio */}
+          <Box mb={4}>
+            <Box
+              sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Domicilio
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', mt: 2 }}>
+              <DisplayInfo titulo="Región" contenido={perfil?.region} />
+              <DisplayInfo titulo="Comuna" contenido={perfil?.comuna} />
+            </Box>
+            <Box sx={{ display: 'flex', mt: 2 }}>
+              <DisplayInfo titulo="Dirección" contenido={perfil?.direccion} />
+              <DisplayInfo titulo="Departamento" contenido={perfil?.departamento} />
+            </Box>
+          </Box>
+
+          {/* Descripción */}
+          <Box>
+            <Box
+              sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Descripción
+              </Typography>
+            </Box>
+            <Card variant="outlined" sx={{ p: 1, bgcolor: 'rgba(0,0,0,0.1)', minHeight: 80 }}>
+              <Typography variant="body2" sx={{ textAlign: 'justify' }}>
+                {perfil?.descripcion
+                  ? perfil?.descripcion
+                  : 'Editar perfil para agregar una descripción'}
+              </Typography>
+            </Card>
           </Box>
         </Card>
       </Box>

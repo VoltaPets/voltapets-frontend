@@ -7,6 +7,7 @@ export const UPDATE_USER_IMG = `${API_BASE_URL}/usuario/cambiarImagen`;
 
 // Tutor
 export const CREATE_TUTOR = `${API_BASE_URL}/tutor/registrar`;
+export const TUTOR_PROFILE = `${API_BASE_URL}/tutor/perfil`;
 
 // Paseador
 export const CREATE_PASEADOR = `${API_BASE_URL}/paseador/registrar`; // POST

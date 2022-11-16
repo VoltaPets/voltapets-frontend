@@ -1,6 +1,9 @@
+// Librerías
 import React from 'react';
 
+// MUI
 import { Box, Typography, Skeleton } from '@mui/material';
+
 
 const DisplayInfo = ({ titulo, contenido, loading }) => {
   return (
