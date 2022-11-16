@@ -1,6 +1,7 @@
 // Librerías
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { useSnackbar } from 'notistack';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
@@ -10,15 +11,19 @@ import { Box, Card, Button, CardMedia, Typography, Skeleton } from '@mui/materia
 import DisplayInfo from '../../../../commons/DisplayInfo';
 import ModalProfileImg from '../../../../commons/ModalProfileImg';
 import ModalEdicion from '../../../../commons/ModalEdicion';
+import { GET_COMUNAS } from '../../../../../api/endpoints/Ubicacion';
+import { request } from '../../../../../api';
 
 const DisplayPerfilTutor = ({ perfil }) => {
   // Hooks
   const { push } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   // Estados
   const [loading, setLoading] = useState(true);
   const [openProfileImg, setOpenProfileImg] = useState(false);
   const [openEdicion, setOpenEdicion] = useState(false);
+  const [comunasArray, setComunasArray] = useState([]);
 
   // Handlers
   const handleOpenProfileImg = () => {
@@ -37,6 +42,19 @@ const DisplayPerfilTutor = ({ perfil }) => {
     setOpenEdicion(false);
   };
 
+  const getComunas = async (idComuna) => {
+    try {
+      const { data } = await request({
+        url: GET_COMUNAS(idComuna),
+        method: 'GET'
+      });
+      setComunasArray(data);
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar('Error al obtener las comunas', { variant: 'error' });
+    }
+  };
+
   // Variables
   const fullName = `${perfil?.nombre} ${perfil?.apellido}`;
   const imgPerfil = perfil?.imagen.url + perfil?.imagen.path;
@@ -46,13 +64,20 @@ const DisplayPerfilTutor = ({ perfil }) => {
   useEffect(() => {
     if (perfil) {
       setLoading(false);
+      getComunas(7);
     }
   }, [perfil]);
 
   return (
     <>
       <ModalProfileImg open={openProfileImg} onClose={handleCloseProfileImg} />
-      <ModalEdicion open={openEdicion} onClose={handleCloseEdicion} />
+      <ModalEdicion
+        tutor
+        open={openEdicion}
+        onClose={handleCloseEdicion}
+        comunas={comunasArray}
+        Profile={perfil ? perfil : null}
+      />
       <Card
         variant="outlined"
         sx={{ borderRadius: 4, p: 2, width: '90%', display: 'flex', gap: 2 }}

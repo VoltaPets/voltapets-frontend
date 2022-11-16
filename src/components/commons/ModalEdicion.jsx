@@ -13,9 +13,9 @@ import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import { request } from '../../api';
 import { schemaEdicionPerfil } from '../screens/private/paseador/perfil/editSchema';
-import { UPDATE_PASEADOR_PROFILE } from '../../api/endpoints/Usuario';
+import { UPDATE_PASEADOR_PROFILE, UPDATE_TUTOR_PROFILE } from '../../api/endpoints/Usuario';
 
-const ModalEdicion = ({ open, onClose, comunas }) => {
+const ModalEdicion = ({ open, onClose, comunas, tutor = false, Profile }) => {
   // Estados
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +31,7 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
     reset,
     formState: { errors }
   } = useForm({
-    defaultValues: {
+    defaultValues: { //TODO: Agregar valores como valor por defecto si existe
       isChangePassword: false,
       password: '',
       newPassword: '',
@@ -45,13 +45,15 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
     resolver: yupResolver(schemaEdicionPerfil)
   });
 
+  console.log(Profile.codigoComuna);
+
   // Funciones
   const onSubmit = async (editData) => {
     setLoading(true);
     try {
       await request({
         method: 'PUT',
-        url: UPDATE_PASEADOR_PROFILE,
+        url: tutor ? UPDATE_TUTOR_PROFILE : UPDATE_PASEADOR_PROFILE,
         data: editData
       });
 
