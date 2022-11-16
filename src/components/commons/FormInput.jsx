@@ -6,17 +6,21 @@ import { Visibility, VisibilityOff } from '@mui/icons-material/';
 import { Grid, TextField, IconButton, InputAdornment } from '@mui/material';
 
 export default function FormInput({
+  variant = "standard",
   control,
   labelText,
   placeholderText,
   name,
-  type,
+  type = "text",
   errorName,
   errorText = null,
   maxLength,
   handleShowPassword,
   disabled = false,
-  width = 12
+  width = 12,
+  multiline = false,
+  pwd = false,
+  rows
 }) {
   return (
     <Grid item xs={width} sx={{ height: 80, mb: 2 }}>
@@ -26,8 +30,10 @@ export default function FormInput({
         render={({ field }) => (
           <TextField
             {...field}
-            variant="standard"
+            variant={variant}
             color="secondary"
+            multiline={multiline}
+            rows={rows}
             fullWidth
             required
             disabled={disabled}
@@ -40,7 +46,7 @@ export default function FormInput({
             type={type}
             inputProps={{ maxLength: maxLength }}
             InputProps={
-              name === 'password'
+              name === 'password' || pwd
                 ? {
                     endAdornment: (
                       <InputAdornment position="end">
