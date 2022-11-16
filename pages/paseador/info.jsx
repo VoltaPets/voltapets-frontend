@@ -20,7 +20,6 @@ const InfoPaseadorPage = () => {
       description="Página de información para aquellas personas que quiere ser paseador"
       authRequired={false}
       title="Información de Paseador"
-      publicPage
     >
       {
         <Grid container sx={{ maxWidth: { xs: '100%', lg: 1300 }, mx: 'auto' }}>

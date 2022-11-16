@@ -1,6 +1,7 @@
 // Librerías
 import { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 // MUI
 import { Grid } from '@mui/material';
@@ -20,6 +21,7 @@ const paseadorProfile = () => {
 
   // Hooks
   const { enqueueSnackbar } = useSnackbar();
+  const { push } = useRouter();
 
   // Funciones
   const getProfile = async () => {
@@ -35,7 +37,7 @@ const paseadorProfile = () => {
       setLoading(false);
       if (error.isAxiosError) {
         const { data: profileError } = error.response;
-        enqueueSnackbar(profileError.mensaje, { variant: 'error' });
+        profileError && enqueueSnackbar(profileError.message, { variant: 'error' });
       }
     }
   };
@@ -53,7 +55,7 @@ const paseadorProfile = () => {
       setLoading(false);
       if (error.isAxiosError) {
         const { data: profileError } = error.response;
-        enqueueSnackbar(profileError.mensaje, { variant: 'error' });
+        profileError && enqueueSnackbar(profileError.mensaje, { variant: 'error' });
       }
     }
   };
@@ -66,6 +68,7 @@ const paseadorProfile = () => {
 
   return (
     <Layout
+      paseadorRequired
       authRequired={true}
       description="Perfil de paseador de la aplicación Volta Pets"
       title="Perfil Paseador"

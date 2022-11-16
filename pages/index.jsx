@@ -14,7 +14,7 @@ import {
 
 export default function HomePage() {
   return (
-    <Layout authRequired={false} publicPage title="Volta Pets">
+    <Layout authRequired={false} title="Volta Pets">
       <Grid container sx={{ maxWidth: { xs: '100%', lg: 1300 }, mx: 'auto' }}>
         <Grid item xs={12}>
           <HomeHero />

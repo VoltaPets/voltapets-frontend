@@ -37,6 +37,7 @@ const mascotasTutor = [
 function tutorHome() {
   return (
     <Layout
+      tutorRequired
       description="Página principal del tutor"
       title="Tutor - Home"
       authRequired={true}
