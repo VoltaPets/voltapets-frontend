@@ -7,7 +7,7 @@ import { Grid } from '@mui/material';
 // Relative imports
 import Layout from '../../src/components/commons/Layout';
 import DisplayPerfilTutor from '../../src/components/screens/private/tutor/perfil/DisplayPerfilTutor';
-import DisplayDashboard from "../../src/components/screens/private/tutor/perfil/DisplayDashboard"
+import DisplayDashboard from '../../src/components/screens/private/tutor/perfil/DisplayDashboard';
 import { TUTOR_PROFILE } from '../../src/api/endpoints/Usuario';
 import { request } from '../../src/api';
 
@@ -43,7 +43,7 @@ function tutorProfile() {
 
   return (
     <Layout
-      title="Perfil Tutor"
+      title="Tutor - Mi Perfil"
       authRequired
       tutorRequired
       description={`Pagina de perfil del tutor`}
@@ -71,7 +71,8 @@ function tutorProfile() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            p: 4
           }}
         >
           <DisplayDashboard />

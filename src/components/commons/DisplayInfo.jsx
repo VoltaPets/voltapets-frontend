@@ -7,8 +7,8 @@ import { Box, Typography } from '@mui/material';
 
 const DisplayInfo = ({ titulo, contenido, loading }) => {
   return (
-    <Box sx={{ display: 'flex', flex: 1 }}>
-      <Typography variant="body2" sx={{ textAlign: 'justify', fontWeight: 'bold', flex: 0.4 }}>
+    <Box sx={{ display: 'flex', flex: 1, gap: 2 }}>
+      <Typography variant="body2" sx={{ textAlign: 'justify', fontWeight: 'bold' }}>
         {titulo}:
       </Typography>
       {loading ? (

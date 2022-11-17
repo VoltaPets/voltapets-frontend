@@ -33,9 +33,9 @@ const ModalEdicion = ({ open, onClose, comunas, tutor = false, Profile }) => {
   } = useForm({
     defaultValues: { //TODO: Agregar valores como valor por defecto si existe
       isChangePassword: false,
-      password: '',
-      newPassword: '',
-      confirmNewPassword: '',
+      password: null,
+      newPassword: null,
+      confirmNewPassword: null,
       direccion: '',
       codigoComuna: '',
       departamento: 0,
