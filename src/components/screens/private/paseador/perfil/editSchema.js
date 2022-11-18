@@ -24,11 +24,11 @@ export const schemaEdicionPerfil = Yup.object().shape({
     .required('Debes ingresar una descripción')
     .max(500, 'La descripción debe tener máximo 500 caracteres'),
   isChangePassword: Yup.boolean(),
-  password: Yup.string().when('isChangePassword', {
+  password: Yup.string().nullable().when('isChangePassword', {
     is: true,
     then: Yup.string().trim().required('Debes ingresar una contraseña')
   }),
-  newPassword: Yup.string().when('isChangePassword', {
+  newPassword: Yup.string().nullable().when('isChangePassword', {
     is: true,
     then: Yup.string()
       .trim()
@@ -40,7 +40,7 @@ export const schemaEdicionPerfil = Yup.object().shape({
         'La contraseña debe tener al menos una letra mayúscula, una minúscula, un número y un caracter especial'
       )
   }),
-  confirmNewPassword: Yup.string().when('isChangePassword', {
+  confirmNewPassword: Yup.string().nullable().when('isChangePassword', {
     is: true,
     then: Yup.string()
       .trim()

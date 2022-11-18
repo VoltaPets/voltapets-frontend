@@ -20,7 +20,7 @@ export default function FormRadio({
   width = 12,
   dataArray,
   errorText,
-  noHelperText = false
+  noHelperText = false,
 }) {
   return (
     <Grid item xs={12} sm={width} sx={{ height: noHelperText ? 'auto' : 50 }}>
@@ -32,10 +32,15 @@ export default function FormRadio({
             <FormLabel>{labelText}</FormLabel>
             <RadioGroup {...field} row>
               {dataArray?.map((option) => (
-                <FormControlLabel key={option.id} value={option.valor} control={<Radio size="small"/>} label={option.nombre} />
+                <FormControlLabel
+                  key={option.id}
+                  value={option.valor}
+                  control={<Radio size="small" />}
+                  label={option.descripcion}
+                />
               ))}
             </RadioGroup>
-            <FormHelperText>{errorText}</FormHelperText>
+            <FormHelperText sx={{ color: 'secondary.main' }}>{errorText}</FormHelperText>
           </FormControl>
         )}
       />

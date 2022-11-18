@@ -5,14 +5,16 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid, Card, Box, CardMedia, Typography, IconButton } from '@mui/material';
 
-const CardMascotaRegistrada = ({ onEditMode }) => {
+const CardMascotaRegistrada = ({ handleSelected, mascota }) => {
+  const imgMascota = mascota?.imagen.url + mascota?.imagen.path;
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column', borderRadius: 2 }}>
         <Box sx={{ width: '100%', position: 'relative' }}>
           <CardMedia
             component="img"
-            image="https://www.purina.com.au/-/media/project/purina/main/breeds/dog/mobile/dog_samoyed_mobile.jpg?h=300&la=en&w=375&hash=EE6529E6036EFD00F71DA4045ED88F0D"
+            image={imgMascota}
             alt="Mascota"
             sx={{ height: 250, width: '100%', mx: 'auto' }}
           />
@@ -22,17 +24,21 @@ const CardMascotaRegistrada = ({ onEditMode }) => {
               bottom: 0,
               left: 0,
               right: 0,
-              bgcolor: 'rgba(0,0,0,0.4)'
+              bgcolor: 'rgba(0,0,0,0.6)'
             }}
           >
             <Typography
               variant="h6"
               sx={{ fontWeight: 'bold', textAlign: 'center', color: 'white' }}
             >
-              Nombre de la mascota
+              {mascota?.nombre}
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, px: 2 }}>
-              <IconButton color="primary" sx={{ fontSize: '1em' }}>
+              <IconButton
+                color="primary"
+                sx={{ fontSize: '1em' }}
+                onClick={handleSelected(mascota)}
+              >
                 <SettingsIcon />
                 Editar
               </IconButton>

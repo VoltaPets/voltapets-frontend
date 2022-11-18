@@ -22,7 +22,7 @@ export default function FormDatePicker({
   const [value, setValue] = useState(null);
 
   return (
-    <Grid item xs={width} sx={{ height: 50, mb: noMb ? 0 : 2 }}>
+    <Grid item xs={width} sx={{ height: 50, mb: noMb ? 0 : 4 }}>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
         <Controller
           name={name}
@@ -31,17 +31,24 @@ export default function FormDatePicker({
             <DatePicker
               label={labelText}
               value={value}
+              disableFuture
+              shouldDisableYear={(year) => {
+                return year.getFullYear() < 1992;
+              }}
+              shouldDisableDate={(date) => {
+                return date.getYear() < 122 - 30;
+              }}
               onChange={(newValue) => {
                 setValue(newValue);
               }}
               {...rest}
               renderInput={(params) => (
                 <TextField
+                  {...params}
                   variant="standard"
                   error={errorName ? true : false}
                   helperText={errorText}
                   disabled={disabled}
-                  {...params}
                 />
               )}
             />

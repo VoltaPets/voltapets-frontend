@@ -70,13 +70,13 @@ const DisplayPerfilTutor = ({ perfil }) => {
 
   return (
     <>
-      <ModalProfileImg open={openProfileImg} onClose={handleCloseProfileImg} />
+      <ModalProfileImg tutor open={openProfileImg} onClose={handleCloseProfileImg} />
       <ModalEdicion
         tutor
         open={openEdicion}
         onClose={handleCloseEdicion}
         comunas={comunasArray}
-        Profile={perfil ? perfil : null}
+        perfil={perfil}
       />
       <Card
         variant="outlined"

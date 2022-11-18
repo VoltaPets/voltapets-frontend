@@ -1,6 +1,8 @@
 // Librerías
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
 import {
@@ -21,44 +23,91 @@ import FormInput from '../../../../commons/FormInput';
 import FormSelect from '../../../../commons/FormSelect';
 import FormRadio from '../../../../commons/FormRadio';
 import FormDatePicker from '../../../../commons/FormDatePicker';
+import { mascotaSchema } from '../../../private/tutor/mascotas/mascotaValidation';
+import { request } from '../../../../../api';
+import { CREATE_MASCOTA, GET_MASCOTAS } from '../../../../../api/endpoints/Mascota';
 
-const ModalCreacionMascota = ({ open, onClose }) => {
+const ModalCreacionMascota = ({ open, onClose, razas, sizes, sexo }) => {
   // Estados
   const [mascotaSelected, setMascotaSelected] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [mascotasList, setMascotasList] = useState([]);
 
   //Hooks
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    watch,
+    formState: { errors },
+    reset
   } = useForm({
     defaultValues: {
       nombre: '',
       descripcion: '',
       fechaNacimiento: null,
       isFechaNacimiento: false,
-      isYear: false,
+      isYear: true,
       esterilizado: false,
-      edadRegistro: 0,
-      codigoSexo: 0,
-      codigoTamanio: 0,
-      codigoRaza: 0
-    }
+      edadRegistro: '',
+      codigoSexo: '',
+      codigoTamanio: '',
+      codigoRaza: ''
+    },
+    resolver: yupResolver(mascotaSchema)
   });
 
   // Funciones
   const handleSelected = (mascota) => {
     setMascotaSelected(mascota);
+    setEditMode(true);
   };
 
-  const handleEditMode = () => {
-    setEditMode(!editMode);
+  const handleClose = () => {
+    reset();
+    onClose();
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  console.log('mascotaSelected', mascotaSelected);
+
+  const getMascotas = async () => {
+    try {
+      const { data } = await request({
+        url: GET_MASCOTAS,
+        method: 'GET'
+      });
+      setMascotasList(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const onSubmit = async (mascotaData) => {
+    setLoading(true);
+    try {
+      const { data } = await request({
+        method: 'POST',
+        url: CREATE_MASCOTA,
+        data: mascotaData
+      });
+      console.log(data);
+      setLoading(false);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  // Effectos
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => console.log(value, name, type));
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+  useEffect(() => {
+    getMascotas();
+  }, []);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
@@ -67,6 +116,7 @@ const ModalCreacionMascota = ({ open, onClose }) => {
           variant="contained"
           color="secondary"
           sx={{ textTransform: 'inherit', fontWeight: 'bold', flex: 0.1 }}
+          onClick={handleClose}
         >
           Cerrar
         </Button>
@@ -94,9 +144,19 @@ const ModalCreacionMascota = ({ open, onClose }) => {
             Mascotas Registradas
           </Typography>
           <Grid container spacing={2} sx={{ maxHeight: 268, overflowY: 'scroll', mb: 2 }}>
-            {[1, 2, 3].map((mascota) => (
-              <CardMascotaRegistrada key={mascota} />
-            ))}
+            {mascotasList.length > 0 ? (
+              mascotasList.map((mascota) => (
+                <CardMascotaRegistrada
+                  key={mascota.id}
+                  mascota={mascota}
+                  handleSelected={handleSelected}
+                />
+              ))
+            ) : (
+              <Typography variant="subtitle2" sx={{ textAlign: 'center' }}>
+                No tienes mascotas registradas
+              </Typography>
+            )}
           </Grid>
         </Box>
       </Box>
@@ -145,11 +205,11 @@ const ModalCreacionMascota = ({ open, onClose }) => {
               </Button>
             </Box>
 
-            <Box sx={{ width: '100%', flex: 1  }}>
+            <Box sx={{ width: '100%', flex: 1 }}>
               <Grid container spacing={2} sx={{ width: '100%', mb: 2 }}>
                 <FormInput
                   noMb
-                  width={6}
+                  width={4}
                   control={control}
                   name="nombre"
                   labelText="Nombre"
@@ -159,25 +219,21 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                 />
 
                 <FormSelect
-                  width={3}
+                  raza
+                  width={4}
                   control={control}
                   name="codigoRaza"
-                  dataArray={[
-                    { id: 1, descripcion: 'Husky' },
-                    { id: 2, descripcion: 'Samoyedo' }
-                  ]}
+                  dataArray={razas}
                   labelText="Raza"
                   errorName={errors.codigoRaza}
                   errorText={errors.codigoRaza?.message}
                 />
                 <FormSelect
-                  width={3}
+                  size
+                  width={4}
                   control={control}
                   name="codigoTamanio"
-                  dataArray={[
-                    { id: 1, descripcion: 'Joven' },
-                    { id: 2, descripcion: 'Adulto' }
-                  ]}
+                  dataArray={sizes}
                   labelText="Tamaño"
                   errorName={errors.codigoTamanio}
                   errorText={errors.codigoTamanio?.message}
@@ -188,7 +244,9 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                 <Card variant="outlined" sx={{ flex: 1, p: 1 }}>
                   <FormInput
                     noMb
+                    numeric
                     width={12}
+                    maxLength={2}
                     control={control}
                     name="edadRegistro"
                     labelText="Edad Aprox."
@@ -204,8 +262,8 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                     errorText={errors.isYear?.message}
                     width={12}
                     dataArray={[
-                      { id: 1, nombre: 'Años', valor: true },
-                      { id: 2, nombre: 'Meses', valor: false }
+                      { id: 1, descripcion: 'Años', valor: true },
+                      { id: 2, descripcion: 'Meses', valor: false }
                     ]}
                   />
                 </Card>
@@ -227,25 +285,23 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                     errorText={errors.isFechaNacimiento?.message}
                     width={12}
                     dataArray={[
-                      { id: 1, nombre: 'Nacimiento', valor: true },
-                      { id: 2, nombre: 'Adopción', valor: false }
+                      { id: 1, descripcion: 'Nacimiento', valor: true },
+                      { id: 2, descripcion: 'Adopción', valor: false }
                     ]}
                   />
                 </Card>
               </Grid>
 
-              <Grid container mb={4}>
-                <FormRadio
+              <Grid container spacing={2} mb={4}>
+                <FormSelect
+                  sexo
+                  width={6}
                   control={control}
                   name="codigoSexo"
+                  dataArray={sexo}
                   labelText="Sexo"
                   errorName={errors.codigoSexo}
                   errorText={errors.codigoSexo?.message}
-                  width={6}
-                  dataArray={[
-                    { id: 1, nombre: 'Macho', valor: 1 },
-                    { id: 2, nombre: 'Hembra', valor: 2 }
-                  ]}
                 />
                 <FormRadio
                   control={control}
@@ -255,12 +311,12 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                   errorText={errors.esterilizado?.message}
                   width={6}
                   dataArray={[
-                    { id: 1, nombre: 'Si', valor: true },
-                    { id: 2, nombre: 'No', valor: false }
+                    { id: 1, descripcion: 'Si', valor: true },
+                    { id: 2, descripcion: 'No', valor: false }
                   ]}
                 />
               </Grid>
-              <Grid container mb={8}>
+              <Grid container mb={10}>
                 <FormInput
                   noMb
                   variant="outlined"
@@ -278,9 +334,11 @@ const ModalCreacionMascota = ({ open, onClose }) => {
               </Grid>
               <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Button
+                  disabled={loading}
                   variant="contained"
                   color="secondary"
                   sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
+                  onClick={handleClose}
                 >
                   Cancelar
                 </Button>
@@ -293,12 +351,13 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                   Editar
                 </Button>
                 <Button
+                  disabled={loading}
                   variant="contained"
                   color="info"
                   type="submit"
                   sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
                 >
-                  Guardar
+                  {loading ? <BeatLoader size={10} /> : 'Guardar'}
                 </Button>
               </Box>
             </Box>

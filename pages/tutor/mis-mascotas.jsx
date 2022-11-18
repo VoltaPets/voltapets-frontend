@@ -14,6 +14,7 @@ function misMascotas() {
       title="Tutor - Mis Mascotas"
       description="Página de las mascotas de un tutor"
       tutorRequired
+      authRequired
       nextPage={'tutor/mis-mascotas'}
     >
       <Grid container>

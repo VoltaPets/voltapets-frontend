@@ -20,7 +20,7 @@ import { CLOUDINARY_URL } from '../../constant';
 import { request } from '../../../src/api';
 import { UPDATE_USER_IMG } from '../../../src/api/endpoints/Usuario';
 
-const ModalProfileImg = ({ open, onClose }) => {
+const ModalProfileImg = ({ open, onClose, tutor = false }) => {
   // Estados
   const [imgFile, setImgFile] = useState(null);
   const [public_id, setPublic_id] = useState(null);
@@ -50,7 +50,7 @@ const ModalProfileImg = ({ open, onClose }) => {
       let imagenElegida = document.getElementById('nueva-imagen');
       const formData = new FormData();
       formData.append('file', imagenElegida.files[0]);
-      formData.append('upload_preset', 'profile');
+      formData.append('upload_preset', tutor ? 'profile_tutor' : 'profile_paseador');
 
       const data = await fetch(CLOUDINARY_URL, {
         method: 'POST',
@@ -91,11 +91,6 @@ const ModalProfileImg = ({ open, onClose }) => {
       window.location.reload(false);
     } catch (error) {
       setLoading(false);
-      await request({
-        url: CLOUDINARY_DESTROY_URL,
-        method: 'POST',
-        data: { public_id }
-      });
       if (error.isAxiosError) {
         enqueueSnackbar(error.message, { variant: 'error' });
       }

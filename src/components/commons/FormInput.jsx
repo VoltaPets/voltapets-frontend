@@ -21,6 +21,7 @@ export default function FormInput({
   multiline = false,
   pwd = false,
   noMb = false,
+  numeric = false,
   rows
 }) {
   return (
@@ -45,7 +46,11 @@ export default function FormInput({
             error={errorName ? true : false}
             helperText={errorText}
             type={type}
-            inputProps={{ maxLength: maxLength }}
+            inputProps={{
+              maxLength: maxLength,
+              inputMode: numeric ? 'numeric' : 'text',
+              pattern: numeric ? '[0-9]*' : null
+            }}
             InputProps={
               name === 'password' || pwd
                 ? {

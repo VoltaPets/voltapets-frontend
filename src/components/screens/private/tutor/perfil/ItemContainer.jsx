@@ -1,11 +1,20 @@
 // Librerías
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
 import { Box, Card, Button, Typography } from '@mui/material';
 
-const ItemContainer = ({ mascota = false, mascotasArray = [], anunciosArray = [] }) => {
+// Relative Imports
+import MascotaDashboard from '../mascotas/MascotaDashboard';
+
+const ItemContainer = ({
+  loading = false,
+  mascota = false,
+  mascotasArray = [],
+  anunciosArray = []
+}) => {
   // Hooks
   const { push } = useRouter();
 
@@ -17,6 +26,8 @@ const ItemContainer = ({ mascota = false, mascotasArray = [], anunciosArray = []
   const handleMisAnuncios = () => {
     push('/tutor/anuncios');
   };
+
+  console.log(mascotasArray);
 
   return (
     <Box>
@@ -36,13 +47,15 @@ const ItemContainer = ({ mascota = false, mascotasArray = [], anunciosArray = []
       </Box>
       <Card
         variant="outlined"
-        sx={{ p: 2, mt: 2, bgcolor: 'rgba(0,0,0, 0.1)', minHeight: 150, overflowY: 'scroll' }}
+        sx={{ p: 2, mt: 2, bgcolor: 'rgba(0,0,0, 0.1)', minHeight: 200, maxHeight: 200, overflowY: 'scroll' }}
       >
-        {mascota ? (
+        {loading ? (
+          <BeatLoader size={10} />
+        ) : mascota ? (
           mascotasArray.length === 0 ? (
             <Typography variant="body2">No tienes mascotas registradas</Typography>
           ) : (
-            <div>A</div>
+            mascotasArray.map((mascota) => <MascotaDashboard key={mascota.id} {...mascota} />)
           )
         ) : anunciosArray.length === 0 ? (
           <Typography variant="body2">No tienes anuncios registrados</Typography>

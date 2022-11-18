@@ -1,5 +1,6 @@
 // Librerías
 import { useState, useEffect } from 'react';
+import { useSnackbar } from 'notistack';
 
 // MUI
 import { Box, Typography, Divider } from '@mui/material';
@@ -13,6 +14,10 @@ import { request } from '../../../../../api';
 const DisplayDashboard = () => {
   // Estados
   const [misMascotas, setMisMascotas] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Hooks
+  const { enqueueSnackbar } = useSnackbar();
 
   // Funciones
   const getMisMascotas = async () => {
@@ -22,11 +27,9 @@ const DisplayDashboard = () => {
         method: 'GET'
       });
       setMisMascotas(data);
+      console.log(misMascotas)
     } catch (error) {
-      if (error.isAxiosError) {
-        const { data: mascotasError } = error.response;
-        mascotasError && enqueueSnackbar(mascotasError.message, { variant: 'error' });
-      }
+      console.log("error", error);
     }
   };
 
@@ -35,12 +38,18 @@ const DisplayDashboard = () => {
     getMisMascotas();
   }, []);
 
+  useEffect(() => {
+    if (misMascotas.length > 0) {
+      return setLoading(false);
+    }
+  }, [misMascotas]);
+
   return (
     <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
       <Box sx={{ p: 2, flex: 0.8 }}>
-        <ItemContainer mascota mascotasArray={misMascotas}/>
+        <ItemContainer loading={loading} mascota mascotasArray={misMascotas}/>
         <Divider sx={{ my: 4 }} />
-        <ItemContainer anunciosArray={[]}/>
+        <ItemContainer loading={loading} anunciosArray={[]}/>
       </Box>
       <Divider orientation="vertical" flexItem />
       <Box sx={{ p: 2, flex: 1 }}>
