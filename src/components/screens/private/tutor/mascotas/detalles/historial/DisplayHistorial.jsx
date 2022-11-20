@@ -48,7 +48,7 @@ const mockHistorial = [
   }
 ];
 
-const HistorialPaseos = () => {
+const DisplayHistorial = () => {
   return (
     <Box>
       <Typography variant="h6" align="justify" sx={{ fontWeight: 'bold', mb: 2 }}>
@@ -69,4 +69,4 @@ const HistorialPaseos = () => {
   );
 };
 
-export default HistorialPaseos;
+export default DisplayHistorial;

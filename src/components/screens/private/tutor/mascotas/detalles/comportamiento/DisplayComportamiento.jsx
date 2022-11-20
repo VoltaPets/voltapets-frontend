@@ -13,7 +13,7 @@ const notas = {
   agresion: 4.2
 };
 
-const Comportamiento = ({ nombreMascota = 'NOMBRE_MASCOTA' }) => {
+const DisplayComportamiento = ({ nombreMascota = 'NOMBRE_MASCOTA' }) => {
   // Funciones
   const promedio = (a, b) => {
     const total = (a + b) / 2;
@@ -148,4 +148,4 @@ const Comportamiento = ({ nombreMascota = 'NOMBRE_MASCOTA' }) => {
   );
 };
 
-export default Comportamiento;
+export default DisplayComportamiento;

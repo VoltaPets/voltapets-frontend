@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Dialog, Box, Grid, Typography, Button, Card } from '@mui/material';
 
 // Relative Imports
-import FormDatePicker from '../../../../../commons/FormDatePicker';
+import FormDatePicker from '../../../../../../commons/FormDatePicker';
 
 const ModalEdicionVacunas = ({ open, onClose }) => {
   // Estados
