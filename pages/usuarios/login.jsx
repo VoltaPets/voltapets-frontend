@@ -88,7 +88,6 @@ function LoginPage() {
       }
 
       enqueueSnackbar('Has iniciado sesión correctamente', { variant: 'info' });
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       if (error.isAxiosError) {

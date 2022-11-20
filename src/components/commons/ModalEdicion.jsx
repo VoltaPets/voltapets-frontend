@@ -48,8 +48,6 @@ const ModalEdicion = ({ open, onClose, comunas, tutor = false, profile }) => {
     resolver: yupResolver(schemaEdicionPerfil)
   });
 
-  console.log('Addres: ', profile?.direccion ? profile?.direccion : '');
-
   // Funciones
   const onSubmit = async (editData) => {
     setLoading(true);

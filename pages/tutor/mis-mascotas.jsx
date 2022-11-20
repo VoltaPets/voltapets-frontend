@@ -1,6 +1,6 @@
 // Librerías
 import { useState, useEffect } from 'react';
-import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 // MUI
 import { Grid } from '@mui/material';
@@ -27,14 +27,10 @@ export default function MisMascotasPage() {
   };
 
   // Hooks
-  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const handleSelected = (mascota) => {
     setSelectedMascota(mascota);
-    enqueueSnackbar(`Has seleccionado a ${mascota.nombre}`, {
-      variant: 'info',
-      preventDuplicate: true,
-    });
   };
 
   // Effects
@@ -43,10 +39,16 @@ export default function MisMascotasPage() {
   }, []);
 
   useEffect(() => {
-    if (mascotas.length > 0) {
+    if (router.query.id && mascotas.length > 0) {
+      const mascotaQuery = mascotas.find((mascota) => mascota.id === Number(router.query.id));
+
+      if (mascotaQuery) {
+        setSelectedMascota(mascotaQuery);
+      }
+    } else {
       setSelectedMascota(mascotas[0]);
     }
-  }, [mascotas]);
+  }, [router.query.id, mascotas]);
 
   return (
     <Layout

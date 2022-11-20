@@ -1,20 +1,44 @@
-import React from 'react';
+// Librerías
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 // MUI
-import { Card, Box, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, Box, CardMedia, Typography } from '@mui/material';
 
 const MascotaCard = ({ mascota }) => {
+  // Variables
+  const mascotaImg = mascota.imagen?.url + mascota.imagen?.path;
+  const mascotaSexo = mascota.sexo?.descripcion;
+
+  // Hooks
+  const { push } = useRouter();
+
+  // Funciones
+  const handleMascotaClick = () => {
+    push(`/tutor/mis-mascotas?id=${mascota.id}`);
+  };
+
   return (
     <Card
-      sx={{ width: 300, borderRadius: 2, '&:hover': { cursor: 'pointer' } }}
-      onClick={() => alert(`Ir a página de mascota ${mascota.nombre}`)}
+      onClick={handleMascotaClick}
+      sx={{
+        width: 300,
+        borderRadius: 2,
+        filter: 'grayscale(100%)',
+        transition: 'all 0.3s ease',
+        '&:hover': { cursor: 'pointer', filter: 'grayscale(0%)' }
+      }}
     >
       <Box sx={{ position: 'relative' }}>
         <CardMedia
+          alt={`Imagen de ${mascota.nombre}`}
           component="img"
-          image={mascota.foto}
+          image={mascotaImg}
           sx={{ height: 300, objectFit: 'cover', borderRadius: 2 }}
-          alt="Mascota"
+          onError={(e) => {
+            e.currentTarget.src = '/logo.jpg';
+            e.currentTarget.onerror = null;
+          }}
         />
         <Box
           sx={{
@@ -41,11 +65,11 @@ const MascotaCard = ({ mascota }) => {
             </Typography>
             •
             <Typography variant="body2" color="white" sx={{ fontWeight: 'bold' }}>
-              {mascota.edad}
+              {mascota.edadRegistro} años
             </Typography>
             •
             <Typography variant="body2" color="white" sx={{ fontWeight: 'bold' }}>
-              {mascota.sexo}
+              {mascotaSexo}
             </Typography>
           </Box>
         </Box>

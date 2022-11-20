@@ -48,14 +48,14 @@ const Vacunas = ({ vacunasArray }) => {
           </Button>
         </Box>
         <Box mb={2}>
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" align="justify">
             En este apartado podrás ver las vacunas que ha recibido tu mascota. Si no has registrado
             ninguna vacuna, puedes hacerlo en el botón "Modificar"
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {loading ? (
-            <BeatLoader size={10} />
+            <BeatLoader size={10} style={{ margin: 'auto', paddingTop: '1em' }} />
           ) : (
             vacunasArray.map((vacuna) => (
               <Box

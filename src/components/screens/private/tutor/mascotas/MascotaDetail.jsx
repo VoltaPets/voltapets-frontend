@@ -6,6 +6,8 @@ import { Grid, Typography, Card } from '@mui/material';
 
 // Relative imports
 import Vacunas from './detalles/Vacunas';
+import Comportamiento from './detalles/comportamiento/Comportamiento';
+import HistorialPaseos from './detalles/historial/HistorialPaseos';
 import { GET_VACUNAS } from '../../../../../api/endpoints/Vacunas';
 import { request } from '../../../../../api';
 
@@ -28,16 +30,12 @@ const MascotaDetail = ({ selectedMascota }) => {
     }
   };
 
-  // Make sure we have a selectedMascota before rendering anything else (otherwise we'll get an error)
-  if (!selectedMascota) {
-    return null;
-  }
-
   // Effects
   useEffect(() => {
-    if (selectedMascota) {
-      getVacunas(selectedMascota.id);
+    if (!selectedMascota) {
+      return;
     }
+    getVacunas(selectedMascota.id);
   }, [selectedMascota]);
 
   return (
@@ -50,7 +48,7 @@ const MascotaDetail = ({ selectedMascota }) => {
       <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* Comportamiento */}
         <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
-          Comportamiento
+          <Comportamiento nombreMascota={selectedMascota?.nombre} />
         </Card>
 
         {/* Vacunas */}
@@ -59,10 +57,10 @@ const MascotaDetail = ({ selectedMascota }) => {
         </Card>
       </Grid>
 
-      <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* Historial de paseos */}
         <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
-          Historial de paseos
+          <HistorialPaseos />
         </Card>
 
         {/* Recordatorios */}
@@ -71,7 +69,7 @@ const MascotaDetail = ({ selectedMascota }) => {
         </Card>
       </Grid>
 
-      <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Grid item xs={3} sx={{ display: 'flex', flexDirection: 'column' }}>
         {/* Compromisos */}
         <Card variant="outlined" sx={{ width: '100%', height: '100%', p: 2 }}>
           Compromisos

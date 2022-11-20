@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
-import { Box, Card, CardMedia, Typography, Button } from '@mui/material';
+import { Box, Card, CardMedia, Typography, Button, Skeleton } from '@mui/material';
 
 // Relative imports
 import MascotaProfileCard from '../../tutor/mascotas/MascotaProfileCard';
@@ -12,7 +12,7 @@ import ModalCreacionMascota from './ModalCreacionMascota';
 import { request } from '../../../../../api';
 import { GET_RAZAS, GET_SIZE, GET_SEXO } from '../../../../../api/endpoints/Datos';
 
-const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, clearSelected }) => {
+const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota = {} }) => {
   // Estados
   const [razas, setRazas] = useState([]);
   const [sizes, setSizes] = useState([]);
@@ -22,6 +22,14 @@ const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, cle
 
   // Variables
   const mascotaImg = selectedMascota.imagen?.url + selectedMascota.imagen?.path;
+  const mascotaNombre = selectedMascota.nombre || 'Nombre mascota';
+  const mascotaEdad = selectedMascota.edadRegistro || 'NN';
+  const mascotaEtario = selectedMascota.grupoEtario?.descripcion || 'Adulto';
+  const mascotaRaza = selectedMascota.raza?.descripcion || 'Husky';
+  const mascotaSexo = selectedMascota.sexo?.descripcion || 'Macho';
+  const mascotaSize = selectedMascota.tamanio?.descripcion || 'Grande';
+  const mascotaNeutered = selectedMascota.esterilizado ? 'Sí' : 'No';
+  const mascotaInfo = selectedMascota.descripcion || 'Descripción mascota';
 
   // Funciones
   const handleCreacionMascota = () => {
@@ -73,6 +81,7 @@ const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, cle
 
   useEffect(() => {
     if (mascotas) {
+      console.log(selectedMascota);
       setLoading(false);
     }
   }, [mascotas]);
@@ -146,12 +155,20 @@ const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, cle
                   justifyContent: 'center'
                 }}
               >
-                <CardMedia
-                  component="img"
-                  image={mascotaImg.toString()}
-                  alt="Mascota"
-                  sx={{ height: 240, width: 240, borderRadius: '50%', mx: 'auto' }}
-                />
+                {loading ? (
+                  <Skeleton variant="circular" width={200} height={200} />
+                ) : (
+                  <CardMedia
+                    component="img"
+                    image={mascotaImg.toString()}
+                    onError={(e) => {
+                      e.currentTarget.src = '/images/paw.png';
+                      e.currentTarget.onerror = null;
+                    }}
+                    alt="Mascota"
+                    sx={{ height: 240, width: 240, borderRadius: '50%', mx: 'auto' }}
+                  />
+                )}
                 <Button
                   color="info"
                   variant="contained"
@@ -170,7 +187,7 @@ const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, cle
               <Box sx={{ flex: 1 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
                   <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-                    <Typography variant="h4">{selectedMascota.nombre}</Typography>
+                    <Typography variant="h4">{mascotaNombre}</Typography>
                   </Box>
 
                   <Card
@@ -178,16 +195,24 @@ const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, cle
                     sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, mb: 4 }}
                   >
                     <Box sx={{ display: 'flex' }}>
-                      <DisplayInfo titulo="Edad" contenido={selectedMascota.edadRegistro} />
-                      <DisplayInfo titulo="Grupo Etario" contenido="Adulto" />
+                      <DisplayInfo loading={loading} titulo="Edad" contenido={mascotaEdad} />
+                      <DisplayInfo
+                        loading={loading}
+                        titulo="Grupo Etario"
+                        contenido={mascotaEtario}
+                      />
                     </Box>
                     <Box sx={{ display: 'flex' }}>
-                      <DisplayInfo titulo="Raza" contenido="Husky" />
-                      <DisplayInfo titulo="Tamaño" contenido="Mediano" />
+                      <DisplayInfo loading={loading} titulo="Raza" contenido={mascotaRaza} />
+                      <DisplayInfo loading={loading} titulo="Tamaño" contenido={mascotaSize} />
                     </Box>
                     <Box sx={{ display: 'flex' }}>
-                      <DisplayInfo titulo="Sexo" contenido="Macho" />
-                      <DisplayInfo titulo="Esterilizado" contenido="Sí" />
+                      <DisplayInfo loading={loading} titulo="Sexo" contenido={mascotaSexo} />
+                      <DisplayInfo
+                        loading={loading}
+                        titulo="Esterilizado"
+                        contenido={mascotaNeutered}
+                      />
                     </Box>
                   </Card>
                   <Box>
@@ -196,11 +221,7 @@ const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, cle
                     </Typography>
                     <Card variant="outlined" sx={{ p: 1 }}>
                       <Typography variant="body2" align="justify">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.
-                        Quisquam quae, quod, voluptate, voluptates quidem voluptatibus quibusdam
-                        quos quia necessitatibus voluptatum. Quisquam, quae. Quisquam quae, quod,
-                        voluptate, voluptates quidem voluptatibus quibusdam quos quia necessitatibus
-                        voluptatum.
+                        {mascotaInfo}
                       </Typography>
                     </Card>
                   </Box>
