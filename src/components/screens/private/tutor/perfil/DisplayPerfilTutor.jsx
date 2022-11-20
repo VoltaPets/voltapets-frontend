@@ -99,7 +99,7 @@ const DisplayPerfilTutor = ({ perfil }) => {
               variant="contained"
               color="secondary"
               sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
-              onClick={() => push('/tutor/profile')}
+              onClick={() => push('/tutor/home')}
             >
               Volver
             </Button>

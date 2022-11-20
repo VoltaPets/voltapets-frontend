@@ -1,7 +1,6 @@
 // Librerías
 import { useState, useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { useSnackbar } from 'notistack';
 
 // MUI
 import { Box, Card, CardMedia, Typography, Button } from '@mui/material';
@@ -12,37 +11,21 @@ import DisplayInfo from '../../../../commons/DisplayInfo';
 import ModalCreacionMascota from './ModalCreacionMascota';
 import { request } from '../../../../../api';
 import { GET_RAZAS, GET_SIZE, GET_SEXO } from '../../../../../api/endpoints/Datos';
-import { GET_MASCOTAS } from '../../../../../api/endpoints/Mascota';
 
-const DisplayMascotasProfile = () => {
+const DisplayMascotasProfile = ({ mascotas, handleSelected, selectedMascota, clearSelected }) => {
   // Estados
   const [razas, setRazas] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [sexo, setSexo] = useState([]);
-  const [mascotas, setMascotas] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [openCreacionMascota, setOpenCreacionMascota] = useState(false);
-  const [selectedMascota, setSelectedMascota] = useState(null);
 
-  // Hooks
-  const { enqueueSnackbar } = useSnackbar();
+  // Variables
+  const mascotaImg = selectedMascota.imagen?.url + selectedMascota.imagen?.path;
 
   // Funciones
-  const handleSelected = (mascota) => {
-    setSelectedMascota(mascota);
-    enqueueSnackbar(`Has seleccionado a ${mascota.nombre}`, {
-      variant: 'info',
-      preventDuplicate: true,
-      maxSnack: 1
-    });
-  };
-
   const handleCreacionMascota = () => {
     setOpenCreacionMascota(true);
-  };
-
-  const handleClearSelected = () => {
-    setSelectedMascota(null);
   };
 
   const getSize = async () => {
@@ -81,28 +64,18 @@ const DisplayMascotasProfile = () => {
     }
   };
 
-  const getMascotas = async () => {
-    setLoading(true);
-    try {
-      const { data } = await request({
-        method: 'GET',
-        url: GET_MASCOTAS
-      });
-      setMascotas(data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
-  };
-
   // Effects
   useEffect(() => {
-    getMascotas();
     getRazas();
     getSize();
     getSexo();
   }, []);
+
+  useEffect(() => {
+    if (mascotas) {
+      setLoading(false);
+    }
+  }, [mascotas]);
 
   return (
     <>
@@ -157,14 +130,6 @@ const DisplayMascotasProfile = () => {
             >
               Administrar Mascotas
             </Button>
-            <Button
-              color="info"
-              variant="contained"
-              onClick={handleClearSelected}
-              sx={{ mt: 2, flex: 1, fontWeight: 'bold', textTransform: 'inherit' }}
-            >
-              Limpiar selección
-            </Button>
           </Box>
         </Card>
 
@@ -183,7 +148,7 @@ const DisplayMascotasProfile = () => {
               >
                 <CardMedia
                   component="img"
-                  image={selectedMascota.imagen?.url + selectedMascota.imagen?.path}
+                  image={mascotaImg.toString()}
                   alt="Mascota"
                   sx={{ height: 240, width: 240, borderRadius: '50%', mx: 'auto' }}
                 />

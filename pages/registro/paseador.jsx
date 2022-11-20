@@ -47,7 +47,7 @@ function PaseadorRegisterPage() {
   const [imgUrl, setImgUrl] = useState(null);
   const [imgPath, setImgPath] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [comunas, setComunas] = useState([]);
   const [regiones, setRegiones] = useState([]);
 
@@ -202,7 +202,7 @@ function PaseadorRegisterPage() {
 
   return (
     <LayoutRegistro titulo="Registro de paseador">
-      <RegistroModal open={open} setOpen={setOpen} reset={reset} />
+      <RegistroModal paseador open={open} setOpen={setOpen} reset={reset} />
 
       {/* Formulario */}
       <Card

@@ -68,8 +68,6 @@ const ModalCreacionMascota = ({ open, onClose, razas, sizes, sexo }) => {
     onClose();
   };
 
-  console.log('mascotaSelected', mascotaSelected);
-
   const getMascotas = async () => {
     try {
       const { data } = await request({

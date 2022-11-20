@@ -26,14 +26,11 @@ const MascotaDashboard = ({ nombre, raza, edadRegistro, imagen }) => {
         }}
       />
       <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-        <Box>
-          <Typography variant="caption">Nombre</Typography>
-          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-            {nombre}
-          </Typography>
-        </Box>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          {nombre}
+        </Typography>
         <Typography variant="subtitle2">{raza.descripcion}</Typography>
-        <Typography variant="h6">{edadRegistro}</Typography>
+        <Typography variant="h6">{edadRegistro} años</Typography>
       </Box>
     </Card>
   );
