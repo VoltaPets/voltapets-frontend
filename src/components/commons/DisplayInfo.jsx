@@ -1,15 +1,18 @@
+// Librerías
 import React from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
 
-import { Box, Typography, Skeleton } from '@mui/material';
+// MUI
+import { Box, Typography } from '@mui/material';
 
 const DisplayInfo = ({ titulo, contenido, loading }) => {
   return (
-    <Box sx={{ display: 'flex', flex: 1 }}>
-      <Typography variant="body2" sx={{ textAlign: 'justify', fontWeight: 'bold', flex: 0.3 }}>
+    <Box sx={{ display: 'flex', flex: 1, gap: 2 }}>
+      <Typography variant="body2" sx={{ textAlign: 'justify', fontWeight: 'bold' }}>
         {titulo}:
       </Typography>
       {loading ? (
-        <Skeleton sx={{ width: '30%', flex: 1 }} />
+        <BeatLoader size={10} />
       ) : (
         <Typography variant="body2" sx={{ textAlign: 'justify', flex: 1 }}>
           {contenido ? contenido : 'No especificado'}

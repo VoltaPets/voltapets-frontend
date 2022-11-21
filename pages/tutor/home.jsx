@@ -1,42 +1,47 @@
-import React from 'react';
+// Librerías
+import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
+import BeatLoader from 'react-spinners/BeatLoader';
 
-import { Grid, Box, Typography } from '@mui/material';
+// MUI
+import { Grid, Card, Box, Typography } from '@mui/material';
 
 // Relative Imports
 import Layout from '../../src/components/commons/Layout';
 import MascotaCard from '../../src/components/screens/private/tutor/home/MascotaCard';
 import BusquedaPaseador from '../../src/components/screens/private/tutor/home/BusquedaPaseador';
-
-const mascotasTutor = [
-  {
-    id: 1,
-    nombre: 'Firulais',
-    raza: 'Pastor Aleman',
-    edad: '2 años',
-    sexo: 'Macho',
-    foto: 'https://bestforpets.cl/tienda/img/cms/Blog/RAZAS/Pastor-aleman1.jpg'
-  },
-  {
-    id: 2,
-    nombre: 'Luna',
-    raza: 'Pastor Aleman',
-    edad: '1 año',
-    sexo: 'Hembra',
-    foto: 'https://www.publimetro.cl/resizer/zPavlS9VGbupdf6V5psc6Jm17pE=/800x0/filters:format(jpg):quality(70)/cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/FSVO2OKVDFCA5AFMIIKRUNT4UE.jpg'
-  },
-  {
-    id: 3,
-    nombre: 'Nube',
-    raza: 'Samoyedo',
-    edad: '2 años',
-    sexo: 'Macho',
-    foto: 'https://www.nombresdeperros.eu/wp-content/uploads/2020/04/macho-de-samoyedo-en-el-jardin.jpg'
-  }
-];
+import { GET_MASCOTAS } from '../../src/api/endpoints/Mascota';
+import { request } from '../../src/api';
 
 function tutorHome() {
+  // Estados
+  const [mascotas, setMascotas] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Hooks
+  const { enqueueSnackbar } = useSnackbar();
+
+  // Functions
+  const getMascotas = async () => {
+    setLoading(true);
+    try {
+      const { data } = await request(GET_MASCOTAS);
+      setMascotas(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      enqueueSnackbar('Error al obtener las mascotas', { variant: 'error' });
+    }
+  };
+
+  // Effects
+  useEffect(() => {
+    getMascotas();
+  }, []);
+
   return (
     <Layout
+      tutorRequired
       description="Página principal del tutor"
       title="Tutor - Home"
       authRequired={true}
@@ -55,12 +60,21 @@ function tutorHome() {
               justifyContent: 'center',
               alignItems: 'center',
               p: 2,
-              gap: 4
+              gap: 4,
+              minHeight: 332
             }}
           >
-            {mascotasTutor.map((mascota) => (
-              <MascotaCard key={mascota.id} mascota={mascota} />
-            ))}
+            {loading ? (
+              <BeatLoader size={10} />
+            ) : mascotas.length === 0 ? (
+              <Card variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="body1" sx={{ textAlign: 'center' }}>
+                  No tienes mascotas registradas
+                </Typography>
+              </Card>
+            ) : (
+              mascotas.map((mascota) => <MascotaCard key={mascota.id} mascota={mascota} />)
+            )}
           </Box>
         </Grid>
         <Grid item xs={12}>

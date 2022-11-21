@@ -1,5 +1,5 @@
 // Librerías
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,18 +9,19 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { Dialog, Box, Grid, Button, Typography, Switch, Divider } from '@mui/material';
 
 // Relative imports
-import FormSelect from '../../../../commons/FormSelect';
-import FormInput from '../../../../commons/FormInput';
-import { request } from '../../../../../api';
-import { schemaEdicionPerfil } from './editSchema';
-import { UPDATE_PROFILE } from '../../../../../api/endpoints/Usuario';
+import FormSelect from './FormSelect';
+import FormInput from './FormInput';
+import { request } from '../../api';
+import { schemaEdicionPerfil } from '../screens/private/paseador/perfil/editSchema';
+import { UPDATE_PASEADOR_PROFILE, UPDATE_TUTOR_PROFILE } from '../../api/endpoints/Usuario';
 
-const ModalEdicion = ({ open, onClose, comunas }) => {
+const ModalEdicion = ({ open, onClose, comunas, tutor = false, profile }) => {
   // Estados
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [isChangePassword, setIsChangePassword] = useState(false);
+  const [editPerfil, setEditPerfil] = useState({});
 
   // Hooks
   const { enqueueSnackbar } = useSnackbar();
@@ -29,18 +30,20 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors }
   } = useForm({
     defaultValues: {
+      //TODO: Agregar valores como valor por defecto si existe
       isChangePassword: false,
-      password: '',
-      newPassword: '',
-      confirmNewPassword: '',
-      direccion: '',
-      codigoComuna: '',
-      departamento: 0,
-      telefono: '',
-      descripcion: ''
+      password: null,
+      newPassword: null,
+      confirmNewPassword: null,
+      direccion: profile?.direccion ? profile?.direccion : '',
+      codigoComuna: profile?.codigoComuna ? profile?.codigoComuna : '',
+      departamento: profile?.departamento ? profile?.departamento : 0,
+      telefono: profile?.departamento ? profile?.departamento : '',
+      descripcion: profile?.descripcion ? profile?.descripcion : ''
     },
     resolver: yupResolver(schemaEdicionPerfil)
   });
@@ -51,7 +54,7 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
     try {
       await request({
         method: 'PUT',
-        url: UPDATE_PROFILE,
+        url: tutor ? UPDATE_TUTOR_PROFILE : UPDATE_PASEADOR_PROFILE,
         data: editData
       });
 
@@ -67,6 +70,11 @@ const ModalEdicion = ({ open, onClose, comunas }) => {
       console.log(error.message);
     }
   };
+
+  // useEffect(() => {
+  //   const subscription = watch((value, { name, type }) => console.log(value, name, type));
+  //   return () => subscription.unsubscribe();
+  // }, [watch]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">

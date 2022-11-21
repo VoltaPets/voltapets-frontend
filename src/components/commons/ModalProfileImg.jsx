@@ -16,20 +16,15 @@ import {
 } from '@mui/material';
 
 // Relative imports
-import {
-  CLOUDINARY_URL,
-  CLOUDINARY_DESTROY_URL,
-  CLOUDINARY_API_KEY,
-  API_BASE_URL
-} from '../../../../../constant';
-import { request } from '../../../../../api';
-import { UPDATE_USER_IMG } from '../../../../../api/endpoints/Usuario';
+import { CLOUDINARY_URL } from '../../constant';
+import { request } from '../../../src/api';
+import { UPDATE_USER_IMG } from '../../../src/api/endpoints/Usuario';
+import { UPDATE_MASCOTA_IMG } from '../../api/endpoints/Mascota';
 
-const ModalProfileImg = ({ open, onClose }) => {
+const ModalProfileImg = ({ open, onClose, tutor = false, mascota = false, mascotaID }) => {
   // Estados
   const [imgFile, setImgFile] = useState(null);
   const [public_id, setPublic_id] = useState(null);
-  const [signature, setSignature] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   // Hooks
@@ -55,72 +50,52 @@ const ModalProfileImg = ({ open, onClose }) => {
       let imagenElegida = document.getElementById('nueva-imagen');
       const formData = new FormData();
       formData.append('file', imagenElegida.files[0]);
-      formData.append('upload_preset', 'profile');
+      formData.append(
+        'upload_preset',
+        tutor ? 'profile_tutor' : mascota ? 'mascotas' : 'profile_paseador'
+      );
 
       const data = await fetch(CLOUDINARY_URL, {
         method: 'POST',
         body: formData
       }).then((res) => res.json());
 
-      setImgFile(data.secure_url);
-      setPublic_id(data.public_id);
-      setSignature(data.signature);
+      const formatURL = new URL(data.secure_url);
+      const url = formatURL.origin;
+      const path = formatURL.pathname;
+
+      const imagen = {
+        url,
+        path,
+        public_id: data.public_id
+      };
+
+      mascota
+        ? await request({
+            method: 'PUT',
+            url: UPDATE_MASCOTA_IMG(mascotaID),
+            data: imagen
+          })
+        : await request({
+            url: UPDATE_USER_IMG,
+            method: 'PUT',
+            data: imagen
+          });
+      setLoading(false);
+      enqueueSnackbar('Imagen subida con éxito', { variant: 'success' });
+      onClose();
+      window.location.reload(false);
     } catch (error) {
       console.log(error);
       enqueueSnackbar('Hubo un error al subir la imagen', { variant: 'error' });
     }
   };
 
-  const cambiarImagen = async () => {
-    const imgURL = new URL(imgFile);
-    let path = imgURL.pathname;
-    let url = imgURL.origin;
-
-    const imagen = {
-      url,
-      path,
-      public_id,
-      signature
-    };
-
-    try {
-      await request({
-        url: UPDATE_USER_IMG,
-        method: 'PUT',
-        data: imagen
-      });
-
-      setLoading(false);
-      enqueueSnackbar('Imagen subida con éxito', { variant: 'success' });
-      onClose();
-      window.location.reload(false);
-    } catch (error) {
-      setLoading(false);
-      await request({
-        url: CLOUDINARY_DESTROY_URL,
-        method: 'POST',
-        data: { public_id }
-      });
-      if (error.isAxiosError) {
-        enqueueSnackbar(error.message, { variant: 'error' });
-      }
-      enqueueSnackbar('Ha ocurrido un error al subir la imagen', { variant: 'error' });
-    }
-  };
-
-  // Efectos
-  useEffect(() => {
-    if (imgFile) {
-      cambiarImagen();
-    }
-    return () => {
-      setImgFile(null);
-    };
-  }, [imgFile]);
-
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>Imagen de Perfil</DialogTitle>
+      <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+        {mascota ? 'Imagen de Mascota' : 'Imagen de Perfil'}
+      </DialogTitle>
       <DialogContent sx={{ display: 'flex', p: 0 }}>
         <Box
           sx={{
@@ -134,7 +109,7 @@ const ModalProfileImg = ({ open, onClose }) => {
           <CardMedia
             component="img"
             id="imagen-elegida"
-            src="/logo.jpg"
+            src="/pawBg.png"
             sx={{ width: 300, height: 300 }}
           />
           <input id="nueva-imagen" type="file" onChange={handleImageChange} />
@@ -145,10 +120,23 @@ const ModalProfileImg = ({ open, onClose }) => {
           <PulseLoader />
         ) : (
           <>
-            <Button onClick={onClose} variant="contained" color="secondary">
+            <Button
+              fullWidth
+              onClick={onClose}
+              variant="contained"
+              color="secondary"
+              sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
+            >
               Cancelar
             </Button>
-            <Button disabled={!isSelected} onClick={onSubmit} variant="contained" color="info">
+            <Button
+              fullWidth
+              disabled={!isSelected}
+              onClick={onSubmit}
+              variant="contained"
+              color="info"
+              sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
+            >
               Guardar
             </Button>
           </>

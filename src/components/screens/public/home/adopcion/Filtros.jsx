@@ -74,7 +74,6 @@ const Filtros = ({ open, setOpen }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     const params = {
       ...getFormattedParams(data)
     };

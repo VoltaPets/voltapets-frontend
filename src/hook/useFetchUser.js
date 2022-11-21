@@ -1,6 +1,7 @@
 // Librerías
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 // Relative Imports
 import { request } from '../api';
@@ -37,16 +38,19 @@ export async function fetchUser() {
   }
 }
 
-export function useFetchUser({ required, nextPage } = {}) {
+export function useFetchUser({ required, nextPage, tutorRequired, paseadorRequired } = {}) {
+  // Estados
   const [loading, setLoading] = useState(() => !(typeof window !== 'undefined' && window.__user));
-
-  const { replace } = useRouter();
-
   const [user, setUser] = useState(() => {
     if (typeof window === 'undefined') return null;
     return window.__user || null;
   });
+  
+  // Hooks
+  const { replace } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
+  // Efectos
   useEffect(() => {
     if (!loading && user) return;
 
@@ -64,6 +68,20 @@ export function useFetchUser({ required, nextPage } = {}) {
           setLoading(false);
           return;
         }
+        if (tutorRequired && user && user.rol !== 'Tutor') {
+          enqueueSnackbar('No tienes permisos para acceder a esta página', { variant: 'error' });
+          await replace('/');
+          setLoading(false);
+          return;
+        }
+
+        if (paseadorRequired && user && user.rol !== 'Paseador') {
+          enqueueSnackbar('No tienes permisos para acceder a esta página', { variant: 'error' });
+          await replace('/');
+          setLoading(false);
+          return;
+        }
+
         setUser(user);
         setLoading(false);
       }

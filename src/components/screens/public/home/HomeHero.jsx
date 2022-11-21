@@ -5,52 +5,84 @@ import { Box, Button, CardMedia, Typography, styled } from '@mui/material';
 // Relative Imports
 import Link from '../../../commons/Link';
 
-const HeroButton = styled(Button)(({ theme }) => ({
-  backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  color: '#fff',
-  borderRadius: 30,
-  transition: '0.4s',
-  padding: 15,
-  paddingRight: 25,
-  paddingLeft: 25,
-  textTransform: 'inherit',
-  '&:hover': {
-    backgroundColor: 'rgba(157, 47, 58, 0.8)'
-  }
-}));
-
 const HomeHero = () => {
   return (
-    <Box sx={{ width: '100%', height: 600, position: 'relative' }}>
-      <CardMedia
-        component="img"
-        alt="Hero Image"
-        image="/images/dog-walk-bg2.jpg"
-        sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          bgcolor: 'rgba(255,255,255, 0.3)',
-          width: '100%',
-          height: '100%'
-        }}
-      >
-        <Typography variant="h3" color="secondary" align="center">
-          Navega por nuestro sitio
+    <Box sx={{ height: 600, display: 'flex' }}>
+      <Box sx={{ position: 'relative' }}>
+        <CardMedia
+          component="img"
+          alt="Hero Image 1"
+          image="/images/landing1.png"
+          sx={{ height: '100%', objectFit: 'cover', flex: 1 }}
+        />
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: 'justify',
+            fontWeight: 'bold',
+            position: 'absolute',
+            bottom: '5%',
+            right: '0%',
+            left: '50%',
+            marginLeft: '-25%'
+          }}
+        >
+          Elige al <br />
+          cuidador,
         </Typography>
+      </Box>
 
-        <Box sx={{ width: '60%', display: 'flex', justifyContent: 'space-around' }}>
-          <HeroButton>Tiendas asociadas</HeroButton>
-          <HeroButton>¿Cómo funciona?</HeroButton>
-          <HeroButton>Otros servicios</HeroButton>
-        </Box>
+      <Box sx={{ position: 'relative' }}>
+        <CardMedia
+          component="img"
+          alt="Hero Image 2"
+          image="/images/landing2.png"
+          sx={{ height: '100%', objectFit: 'cover', flex: 1 }}
+        />
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: 'center',
+            fontWeight: 'bold',
+            position: 'absolute',
+            color: 'warning.main',
+            bottom: '5%',
+            right: '0%',
+            left: '0%'
+          }}
+        >
+          agenda un <br />
+          paseo
+        </Typography>
+      </Box>
+
+      <Box sx={{ position: 'relative' }}>
+        <CardMedia
+          component="img"
+          alt="Hero Image 3"
+          image="/images/landing3.png"
+          sx={{
+            height: '100%',
+            objectFit: 'cover',
+            flex: 1
+          }}
+        />
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: 'right',
+            fontWeight: 'bold',
+            position: 'absolute',
+            color: 'secondary.main',
+            bottom: '5%',
+            right: '50%',
+            left: '0%',
+            marginRight: '-35%'
+          }}
+        >
+          y dejanos el <br />
+          resto.
+        </Typography>
       </Box>
     </Box>
   );

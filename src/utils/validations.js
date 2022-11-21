@@ -1,9 +1,7 @@
 // Libraries
 import * as yup from 'yup';
 import 'yup-phone';
-import getUnixTime from 'date-fns/getUnixTime';
 import { rutValidate } from '../utils/rutValidate';
-import { parseToUnix } from '../utils/parseToUnix';
 
 export const recoverySchema = yup.object().shape({
   email: yup

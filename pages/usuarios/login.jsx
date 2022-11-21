@@ -88,13 +88,12 @@ function LoginPage() {
       }
 
       enqueueSnackbar('Has iniciado sesión correctamente', { variant: 'info' });
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       if (error.isAxiosError) {
         if (error.response) {
           const { data } = error.response;
-          enqueueSnackbar(data.mensaje, { variant: 'error' });
+          data.mensaje && enqueueSnackbar(data.mensaje, { variant: 'error' });
         } else {
           enqueueSnackbar('Error en la conexión', { variant: 'error' });
         }

@@ -17,7 +17,7 @@ function MascotaPerdidaPage() {
   const { query, isReady, replace } = useRouter();
 
   return (
-    <Layout authRequired={false} publicPage title="Adopción de mascotas">
+    <Layout authRequired={false} title="Adopción de mascotas">
       <Box sx={{ maxWidth: { xs: '100%', lg: 1300 }, mx: 'auto' }}>
         <Box
           component="header"

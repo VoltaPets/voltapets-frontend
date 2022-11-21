@@ -1,0 +1,218 @@
+// Librerías
+import { useState, useEffect } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { useForm } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+// MUI
+import SettingsIcon from '@mui/icons-material/Settings';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Box,
+  Card,
+  Grid,
+  DialogActions,
+  IconButton,
+  Button,
+  Typography
+} from '@mui/material';
+
+// Relative imports
+import { CREATE_RECORDATORIO } from '../../../../../../../api/endpoints/Mascota';
+import { request } from '../../../../../../../api';
+import FormInput from '../../../../../../commons/FormInput';
+import { recordatoriosSchema } from './recordatoriosSchema';
+
+const defaultValues = {
+  codigoMascota: 0,
+  titulo: '',
+  descripcion: ''
+};
+
+const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota }) => {
+  // Estados
+  const [loading, setLoading] = useState(true);
+  const [mascotaID, setMascotaID] = useState(codigoMascota);
+
+  // Hooks
+  const { enqueueuSnackbar } = useSnackbar();
+  const {
+    register,
+    control,
+    watch,
+    reset,
+    formState: { errors },
+    handleSubmit
+  } = useForm({
+    defaultValues,
+    resolver: yupResolver(recordatoriosSchema)
+  });
+
+  // Funciones
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
+
+  const onSubmit = async (recordatoriosData) => {
+    console.log(recordatoriosData);
+    // setLoading(true);
+    // try {
+    //   const { data } = await request({
+    //     url: CREATE_RECORDATORIO,
+    //     method: 'POST',
+    //     data: recordatoriosData
+    //   });
+    //   setLoading(false);
+    //   enqueueuSnackbar(data.mensaje, { variant: 'success' });
+    //   handleClose();
+    // } catch (error) {
+    //   setLoading(false);
+    //   if (error.isAxiosError) {
+    //     const { data: recordatorioErr } = error.response;
+    //     recordatorioErr && enqueueuSnackbar(recordatorioErr.mensaje, { variant: 'error' });
+    //   } else {
+    //     enqueueuSnackbar('Error al crear el recordatorio', { variant: 'error' });
+    //   }
+    // }
+  };
+
+  // Effects
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => console.log(value, name, type));
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+  useEffect(() => {
+    if (recordatorios) {
+      setLoading(false);
+    }
+  }, [recordatorios, codigoMascota]);
+
+  return (
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
+      {/* Titulo */}
+      <DialogTitle sx={{ display: 'flex' }}>
+        <Box sx={{ flex: 0.2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
+            onClick={handleClose}
+          >
+            Cerrar
+          </Button>
+        </Box>
+        <Box sx={{ flex: 1 }}>
+          <Typography variant="h6" align="center" sx={{ fontWeight: 'bold' }}>
+            Recordatorios
+          </Typography>
+        </Box>
+      </DialogTitle>
+
+      <DialogContent>
+        {/* Display de recordatorios y su administración */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', mb: 2 }}>
+          {/* Información */}
+          <Box mb={2}>
+            <Typography variant="body2" align="justify">
+              En esta sección podrás administrar y crear recordatorios relacionados con la mascota
+              seleccionada. Los recordatorios te ayudarán a no olvidar las fechas importantes o
+              eventos relacionados con tu mascota como vacunas, cumpleaños, etc.
+            </Typography>
+          </Box>
+
+          {/* Lista */}
+          <Box sx={{ flex: 1 }}>
+            <Card variant="outlined" sx={{ p: 2, minHeight: 150, bgcolor: 'rgba(0,0,0,0.1)' }}>
+              {loading ? (
+                <BeatLoader size={10} />
+              ) : recordatorios.length === 0 ? (
+                <Typography variant="body2" align="center">
+                  No tienes recordatorios creados para esta mascota aún.
+                </Typography>
+              ) : (
+                recordatorios.map((recordatorio) => (
+                  <Card variant="outlined" sx={{ p: 1, mb: 1, display: 'flex' }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: 1
+                      }}
+                    >
+                      <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                        {recordatorio.titulo}
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ width: 'fit-content' }}>
+                      <IconButton sx={{ gap: 1 }}>
+                        <SettingsIcon />
+                        <Typography variant="caption">Editar</Typography>
+                      </IconButton>
+                      <IconButton sx={{ gap: 1 }}>
+                        <DeleteIcon />
+                        <Typography variant="caption">Eliminar</Typography>
+                      </IconButton>
+                    </Box>
+                  </Card>
+                ))
+              )}
+            </Card>
+          </Box>
+        </Box>
+
+        {/* Formulario de creación */}
+        <Box>
+          <Typography variant="h6" align="center" sx={{ fontWeight: 'bold', mb: 2 }}>
+            Crear recordatorio
+          </Typography>
+          <Grid container component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" {...register('codigoMascota', { value: mascotaID })} />
+            <FormInput
+              control={control}
+              name="titulo"
+              labelText="Título"
+              placeholderText="Recordatorio de veterinaria"
+              errorName={errors.titulo}
+              errorText={errors.titulo?.message}
+              variant="outlined"
+            />
+            <FormInput
+              rows={6}
+              multiline
+              maxLength={500}
+              control={control}
+              name="descripcion"
+              labelText="Descripcion"
+              placeholderText="Escribe una descripción para el recordatorio..."
+              errorName={errors.descripcion}
+              errorText={errors.descripcion?.message}
+              variant="outlined"
+            />
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mt: 14 }}>
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                color="info"
+                sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
+              >
+                Crear recordatorio
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default ModalEdicionRecordatorios;

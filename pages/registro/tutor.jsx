@@ -18,7 +18,7 @@ import { schemaRegistroTutor } from '../../src/utils/validations';
 import LayoutRegistro from '../../src/components/screens/public/registro/LayoutRegistro';
 import RegistroModal from '../../src/components/screens/public/registro/RegistroModal';
 import { CREATE_TUTOR, CREATE_USER_IMG } from '../../src/api/endpoints/Usuario';
-import { CLOUDINARY_DEFAULT_IMAGE } from '../../src/constant/';
+import { CLOUDINARY_DEFAULT_IMAGE, CLOUDINARY_DEFAULT_PUBLIC_ID } from '../../src/constant/';
 import { GET_COMUNAS, GET_REGIONES } from '../../src/api/endpoints/Ubicacion';
 import { request } from '../../src/api';
 
@@ -86,7 +86,8 @@ const TutorRegisterPage = () => {
     const imgData = {
       codigoUsuario: userId,
       url: imgUrl,
-      path: imgPath
+      path: imgPath,
+      public_id: CLOUDINARY_DEFAULT_PUBLIC_ID
     };
 
     try {

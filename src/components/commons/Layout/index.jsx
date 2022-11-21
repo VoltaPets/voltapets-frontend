@@ -1,5 +1,8 @@
 // Libraries
+import { useEffect } from 'react';
 import Head from 'next/head';
+import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 // MUI
 import { Box } from '@mui/material';
@@ -11,13 +14,20 @@ import { useFetchUser } from '../../../hook/useFetchUser';
 
 const Layout = ({
   authRequired = false,
+  tutorRequired = false,
+  paseadorRequired = false,
   children,
   description,
-  publicPage = false,
   title = 'Volta Pets',
   nextPage
 }) => {
-  const { user } = useFetchUser({ required: authRequired, nextPage });
+  // Hooks
+  const { user } = useFetchUser({
+    required: authRequired,
+    nextPage,
+    tutorRequired,
+    paseadorRequired
+  });
 
   return (
     <Box sx={{ maxwidth: '100vw' }}>

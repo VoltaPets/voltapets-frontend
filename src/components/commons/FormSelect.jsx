@@ -15,8 +15,13 @@ export default function FormSelect({
   dataArray,
   noHelperText = false,
   comuna = false,
-  region = false
+  region = false,
+  size = false,
+  raza = false,
+  sexo = false
 }) {
+  const type = comuna ? 'comuna' : region ? 'region' : size ? 'size' : raza ? 'raza' : null;
+
   return (
     <Grid item xs={12} sm={width} sx={{ height: noHelperText ? 'auto' : 80 }}>
       <Controller
@@ -41,16 +46,9 @@ export default function FormSelect({
               color="secondary"
             >
               <MenuItem value="">Elegir {`${labelText}`}</MenuItem>
-              {dataArray?.map((location) => (
-                <MenuItem
-                  key={
-                    comuna ? location.codigoComuna : region ? location.codigoRegion : location.id
-                  }
-                  value={
-                    comuna ? location.codigoComuna : region ? location.codigoRegion : location.id
-                  }
-                >
-                  {location.descripcion}
+              {dataArray?.map((data) => (
+                <MenuItem key={data.id} value={data.id}>
+                  {data.descripcion}
                 </MenuItem>
               ))}
             </Select>

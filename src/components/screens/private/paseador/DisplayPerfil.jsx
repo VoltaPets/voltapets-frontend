@@ -6,8 +6,8 @@ import { Card, Skeleton, Button, Box, Typography, Rating, CardMedia } from '@mui
 
 // Relative Imporst
 import DisplayInfo from './perfil/DisplayInfo';
-import ModalProfileImg from './perfil/ModalProfileImg';
-import ModalEdicion from './perfil/ModalEdicion';
+import ModalProfileImg from '../../../commons/ModalProfileImg';
+import ModalEdicion from '../../../commons/ModalEdicion';
 import { request } from '../../../../api';
 import { GET_COMUNAS } from '../../../../api/endpoints/Ubicacion';
 
@@ -46,11 +46,16 @@ const DisplayPerfil = ({ perfil }) => {
   };
 
   const getComunas = async (idComuna) => {
-    const { data } = await request({
-      url: GET_COMUNAS(idComuna),
-      method: 'GET'
-    });
-    setComunasArray(data);
+    try {
+      const { data } = await request({
+        url: GET_COMUNAS(idComuna),
+        method: 'GET'
+      });
+      setComunasArray(data);
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar('Error al obtener las comunas', { variant: 'error' });
+    }
   };
 
   // Effect
@@ -64,7 +69,12 @@ const DisplayPerfil = ({ perfil }) => {
   return (
     <>
       <ModalProfileImg open={openProfileImg} onClose={handleCloseProfileImg} />
-      <ModalEdicion open={openEdicion} onClose={handleCloseEdicion} comunas={comunasArray} />
+      <ModalEdicion
+        open={openEdicion}
+        onClose={handleCloseEdicion}
+        comunas={comunasArray}
+        Profile={perfil ? perfil : null}
+      />
       <Box
         sx={{
           bgcolor: '#fff',
@@ -157,7 +167,9 @@ const DisplayPerfil = ({ perfil }) => {
                   </>
                 ) : (
                   <Typography variant="caption" sx={{ textAlign: 'justify' }}>
-                    {descripcionPerfil ? descripcionPerfil : 'Editar perfil para agregar descripción'}
+                    {descripcionPerfil
+                      ? descripcionPerfil
+                      : 'Editar perfil para agregar descripción'}
                   </Typography>
                 )}
               </Card>
