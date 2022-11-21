@@ -50,10 +50,7 @@ const DisplayRecordatorios = ({ id }) => {
   useEffect(() => {
     getRecordatorios();
     setCodMascota(id);
-    console.log('codMascota UseEffect', codMascota);
   }, []);
-
-  console.log('codMascota', codMascota);
 
   return (
     <>

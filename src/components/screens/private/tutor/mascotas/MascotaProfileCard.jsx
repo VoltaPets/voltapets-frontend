@@ -4,13 +4,11 @@ import { useState, useEffect } from 'react';
 // MUI
 import { Box, Card, Typography, CardMedia } from '@mui/material';
 
-const MascotaProfileCard = ({
-  nombre = 'Nombre mascota',
-  estado = 'Deshabilitado',
-  img = '/images/paw.png',
-  selected = false,
-  onSelected
-}) => {
+const MascotaProfileCard = ({ mascota, selected = false, onSelected }) => {
+  const mascotaID = mascota?.id;
+  const mascotaNombre = mascota?.nombre;
+  const mascotaImg = mascota?.imagen.url + mascota?.imagen.path;
+  const mascotaEstado = mascota?.estadoMascota.descripcion;
   return (
     <Card
       variant="outlined"
@@ -21,17 +19,20 @@ const MascotaProfileCard = ({
         justifyContent: 'space-between',
         p: 1,
         width: '100%',
+        maxHeight: 80,
         '&:hover': { cursor: 'pointer' },
         borderRadius: 4
       }}
-      onClick={onSelected}
+      onClick={() => onSelected(mascotaID)}
     >
-      <CardMedia
-        component="img"
-        image={img}
-        alt={nombre}
-        sx={{ width: 65, height: '100%', flex: 0.5, borderRadius: 2 }}
-      />
+      <Box sx={{ flex: 0.3, height: '100%' }}>
+        <CardMedia
+          component="img"
+          image={mascotaImg}
+          alt={mascotaNombre}
+          sx={{ width: '100%', height: '100%', borderRadius: 2, objectFit: 'cover' }}
+        />
+      </Box>
       <Box
         sx={{
           flex: 1,
@@ -41,11 +42,11 @@ const MascotaProfileCard = ({
           justifyContent: 'center'
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
-          {nombre}
+        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 1 }}>
+          {mascotaNombre}
         </Typography>
         <Typography variant="subtitle2" sx={{ textAlign: 'center' }}>
-          {estado}
+          {mascotaEstado}
         </Typography>
       </Box>
     </Card>

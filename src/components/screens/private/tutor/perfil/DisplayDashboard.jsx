@@ -27,7 +27,6 @@ const DisplayDashboard = () => {
         method: 'GET'
       });
       setMisMascotas(data);
-      console.log(misMascotas)
     } catch (error) {
       console.log("error", error);
     }

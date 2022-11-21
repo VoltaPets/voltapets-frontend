@@ -1,29 +1,51 @@
 // Librerías
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
-import { Grid } from '@mui/material';
+import { Grid, Card, Box, Button, Typography } from '@mui/material';
 
 // Relative imports
 import Layout from '../../src/components/commons/Layout';
 import DisplayMascotasProfile from '../../src/components/screens/private/tutor/mascotas/DisplayMascotasProfile';
+import MascotaProfileCard from '../../src/components/screens/private/tutor/mascotas/MascotaProfileCard';
 import MascotaDetail from '../../src/components/screens/private/tutor/mascotas/MascotaDetail';
+import ModalCreacionMascota from '../../src/components/screens/private/tutor/mascotas/ModalCreacionMascota';
+import ModalProfileImg from '../../src/components/commons/ModalProfileImg';
+
 import { GET_MASCOTAS } from '../../src/api/endpoints/Mascota';
 import { request } from '../../src/api';
 
 export default function MisMascotasPage() {
   // Estados
-  const [mascotas, setMascotas] = useState([]);
-  const [selectedMascota, setSelectedMascota] = useState({});
+  const [mascotasList, setMascotasList] = useState([]);
+  const [selectedMascota, setSelectedMascota] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [openCreacionMascota, setOpenCreacionMascota] = useState(false);
 
   // Funciones
-  const getMascotas = async () => {
-    const { data } = await request({
-      url: GET_MASCOTAS,
-      method: 'GET'
-    });
-    setMascotas(data);
+  const getMascotasList = async () => {
+    setLoading(true);
+    try {
+      const { data } = await request({
+        url: GET_MASCOTAS,
+        method: 'GET'
+      });
+      setMascotasList(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCreacionMascota = () => {
+    setOpenCreacionMascota(true);
+  };
+
+  const handleCloseModalCreacionMascota = () => {
+    setOpenCreacionMascota(false);
+    getMascotasList();
   };
 
   // Hooks
@@ -35,20 +57,15 @@ export default function MisMascotasPage() {
 
   // Effects
   useEffect(() => {
-    getMascotas();
+    getMascotasList();
   }, []);
 
+  // if query is not defined, set selectedMascota to first element of mascotasList
   useEffect(() => {
-    if (router.query.id && mascotas.length > 0) {
-      const mascotaQuery = mascotas.find((mascota) => mascota.id === Number(router.query.id));
-
-      if (mascotaQuery) {
-        setSelectedMascota(mascotaQuery);
-      }
-    } else {
-      setSelectedMascota(mascotas[0]);
+    if (!router.query.mascota) {
+      setSelectedMascota(mascotasList[0]?.id);
     }
-  }, [router.query.id, mascotas]);
+  }, [router.query.mascota, mascotasList]);
 
   return (
     <Layout
@@ -58,6 +75,12 @@ export default function MisMascotasPage() {
       authRequired
       nextPage={'tutor/mis-mascotas'}
     >
+      <ModalCreacionMascota
+        onClose={handleCloseModalCreacionMascota}
+        open={openCreacionMascota}
+        setOpen={setOpenCreacionMascota}
+      />
+
       <Grid container>
         <Grid
           item
@@ -65,14 +88,60 @@ export default function MisMascotasPage() {
           sx={{
             bgcolor: 'primary.main',
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'stretch',
             justifyContent: 'center',
+            gap: 2,
             p: 4
           }}
         >
+          {/* Mis mascotas */}
+          <Card variant="outlined" sx={{ flex: 0.5, p: 2 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+              Mis Mascotas
+            </Typography>
+            <Card
+              variant="outlined"
+              sx={{
+                bgcolor: 'rgba(0,0,0,0.1)',
+                height: 350,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'start',
+                alignItems: 'center',
+                overflowY: 'scroll',
+                gap: 1,
+                p: 2
+              }}
+            >
+              {loading ? (
+                <BeatLoader size={10} />
+              ) : (
+                mascotasList.map((mascota) => {
+                  return (
+                    <MascotaProfileCard
+                      key={mascota.id}
+                      mascota={mascota}
+                      selected={selectedMascota === mascota.id}
+                      onSelected={handleSelected}
+                    />
+                  );
+                })
+              )}
+            </Card>
+            <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', gap: 2 }}>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleCreacionMascota}
+                sx={{ mt: 2, flex: 1, fontWeight: 'bold', textTransform: 'inherit' }}
+              >
+                Administrar Mascotas
+              </Button>
+            </Box>
+          </Card>
+
           <DisplayMascotasProfile
-            mascotas={mascotas}
+            mascotas={mascotasList}
             handleSelected={handleSelected}
             selectedMascota={selectedMascota}
           />

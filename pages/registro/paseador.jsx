@@ -307,7 +307,7 @@ function PaseadorRegisterPage() {
               >
                 <Box sx={{ display: 'flex' }}>
                   <input
-                    type={'file'}
+                    type="file"
                     {...register('imagen', { required: true })}
                     onChange={handleImageChange}
                   />

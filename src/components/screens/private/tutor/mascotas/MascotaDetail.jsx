@@ -13,6 +13,9 @@ import { GET_VACUNAS } from '../../../../../api/endpoints/Vacunas';
 import { request } from '../../../../../api';
 
 const MascotaDetail = ({ selectedMascota }) => {
+  // Variables
+  const idMascota = selectedMascota
+
   // Estados
   const [vacunas, setVacunas] = useState([]);
 
@@ -36,7 +39,7 @@ const MascotaDetail = ({ selectedMascota }) => {
     if (!selectedMascota) {
       return;
     }
-    getVacunas(selectedMascota.id);
+    getVacunas(idMascota);
   }, [selectedMascota]);
 
   return (
@@ -49,7 +52,7 @@ const MascotaDetail = ({ selectedMascota }) => {
       <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* Comportamiento */}
         <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
-          <DisplayComportamiento nombreMascota={selectedMascota?.nombre} />
+          <DisplayComportamiento nombreMascota={"nombreMascota"} />
         </Card>
 
         {/* Vacunas */}
@@ -69,7 +72,7 @@ const MascotaDetail = ({ selectedMascota }) => {
           variant="outlined"
           sx={{ width: '100%', p: 2, flex: 1, display: 'flex', flexDirection: 'column' }}
         >
-          <DisplayRecordatorios />
+          <DisplayRecordatorios id={idMascota} />
         </Card>
       </Grid>
 
