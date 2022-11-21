@@ -65,7 +65,10 @@ const MascotaDetail = ({ selectedMascota }) => {
         </Card>
 
         {/* DisplayRecordatorios */}
-        <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
+        <Card
+          variant="outlined"
+          sx={{ width: '100%', p: 2, flex: 1, display: 'flex', flexDirection: 'column' }}
+        >
           <DisplayRecordatorios />
         </Card>
       </Grid>

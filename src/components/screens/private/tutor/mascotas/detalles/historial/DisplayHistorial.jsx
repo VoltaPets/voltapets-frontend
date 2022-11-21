@@ -59,7 +59,13 @@ const DisplayHistorial = () => {
       </Typography>
       <Card
         variant="outlined"
-        sx={{ width: '100%', p: 2, maxHeight: 265, overflowY: 'auto', bgcolor: 'rgba(0,0,0,0.1)' }}
+        sx={{
+          width: '100%',
+          p: 2,
+          maxHeight: 200,
+          overflowY: 'scroll',
+          bgcolor: 'rgba(0,0,0,0.1)'
+        }}
       >
         {mockHistorial.map((historial) => (
           <HistorialCard key={historial.id} {...historial} />
