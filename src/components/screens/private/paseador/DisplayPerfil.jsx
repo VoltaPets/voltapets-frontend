@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Card, Skeleton, Button, Box, Typography, Rating, CardMedia } from '@mui/material';
 
 // Relative Imporst
-import DisplayInfo from './perfil/DisplayInfo';
+import DisplayInfo from '../../../commons/DisplayInfo';
 import ModalProfileImg from '../../../commons/ModalProfileImg';
 import ModalEdicion from '../../../commons/ModalEdicion';
 import { request } from '../../../../api';
