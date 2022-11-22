@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '../../constant';
 
-export const GET_VACUNAS = (codigoMascota) => `${API_BASE_URL}/vacunaMascota/obtener/${codigoMascota}`;
-export const REGISTRAR_VACUNA = () => `${API_BASE_URL}/vacunaMascota/registrar`;
+export const GET_VACUNAS = `${API_BASE_URL}/vacunaMascota/obtener`; // GET - Obtener todas las vacunas
+export const GET_VACUNAS_PET = (codigoMascota) => `${API_BASE_URL}/vacunaMascota/obtener/${codigoMascota}`; // GET - Obtener vacunas de una mascota
+export const REGISTRAR_VACUNA = () => `${API_BASE_URL}/vacunaMascota/registrar`; // POST - Registrar vacuna

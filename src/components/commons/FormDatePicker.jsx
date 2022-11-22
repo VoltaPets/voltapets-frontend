@@ -32,6 +32,7 @@ export default function FormDatePicker({
               label={labelText}
               value={value}
               disableFuture
+              views={['year', 'month', 'day']}
               shouldDisableYear={(year) => {
                 return year.getFullYear() < 1992;
               }}
@@ -44,6 +45,7 @@ export default function FormDatePicker({
               {...rest}
               renderInput={(params) => (
                 <TextField
+                  fullWidth
                   {...params}
                   variant="standard"
                   error={errorName ? true : false}

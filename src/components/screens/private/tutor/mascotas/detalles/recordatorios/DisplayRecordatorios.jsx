@@ -14,16 +14,16 @@ import { request } from '../../../../../../../api/';
 
 const DisplayRecordatorios = ({ id }) => {
   // Estados
-  const [codMascota, setCodMascota] = useState(0);
   const [openEdicion, setOpenEdicion] = useState(false);
-  const [recordatorios, setRecordatorios] = useState([]);
+  const [recordatoriosList, setRecordatoriosList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Notificaciones
   const { enqueueSnackbar } = useSnackbar();
 
   // Handlers
-  const handleOpenEdicion = () => {
+  const handleOpenEdicion = (id) => {
+    getRecordatorios(id);
     setOpenEdicion(true);
   };
 
@@ -32,33 +32,35 @@ const DisplayRecordatorios = ({ id }) => {
   };
 
   // Funciones
-  const getRecordatorios = async () => {
-    setLoading(true);
-    try {
-      const { data } = await request({
-        url: GET_RECORDATORIOS(id),
-        method: 'GET'
-      });
-      setRecordatorios(data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
+  const getRecordatorios = async (id) => {
+    if (id) {
+      setLoading(true);
+      try {
+        const { data } = await request({
+          method: 'GET',
+          url: GET_RECORDATORIOS(id)
+        });
+        setRecordatoriosList(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        enqueueSnackbar('Error al obtener los recordatorios', { variant: 'error' });
+      }
     }
   };
 
   // Effects
   useEffect(() => {
-    getRecordatorios();
-    setCodMascota(id);
-  }, []);
+    getRecordatorios(id);
+  }, [id]);
 
   return (
     <>
       <ModalEdicionRecordatorios
         open={openEdicion}
         onClose={handleCloseEdicion}
-        recordatorios={recordatorios}
         codigoMascota={id}
+        recordatorios={recordatoriosList}
       />
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -79,20 +81,16 @@ const DisplayRecordatorios = ({ id }) => {
             variant="outlined"
             sx={{
               p: 2,
-              flex: 1,
               bgcolor: 'rgba(0,0,0,0.1)',
+              minHeight: 280,
               maxHeight: 280,
-              overflowY: 'scroll',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'start',
-              alignItems: 'center'
+              overflowY: 'scroll'
             }}
           >
             {loading ? (
               <BeatLoader loading={loading} size={10} style={{ margin: 'auto' }} />
-            ) : recordatorios.length > 0 ? (
-              recordatorios.map((recordatorio) => (
+            ) : recordatoriosList.length > 0 ? (
+              recordatoriosList.map((recordatorio) => (
                 <RecordatorioCard key={recordatorio.id} recordatorio={recordatorio} />
               ))
             ) : (

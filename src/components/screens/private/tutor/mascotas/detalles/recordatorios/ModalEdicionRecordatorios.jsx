@@ -15,13 +15,13 @@ import {
   Box,
   Card,
   Grid,
-  DialogActions,
   IconButton,
   Button,
   Typography
 } from '@mui/material';
 
 // Relative imports
+import { GET_RECORDATORIOS } from '../../../../../../../api/endpoints/Mascota';
 import { CREATE_RECORDATORIO } from '../../../../../../../api/endpoints/Mascota';
 import { request } from '../../../../../../../api';
 import FormInput from '../../../../../../commons/FormInput';
@@ -33,10 +33,10 @@ const defaultValues = {
   descripcion: ''
 };
 
-const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota }) => {
+const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota }) => {
   // Estados
   const [loading, setLoading] = useState(true);
-  const [mascotaID, setMascotaID] = useState(codigoMascota);
+  const [editMode, setEditMode] = useState(false);
 
   // Hooks
   const { enqueueuSnackbar } = useSnackbar();
@@ -53,32 +53,34 @@ const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota
   });
 
   // Funciones
-  const handleClose = () => {
-    onClose();
+  const handleClose = (id) => {
+    onClose(id);
     reset();
   };
 
+  const handleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
   const onSubmit = async (recordatoriosData) => {
-    console.log(recordatoriosData);
-    // setLoading(true);
-    // try {
-    //   const { data } = await request({
-    //     url: CREATE_RECORDATORIO,
-    //     method: 'POST',
-    //     data: recordatoriosData
-    //   });
-    //   setLoading(false);
-    //   enqueueuSnackbar(data.mensaje, { variant: 'success' });
-    //   handleClose();
-    // } catch (error) {
-    //   setLoading(false);
-    //   if (error.isAxiosError) {
-    //     const { data: recordatorioErr } = error.response;
-    //     recordatorioErr && enqueueuSnackbar(recordatorioErr.mensaje, { variant: 'error' });
-    //   } else {
-    //     enqueueuSnackbar('Error al crear el recordatorio', { variant: 'error' });
-    //   }
-    // }
+    recordatoriosData.codigoMascota = codigoMascota;
+    setLoading(true);
+    try {
+      const { data } = await request({
+        url: CREATE_RECORDATORIO,
+        method: 'POST',
+        data: recordatoriosData
+      });
+      setLoading(false);
+      enqueueuSnackbar(data.mensaje, { variant: 'success' });
+      onClose(codigoMascota);
+    } catch (error) {
+      setLoading(false);
+      if (error.isAxiosError) {
+        const { data: recordatorioErr } = error.response;
+        recordatorioErr && enqueueuSnackbar(recordatorioErr.mensaje, { variant: 'error' });
+      }
+    }
   };
 
   // Effects
@@ -97,7 +99,7 @@ const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota
     <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
       {/* Titulo */}
       <DialogTitle sx={{ display: 'flex' }}>
-        <Box sx={{ flex: 0.2 }}>
+        <Box sx={{ width: 'fit-content' }}>
           <Button
             fullWidth
             variant="contained"
@@ -129,9 +131,17 @@ const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota
 
           {/* Lista */}
           <Box sx={{ flex: 1 }}>
-            <Card variant="outlined" sx={{ p: 2, minHeight: 150, bgcolor: 'rgba(0,0,0,0.1)' }}>
+            <Card
+              variant="outlined"
+              sx={{
+                p: 2,
+                maxHeight: 150,
+                bgcolor: 'rgba(0,0,0,0.1)',
+                overflowY: 'scroll'
+              }}
+            >
               {loading ? (
-                <BeatLoader size={10} />
+                <BeatLoader size={10} style={{ margin: 'auto' }} />
               ) : recordatorios.length === 0 ? (
                 <Typography variant="body2" align="center">
                   No tienes recordatorios creados para esta mascota aún.
@@ -153,11 +163,12 @@ const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota
                     </Box>
 
                     <Box sx={{ width: 'fit-content' }}>
-                      <IconButton sx={{ gap: 1 }}>
+                      <IconButton sx={{ gap: 1 }} color="info" onClick={handleEditMode}>
                         <SettingsIcon />
                         <Typography variant="caption">Editar</Typography>
                       </IconButton>
-                      <IconButton sx={{ gap: 1 }}>
+
+                      <IconButton sx={{ gap: 1 }} color="secondary">
                         <DeleteIcon />
                         <Typography variant="caption">Eliminar</Typography>
                       </IconButton>
@@ -175,7 +186,6 @@ const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota
             Crear recordatorio
           </Typography>
           <Grid container component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
-            <input type="hidden" {...register('codigoMascota', { value: mascotaID })} />
             <FormInput
               control={control}
               name="titulo"
@@ -199,13 +209,14 @@ const ModalEdicionRecordatorios = ({ open, onClose, recordatorios, codigoMascota
             />
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mt: 14 }}>
               <Button
+                loading={loading}
                 fullWidth
                 type="submit"
                 variant="contained"
                 color="info"
                 sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
               >
-                Crear recordatorio
+                {loading ? <BeatLoader size={10} /> : 'Crear recordatorio'}
               </Button>
             </Grid>
           </Grid>

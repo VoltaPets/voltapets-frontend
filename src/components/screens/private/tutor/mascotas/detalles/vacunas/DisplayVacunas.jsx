@@ -9,7 +9,7 @@ import { Box, Typography, Button } from '@mui/material';
 // Relative Imports
 import ModalEdicionVacunas from './ModalEdicionVacunas';
 
-const Vacunas = ({ vacunasArray }) => {
+const Vacunas = ({ vacunasArray, mascotaID }) => {
   // Estados
   const [openEditVacunas, setOpenEditVacunas] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,11 @@ const Vacunas = ({ vacunasArray }) => {
 
   return (
     <>
-      <ModalEdicionVacunas open={openEditVacunas} onClose={handleCloseEditVacunas} />
+      <ModalEdicionVacunas
+        mascotaID={mascotaID}
+        open={openEditVacunas}
+        onClose={handleCloseEditVacunas}
+      />
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h6" align="center" sx={{ fontWeight: 'bold' }}>
@@ -82,21 +86,6 @@ const Vacunas = ({ vacunasArray }) => {
               </Box>
             ))
           )}
-          {/* // <Box
-              //   key={vacuna.id}
-              //   sx={{ display: 'flex', flex: 1, width: '50%', alignItems: 'center' }}
-              // >
-              //   <Typography variant="subtitle2" sx={{ flex: 0.8, fontWeight: 'bold' }}>
-              //     {vacuna.nombreVacuna}
-              //   </Typography>
-              //   {vacuna.fechaVacunacion ? (
-              //     <CheckIcon color="info" />
-              //   ) : (
-              //     <CloseIcon color="secondary" />
-              //   )}
-              // </Box>
-          //   ))
-          // )} */}
         </Box>
       </Box>
     </>

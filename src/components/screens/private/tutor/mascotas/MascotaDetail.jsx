@@ -9,7 +9,7 @@ import DisplayVacunas from './detalles/vacunas/DisplayVacunas';
 import DisplayComportamiento from './detalles/comportamiento/DisplayComportamiento';
 import DisplayHistorial from './detalles/historial/DisplayHistorial';
 import DisplayRecordatorios from './detalles/recordatorios/DisplayRecordatorios';
-import { GET_VACUNAS } from '../../../../../api/endpoints/Vacunas';
+import { GET_VACUNAS_PET } from '../../../../../api/endpoints/Vacunas';
 import { GET_MASCOTA } from '../../../../../api/endpoints/Mascota';
 import { request } from '../../../../../api';
 
@@ -26,7 +26,7 @@ const MascotaDetail = ({ selectedMascota }) => {
     try {
       if (id) {
         const { data } = await request({
-          url: GET_VACUNAS(id),
+          url: GET_VACUNAS_PET(id),
           method: 'GET'
         });
         setVacunas(data);

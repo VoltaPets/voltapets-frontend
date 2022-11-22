@@ -1,4 +1,5 @@
 // Librerías
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 // MUI
@@ -6,9 +7,11 @@ import { Dialog, Box, Grid, Typography, Button, Card } from '@mui/material';
 
 // Relative Imports
 import FormDatePicker from '../../../../../../commons/FormDatePicker';
+import FormularioVacuna from './FormularioVacuna';
 
-const ModalEdicionVacunas = ({ open, onClose }) => {
+const ModalEdicionVacunas = ({ open, onClose, mascotaID }) => {
   // Estados
+  const [vacunasPetArray, setVacunasPetArray] = useState([]);
 
   // Hooks
   const {
@@ -16,6 +19,9 @@ const ModalEdicionVacunas = ({ open, onClose }) => {
     handleSubmit,
     formState: { errors }
   } = useForm();
+
+  // Funciones
+  const onSubmit = (data) => console.log(data);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
@@ -54,7 +60,13 @@ const ModalEdicionVacunas = ({ open, onClose }) => {
           </Grid>
         </Card>
         <Card variant="outlined" sx={{ p: 2, flex: 1 }}>
-          Otras Vacunas
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+            Otras Vacunas
+          </Typography>
+          <Box>
+            <FormularioVacuna titulo="Séxtuple" setVacunas={setVacunasPetArray} codigoMascota={mascotaID}/>
+            <FormularioVacuna titulo="Óctuple" setVacunas={setVacunasPetArray} />
+          </Box>
         </Card>
       </Box>
     </Dialog>
@@ -62,19 +74,3 @@ const ModalEdicionVacunas = ({ open, onClose }) => {
 };
 
 export default ModalEdicionVacunas;
-
-/*
-[
-  {
-    nombreVacuna,
-    fecha,
-    obligatoria
-    codigoVacuna
-    coigoMascota
-    hasImagen
-    imagen
-  },
-]
-
-
-*/

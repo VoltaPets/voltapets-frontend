@@ -62,8 +62,6 @@ const DisplayMascotasProfile = ({ selectedMascota }) => {
     }
   }, [mascotaProfile]);
 
-  console.log(mascotaProfile);
-
   return (
     <>
       <ModalCreacionMascota open={openCreacionMascota} onClose={handleCloseModalCreacionMascota} />
