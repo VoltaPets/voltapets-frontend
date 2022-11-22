@@ -10,14 +10,16 @@ import DisplayComportamiento from './detalles/comportamiento/DisplayComportamien
 import DisplayHistorial from './detalles/historial/DisplayHistorial';
 import DisplayRecordatorios from './detalles/recordatorios/DisplayRecordatorios';
 import { GET_VACUNAS } from '../../../../../api/endpoints/Vacunas';
+import { GET_MASCOTA } from '../../../../../api/endpoints/Mascota';
 import { request } from '../../../../../api';
 
 const MascotaDetail = ({ selectedMascota }) => {
   // Variables
-  const idMascota = selectedMascota
+  const idMascota = selectedMascota;
 
   // Estados
   const [vacunas, setVacunas] = useState([]);
+  const [mascota, setMascota] = useState({});
 
   // Funciones
   const getVacunas = async (id) => {
@@ -34,25 +36,48 @@ const MascotaDetail = ({ selectedMascota }) => {
     }
   };
 
+  const getMascotaById = async (id) => {
+    try {
+      if (id) {
+        const { data } = await request({
+          url: GET_MASCOTA(id),
+          method: 'GET'
+        });
+        setMascota(data);
+      }
+    } catch (error) {
+      console.log(error.data);
+    }
+  };
+
   // Effects
   useEffect(() => {
     if (!selectedMascota) {
       return;
     }
     getVacunas(idMascota);
+    getMascotaById(idMascota);
   }, [selectedMascota]);
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} mb={4}>
+      <Grid
+        item
+        xs={12}
+        mt={4}
+        sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center' }}
+      >
         <Typography variant="h4" align="center" sx={{ color: '#000' }}>
-          Detalles de la mascota
+          Detalles de
+        </Typography>
+        <Typography variant="h4" align="center" color="secondary" sx={{ fontWeight: 'bold' }}>
+          {mascota.nombre}
         </Typography>
       </Grid>
       <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* Comportamiento */}
         <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
-          <DisplayComportamiento nombreMascota={"nombreMascota"} />
+          <DisplayComportamiento nombreMascota={mascota?.nombre} />
         </Card>
 
         {/* Vacunas */}

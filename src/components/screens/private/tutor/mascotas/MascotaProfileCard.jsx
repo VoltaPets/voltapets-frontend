@@ -19,7 +19,7 @@ const MascotaProfileCard = ({ mascota, selected = false, onSelected }) => {
         justifyContent: 'space-between',
         p: 1,
         width: '100%',
-        maxHeight: 80,
+        height: 80,
         '&:hover': { cursor: 'pointer' },
         borderRadius: 4
       }}

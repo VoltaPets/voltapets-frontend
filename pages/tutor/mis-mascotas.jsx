@@ -12,7 +12,6 @@ import DisplayMascotasProfile from '../../src/components/screens/private/tutor/m
 import MascotaProfileCard from '../../src/components/screens/private/tutor/mascotas/MascotaProfileCard';
 import MascotaDetail from '../../src/components/screens/private/tutor/mascotas/MascotaDetail';
 import ModalCreacionMascota from '../../src/components/screens/private/tutor/mascotas/ModalCreacionMascota';
-import ModalProfileImg from '../../src/components/commons/ModalProfileImg';
 
 import { GET_MASCOTAS } from '../../src/api/endpoints/Mascota';
 import { request } from '../../src/api';
@@ -60,7 +59,6 @@ export default function MisMascotasPage() {
     getMascotasList();
   }, []);
 
-  // if query is not defined, set selectedMascota to first element of mascotasList
   useEffect(() => {
     if (!router.query.mascota) {
       setSelectedMascota(mascotasList[0]?.id);
