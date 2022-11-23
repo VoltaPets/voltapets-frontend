@@ -10,7 +10,7 @@ import { Grid, Typography, Button } from '@mui/material';
 import FormDatePicker from '../../../../../../commons/FormDatePicker';
 import { vacunaSchema } from '../vacunas/vacunaSchema';
 
-const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, setVacunas }) => {
+const FormularioVacuna = ({ vaccSextuple = false, codigoMascota, titulo, vacunas, setVacunas }) => {
   // Estados
   const [isSextuple, setIsSextuple] = useState(false);
   const [isOctuple, setIsOctuple] = useState(false);
@@ -23,10 +23,10 @@ const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, se
     formState: { errors }
   } = useForm({
     defaultValues: {
-      nombreVacuna: sextuple ? 'Séxtuple' : 'Óctuple',
+      nombreVacuna: vaccSextuple ? 'Séxtuple' : 'Óctuple',
       fechaVacunacion: null,
       obligatoria: false,
-      codigoVacuna: sextuple ? 2 : 3,
+      codigoVacuna: vaccSextuple ? 2 : 3,
       codigoMascota: codigoMascota,
       imagen: null
     },
@@ -35,7 +35,7 @@ const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, se
 
   // Funciones
   const onSubmit = (data) => {
-    if (sextuple) {
+    if (vaccSextuple) {
       setIsSextuple(true);
       setVacunas((prev) => [...prev, data]);
     } else {
@@ -46,7 +46,7 @@ const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, se
   };
 
   const handleDelete = () => {
-    if (sextuple) {
+    if (vaccSextuple) {
       setIsSextuple(false);
       setVacunas((prev) => prev.filter((vacuna) => vacuna.codigoVacuna !== 2));
     } else {
@@ -78,7 +78,7 @@ const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, se
       <FormDatePicker
         noMb
         control={control}
-        disabled={(sextuple && isSextuple) || (!sextuple && isOctuple)}
+        disabled={(vaccSextuple && isSextuple) || (!vaccSextuple && isOctuple)}
         name="fechaVacunacion"
         errorName={errors.fechaVacunacion}
         errorText={
@@ -90,7 +90,7 @@ const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, se
         <Button
           variant="outlined"
           size="small"
-          disabled={(sextuple && isSextuple) || (!sextuple && isOctuple)}
+          disabled={(vaccSextuple && isSextuple) || (!vaccSextuple && isOctuple)}
           color="info"
           type="submit"
           sx={{ textTransform: 'inherit', fontWeight: 'bold', flex: 1 }}
@@ -98,6 +98,7 @@ const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, se
           Guardar
         </Button>
         <Button
+          disabled={(vaccSextuple && isSextuple) || (!vaccSextuple && isOctuple)}
           variant="outlined"
           size="small"
           color="error"

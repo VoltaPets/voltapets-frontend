@@ -13,11 +13,11 @@ const RecordatoriosCard = ({ recordatorio }) => {
   });
 
   return (
-    <Card variant="outlined" sx={{ p: 1, display: 'flex', mb: 1, height: 150, width: '100%' }}>
-      <Box sx={{ flex: 0.5, p: 1 }}>
+    <Card variant="outlined" sx={{ p: 1, display: 'flex', mb: 1, height: 170, width: '100%' }}>
+      <Box sx={{ flex: 0.6, p: 1 }}>
         <Typography
           variant="subtitle1"
-          sx={{ textAlign: 'center', fontSize: '0.9em', fontWeight: 'bold', mb: 2 }}
+          sx={{ textAlign: 'justify', fontSize: '0.9em', fontWeight: 'bold', mb: 2 }}
         >
           {recordatorio.titulo}
         </Typography>

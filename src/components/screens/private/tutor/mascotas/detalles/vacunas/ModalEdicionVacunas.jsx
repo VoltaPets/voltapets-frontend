@@ -23,15 +23,14 @@ const schema = Yup.object().shape({
 });
 
 const ModalEdicionVacunas = ({ open, onClose, mascotaID }) => {
-  // Variables
-  const idMascota = mascotaID;
-
   // Estados
   const [vacunaImg, setVacunaImg] = useState(null);
   const [vacunasPetArray, setVacunasPetArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [vacunasActuales, setVacunasActuales] = useState([]);
   const [isAntiRabica, setIsAntiRabica] = useState(false);
+
+  // Variables
+  const idMascota = mascotaID;
 
   // Hooks
   const { enqueueSnackbar } = useSnackbar();
@@ -100,22 +99,25 @@ const ModalEdicionVacunas = ({ open, onClose, mascotaID }) => {
   };
 
   const saveVacuna = (vacunaData) => {
+    console.log('Data: ', vacunaData);
+
     vacunaData.codigoMascota = idMascota;
     vacunasPetArray.push(vacunaData);
     setIsAntiRabica(true);
   };
 
+  console.log(vacunasPetArray);
+
   const deleteVacuna = (codigoVacuna) => {
     const vacunas = vacunasPetArray.filter((vacuna) => vacuna.codigoVacuna !== codigoVacuna);
     setIsAntiRabica(false);
     setVacunasPetArray(vacunas);
-    reset({ fechaVacunacion: null, imagen: null });
   };
 
   const handleClose = () => {
     onClose();
     setVacunasPetArray([]);
-    getVacunas()
+    getVacunas();
     setLoading(false);
   };
 
@@ -223,14 +225,13 @@ const ModalEdicionVacunas = ({ open, onClose, mascotaID }) => {
               </Button>
               <Button
                 variant="outlined"
-                color="secondary"
+                color="error"
                 sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
-                onClick={() => deleteVacuna(1)}
+                onClick={() => deleteVacuna(mascotaID)}
               >
                 Borrar
               </Button>
             </Grid>
-
             <Divider sx={{ width: '100%', mt: 2 }} />
 
             <Grid item xs={12} sx={{ mt: 2 }}>
@@ -255,7 +256,7 @@ const ModalEdicionVacunas = ({ open, onClose, mascotaID }) => {
 
             <Box sx={{ display: 'flex', gap: 2 }}>
               <FormularioVacuna
-                sextuple
+                vaccSextuple
                 titulo="Séxtuple"
                 setVacunas={setVacunasPetArray}
                 vacunas={vacunasPetArray}
