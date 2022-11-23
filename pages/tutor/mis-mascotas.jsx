@@ -60,9 +60,11 @@ export default function MisMascotasPage() {
   }, []);
 
   useEffect(() => {
-    if (!router.query.mascota) {
-      setSelectedMascota(mascotasList[0]?.id);
+    if (!router.query.id) {
+      return setSelectedMascota(mascotasList[0]?.id);
     }
+
+    setSelectedMascota(router.query.id);
   }, [router.query.mascota, mascotasList]);
 
   return (

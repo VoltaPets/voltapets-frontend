@@ -1,56 +1,59 @@
 // Librerías
-import { useState, useEffecte, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 // MUI
-import { Grid, Typography, Button, Card } from '@mui/material';
+import { Grid, Typography, Button } from '@mui/material';
 
 // Relative Impor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ts
-import FormInput from '../../../../../../commons/FormInput';
-import FormSelect from '../../../../../../commons/FormSelect';
 import FormDatePicker from '../../../../../../commons/FormDatePicker';
-import { request } from '../../../../../../../api';
-import { GET_VACUNAS } from '../../../../../../../api/endpoints/Vacunas';
+import { vacunaSchema } from '../vacunas/vacunaSchema';
 
-const FormularioVacuna = ({ codigoMascota, titulo, setVacunas }) => {
+const FormularioVacuna = ({ sextuple = false, codigoMascota, titulo, vacunas, setVacunas }) => {
   // Estados
-  const [vacunaList, setVacunaList] = useState([]);
-  console.log(codigoMascota);
+  const [isSextuple, setIsSextuple] = useState(false);
+  const [isOctuple, setIsOctuple] = useState(false);
+
   // Hooks
   const {
     control,
+    reset,
     handleSubmit,
     formState: { errors }
   } = useForm({
     defaultValues: {
-      nombreVacuna: '',
-      fechaVacuna: null,
+      nombreVacuna: sextuple ? 'Séxtuple' : 'Óctuple',
+      fechaVacunacion: null,
       obligatoria: false,
-      codigoVacuna: 0,
+      codigoVacuna: sextuple ? 2 : 3,
       codigoMascota: codigoMascota,
-      hasImagen: false,
-      imagen: {
-        url: '',
-        path: '',
-        public_id: ''
-      }
-    }
+      imagen: null
+    },
+    resolver: yupResolver(vacunaSchema)
   });
 
   // Funciones
-  const onSubmit = (data) => console.log(data);
-
-  const getVacunas = async () => {
-    const { data } = await request({
-      method: 'GET',
-      url: GET_VACUNAS
-    });
-    setVacunaList(data);
+  const onSubmit = (data) => {
+    if (sextuple) {
+      setIsSextuple(true);
+      setVacunas((prev) => [...prev, data]);
+    } else {
+      setIsOctuple(true);
+      setVacunas((prev) => [...prev, data]);
+    }
+    reset({ fechaVacunacion: null });
   };
 
-  useEffect(() => {
-    getVacunas();
-  }, []);
+  const handleDelete = () => {
+    if (sextuple) {
+      setIsSextuple(false);
+      setVacunas((prev) => prev.filter((vacuna) => vacuna.codigoVacuna !== 2));
+    } else {
+      setIsOctuple(false);
+      setVacunas((prev) => prev.filter((vacuna) => vacuna.codigoVacuna !== 3));
+    }
+  };
 
   return (
     <Grid
@@ -63,34 +66,47 @@ const FormularioVacuna = ({ codigoMascota, titulo, setVacunas }) => {
         border: 1,
         borderColor: 'divider',
         borderRadius: 4,
-        p: 2,
-        mb: 2
+        p: 2
       }}
     >
       <Grid item xs={12}>
-        <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" sx={{ color: '#000', fontWeight: 'bold' }}>
           {titulo}
         </Typography>
       </Grid>
 
-      <FormSelect
-        control={control}
-        name="nombreVacuna"
-        dataArray={vacunaList}
-        errorName={errors.nombreVacuna}
-        errorText={errors.nombreVacuna?.message}
-        labelText="Nombre de la vacuna"
-      />
       <FormDatePicker
+        noMb
         control={control}
-        name="fechaVacuna"
-        errorName={errors.fechaVacuna}
-        errorText={errors.fechaVacuna?.message}
-        labelText="Fecha de la vacuna"
+        disabled={(sextuple && isSextuple) || (!sextuple && isOctuple)}
+        name="fechaVacunacion"
+        errorName={errors.fechaVacunacion}
+        errorText={
+          errors.fechaVacunacion?.message || isSextuple || isOctuple ? 'Vacuna ya registrada' : ''
+        }
+        labelText="Fecha vacuna"
       />
-      <Button color="info" type="submit" sx={{ textTransform: 'inherit', fontWeight: 'bold' }}>
-        Guardar
-      </Button>
+      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 4 }}>
+        <Button
+          variant="outlined"
+          size="small"
+          disabled={(sextuple && isSextuple) || (!sextuple && isOctuple)}
+          color="info"
+          type="submit"
+          sx={{ textTransform: 'inherit', fontWeight: 'bold', flex: 1 }}
+        >
+          Guardar
+        </Button>
+        <Button
+          variant="outlined"
+          size="small"
+          color="error"
+          sx={{ fontWeight: 'bold', textTransform: 'inherit' }}
+          onClick={handleDelete}
+        >
+          Borrar
+        </Button>
+      </Grid>
     </Grid>
   );
 };

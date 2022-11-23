@@ -9,13 +9,15 @@ import { Box, Typography, Button } from '@mui/material';
 // Relative Imports
 import ModalEdicionVacunas from './ModalEdicionVacunas';
 
-const Vacunas = ({ vacunasArray, mascotaID }) => {
+const Vacunas = ({ vacunasArray, mascotaID, getVacunas }) => {
   // Estados
   const [openEditVacunas, setOpenEditVacunas] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Funciones
   const handleCloseEditVacunas = () => {
+    getVacunas(mascotaID);
+    setLoading(true);
     setOpenEditVacunas(false);
   };
 
@@ -29,6 +31,8 @@ const Vacunas = ({ vacunasArray, mascotaID }) => {
       setLoading(false);
     }
   }, [vacunasArray]);
+
+  
 
   return (
     <>
@@ -75,13 +79,22 @@ const Vacunas = ({ vacunasArray, mascotaID }) => {
               >
                 <Typography variant="subtitle2">{vacuna.nombreVacuna}</Typography>
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Typography variant="subtitle2">
+                  <Typography variant="subtitle2" sx={{ fontStyle: 'italic' }}>
+                    {vacuna.fechaVacunacion
+                      ? new Date(vacuna.fechaVacunacion).toLocaleDateString('es-ES', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })
+                      : 'Sin registro'}
+                  </Typography>
+                  <Box>
                     {vacuna.fechaVacunacion ? (
                       <CheckIcon color="success" />
                     ) : (
                       <CloseIcon color="secondary" />
                     )}
-                  </Typography>
+                  </Box>
                 </Box>
               </Box>
             ))

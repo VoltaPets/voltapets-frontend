@@ -245,7 +245,7 @@ const TutorRegisterPage = () => {
             <FormSelect
               region
               disabled
-              width={6}
+              width={6} 
               control={control}
               name="region"
               dataArray={regiones}

@@ -71,11 +71,6 @@ const ModalEdicion = ({ open, onClose, comunas, tutor = false, profile }) => {
     }
   };
 
-  // useEffect(() => {
-  //   const subscription = watch((value, { name, type }) => console.log(value, name, type));
-  //   return () => subscription.unsubscribe();
-  // }, [watch]);
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <Box sx={{ p: 2 }}>

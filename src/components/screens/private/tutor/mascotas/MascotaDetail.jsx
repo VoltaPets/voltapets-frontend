@@ -1,5 +1,6 @@
 // Librerías
 import { useState, useEffect } from 'react';
+import { BeatLoader } from 'react-spinners';
 
 // MUI
 import { Grid, Typography, Card } from '@mui/material';
@@ -68,10 +69,7 @@ const MascotaDetail = ({ selectedMascota }) => {
         sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <Typography variant="h4" align="center" sx={{ color: '#000' }}>
-          Detalles de
-        </Typography>
-        <Typography variant="h4" align="center" color="secondary" sx={{ fontWeight: 'bold' }}>
-          {mascota.nombre}
+          Detalles de Mascota
         </Typography>
       </Grid>
       <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -82,7 +80,7 @@ const MascotaDetail = ({ selectedMascota }) => {
 
         {/* Vacunas */}
         <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
-          <DisplayVacunas vacunasArray={vacunas} />
+          <DisplayVacunas vacunasArray={vacunas} mascotaID={idMascota} getVacunas={getVacunas} />
         </Card>
       </Grid>
 

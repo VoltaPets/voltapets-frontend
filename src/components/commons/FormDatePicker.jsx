@@ -31,6 +31,7 @@ export default function FormDatePicker({
             <DatePicker
               label={labelText}
               value={value}
+              disabled={disabled}
               disableFuture
               views={['year', 'month', 'day']}
               shouldDisableYear={(year) => {

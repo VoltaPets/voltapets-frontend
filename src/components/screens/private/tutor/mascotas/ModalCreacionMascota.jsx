@@ -196,11 +196,7 @@ const ModalCreacionMascota = ({ open, onClose }) => {
     }
   };
 
-  // Effectos
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => console.log(value, name, type));
-    return () => subscription.unsubscribe();
-  }, [watch]);
+ 
 
   useEffect(() => {
     getMascotas();
@@ -299,7 +295,7 @@ const ModalCreacionMascota = ({ open, onClose }) => {
                 >
                   <img
                     id="imagen-elegida"
-                    src="/logo.jpg"
+                    src="/pawBg.png"
                     style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }}
                   />
                   <input style={{ width: '80%' }} type="file" onChange={handleImageChange} />

@@ -83,12 +83,7 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
     }
   };
 
-  // Effects
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => console.log(value, name, type));
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
+ 
   useEffect(() => {
     if (recordatorios) {
       setLoading(false);
@@ -148,7 +143,11 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
                 </Typography>
               ) : (
                 recordatorios.map((recordatorio) => (
-                  <Card variant="outlined" sx={{ p: 1, mb: 1, display: 'flex' }}>
+                  <Card
+                    key={recordatorio.id}
+                    variant="outlined"
+                    sx={{ p: 1, mb: 1, display: 'flex' }}
+                  >
                     <Box
                       sx={{
                         display: 'flex',

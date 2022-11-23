@@ -24,17 +24,19 @@ const DisplayMascotasProfile = ({ selectedMascota }) => {
 
   // Funciones
   const getMascota = async (id) => {
-    setLoading(true);
-    try {
-      const { data } = await request({
-        method: 'GET',
-        url: GET_MASCOTA(id)
-      });
-      setMascotaProfile(data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
+    if (id) {
+      setLoading(true);
+      try {
+        const { data } = await request({
+          method: 'GET',
+          url: GET_MASCOTA(id)
+        });
+        setMascotaProfile(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
     }
   };
 
