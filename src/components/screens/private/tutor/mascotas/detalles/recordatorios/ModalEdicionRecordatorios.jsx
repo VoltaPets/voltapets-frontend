@@ -78,7 +78,7 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
       setLoading(false);
       if (error.isAxiosError) {
         const { data: recordatorioErr } = error.response;
-        recordatorioErr && enqueueuSnackbar(recordatorioErr.mensaje, { variant: 'error' });
+        
       }
     }
   };
