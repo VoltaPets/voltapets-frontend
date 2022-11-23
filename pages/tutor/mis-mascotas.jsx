@@ -146,7 +146,7 @@ export default function MisMascotasPage() {
             selectedMascota={selectedMascota}
           />
         </Grid>
-        <Grid item xs={12} sx={{ p: 4 }}>
+        <Grid item xs={12} sx={{ py: 4, px: 2 }}>
           <MascotaDetail selectedMascota={selectedMascota} />
         </Grid>
       </Grid>

@@ -32,7 +32,7 @@ const mockHistorial = [
   },
   {
     id: 4,
-    nombrePaseador: 'Armin Brun',
+    nombrePaseador: 'Marco Pérez',
     fecha: '14-12-2022',
     duracion: '6hrs',
     horaInicio: '10:00',
@@ -40,7 +40,7 @@ const mockHistorial = [
   },
   {
     id: 5,
-    nombrePaseador: 'Yhonnys Isaías',
+    nombrePaseador: 'Armando Casas',
     fecha: '14-12-2022',
     duracion: '1hr',
     horaInicio: '17:00',

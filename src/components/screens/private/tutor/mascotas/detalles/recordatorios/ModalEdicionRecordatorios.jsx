@@ -83,7 +83,6 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
     }
   };
 
- 
   useEffect(() => {
     if (recordatorios) {
       setLoading(false);

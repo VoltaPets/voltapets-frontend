@@ -10,6 +10,7 @@ import DisplayVacunas from './detalles/vacunas/DisplayVacunas';
 import DisplayComportamiento from './detalles/comportamiento/DisplayComportamiento';
 import DisplayHistorial from './detalles/historial/DisplayHistorial';
 import DisplayRecordatorios from './detalles/recordatorios/DisplayRecordatorios';
+import DisplayCompromisos from './detalles/compromisos/DisplayCompromisos';
 import { GET_VACUNAS_PET } from '../../../../../api/endpoints/Vacunas';
 import { GET_MASCOTA } from '../../../../../api/endpoints/Mascota';
 import { request } from '../../../../../api';
@@ -72,7 +73,7 @@ const MascotaDetail = ({ selectedMascota }) => {
           Detalles de Mascota
         </Typography>
       </Grid>
-      <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Grid item xs={3.5} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* Comportamiento */}
         <Card variant="outlined" sx={{ width: '100%', p: 2 }}>
           <DisplayComportamiento nombreMascota={mascota?.nombre} />
@@ -99,10 +100,10 @@ const MascotaDetail = ({ selectedMascota }) => {
         </Card>
       </Grid>
 
-      <Grid item xs={3} sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Grid item xs={3.5} sx={{ display: 'flex', flexDirection: 'column' }}>
         {/* Compromisos */}
         <Card variant="outlined" sx={{ width: '100%', height: '100%', p: 2 }}>
-          Compromisos
+          <DisplayCompromisos />
         </Card>
       </Grid>
     </Grid>

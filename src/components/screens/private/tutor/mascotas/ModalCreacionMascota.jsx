@@ -196,8 +196,6 @@ const ModalCreacionMascota = ({ open, onClose }) => {
     }
   };
 
- 
-
   useEffect(() => {
     getMascotas();
     getRazas();
@@ -266,204 +264,196 @@ const ModalCreacionMascota = ({ open, onClose }) => {
           </Grid>
         </Box>
       </Box>
-      <Accordion expanded elevation={0} sx={{ border: 0 }}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Box sx={{ width: '100%' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-              Agregar Mascota
-            </Typography>
-          </Box>
-        </AccordionSummary>
-        <AccordionDetails sx={{ p: 0 }}>
-          <Box sx={{ p: 2 }}>
-            <Card
-              component="form"
-              noValidate
-              onSubmit={handleSubmit(onSubmit)}
-              variant="outlined"
-              sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 4 }}
+      <Box sx={{ width: '100%' }}>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+          Agregar Mascota
+        </Typography>
+      </Box>
+      <Box sx={{ p: 2 }}>
+        <Card
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          variant="outlined"
+          sx={{ p: 2, display: 'flex', flexWrap: 'wrap', gap: 4 }}
+        >
+          <Box sx={{ display: 'flex', gap: 4 }}>
+            <Box
+              sx={{
+                flex: 0.4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2
+              }}
             >
-              <Box sx={{ display: 'flex', gap: 4 }}>
-                <Box
-                  sx={{
-                    flex: 0.4,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 2
-                  }}
-                >
-                  <img
-                    id="imagen-elegida"
-                    src="/pawBg.png"
-                    style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }}
+              <img
+                id="imagen-elegida"
+                src="/pawBg.png"
+                style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }}
+              />
+              <input style={{ width: '80%' }} type="file" onChange={handleImageChange} />
+            </Box>
+
+            <Box sx={{ width: '100%', flex: 1 }}>
+              <Grid container spacing={2} sx={{ width: '100%', mb: 2 }}>
+                <FormInput
+                  noMb
+                  width={4}
+                  control={control}
+                  name="nombre"
+                  labelText="Nombre"
+                  placeholderText="Firulais"
+                  errorName={errors.nombre}
+                  errorText={errors.nombre?.message}
+                />
+
+                <FormSelect
+                  raza
+                  width={4}
+                  control={control}
+                  name="codigoRaza"
+                  dataArray={razasList}
+                  labelText="Raza"
+                  errorName={errors.codigoRaza}
+                  errorText={errors.codigoRaza?.message}
+                />
+                <FormSelect
+                  size
+                  width={4}
+                  control={control}
+                  name="codigoTamanio"
+                  dataArray={sizeList}
+                  labelText="Tamaño"
+                  errorName={errors.codigoTamanio}
+                  errorText={errors.codigoTamanio?.message}
+                />
+              </Grid>
+
+              <Grid container sx={{ gap: 2, mb: 2 }}>
+                <Card variant="outlined" sx={{ flex: 1, p: 1 }}>
+                  <FormInput
+                    noMb
+                    numeric
+                    width={12}
+                    maxLength={2}
+                    control={control}
+                    name="edadRegistro"
+                    labelText="Edad Aprox."
+                    placeholderText="3 años"
+                    errorName={errors.edadRegistro}
+                    errorText={errors.edadRegistro?.message}
                   />
-                  <input style={{ width: '80%' }} type="file" onChange={handleImageChange} />
-                </Box>
+                  <FormRadio
+                    control={control}
+                    name="isYear"
+                    labelText=""
+                    errorName={errors.isYear}
+                    errorText={errors.isYear?.message}
+                    width={12}
+                    dataArray={[
+                      { id: 1, descripcion: 'Años', valor: true },
+                      { id: 2, descripcion: 'Meses', valor: false }
+                    ]}
+                  />
+                </Card>
 
-                <Box sx={{ width: '100%', flex: 1 }}>
-                  <Grid container spacing={2} sx={{ width: '100%', mb: 2 }}>
-                    <FormInput
-                      noMb
-                      width={4}
-                      control={control}
-                      name="nombre"
-                      labelText="Nombre"
-                      placeholderText="Firulais"
-                      errorName={errors.nombre}
-                      errorText={errors.nombre?.message}
-                    />
+                <Card variant="outlined" sx={{ flex: 1, p: 1 }}>
+                  <FormDatePicker
+                    control={control}
+                    name={'fechaNacimiento'}
+                    labelText={'Fecha Adopción'}
+                    errorName={errors.fechaNacimiento}
+                    errorText={errors.fechaNacimiento?.message}
+                    width={12}
+                  />
+                  <FormRadio
+                    control={control}
+                    name="isFechaNacimiento"
+                    labelText=""
+                    errorName={errors.isFechaNacimiento}
+                    errorText={errors.isFechaNacimiento?.message}
+                    width={12}
+                    dataArray={[
+                      { id: 1, descripcion: 'Nacimiento', valor: true },
+                      { id: 2, descripcion: 'Adopción', valor: false }
+                    ]}
+                  />
+                </Card>
+              </Grid>
 
-                    <FormSelect
-                      raza
-                      width={4}
-                      control={control}
-                      name="codigoRaza"
-                      dataArray={razasList}
-                      labelText="Raza"
-                      errorName={errors.codigoRaza}
-                      errorText={errors.codigoRaza?.message}
-                    />
-                    <FormSelect
-                      size
-                      width={4}
-                      control={control}
-                      name="codigoTamanio"
-                      dataArray={sizeList}
-                      labelText="Tamaño"
-                      errorName={errors.codigoTamanio}
-                      errorText={errors.codigoTamanio?.message}
-                    />
-                  </Grid>
-
-                  <Grid container sx={{ gap: 2, mb: 2 }}>
-                    <Card variant="outlined" sx={{ flex: 1, p: 1 }}>
-                      <FormInput
-                        noMb
-                        numeric
-                        width={12}
-                        maxLength={2}
-                        control={control}
-                        name="edadRegistro"
-                        labelText="Edad Aprox."
-                        placeholderText="3 años"
-                        errorName={errors.edadRegistro}
-                        errorText={errors.edadRegistro?.message}
-                      />
-                      <FormRadio
-                        control={control}
-                        name="isYear"
-                        labelText=""
-                        errorName={errors.isYear}
-                        errorText={errors.isYear?.message}
-                        width={12}
-                        dataArray={[
-                          { id: 1, descripcion: 'Años', valor: true },
-                          { id: 2, descripcion: 'Meses', valor: false }
-                        ]}
-                      />
-                    </Card>
-
-                    <Card variant="outlined" sx={{ flex: 1, p: 1 }}>
-                      <FormDatePicker
-                        control={control}
-                        name={'fechaNacimiento'}
-                        labelText={'Fecha Adopción'}
-                        errorName={errors.fechaNacimiento}
-                        errorText={errors.fechaNacimiento?.message}
-                        width={12}
-                      />
-                      <FormRadio
-                        control={control}
-                        name="isFechaNacimiento"
-                        labelText=""
-                        errorName={errors.isFechaNacimiento}
-                        errorText={errors.isFechaNacimiento?.message}
-                        width={12}
-                        dataArray={[
-                          { id: 1, descripcion: 'Nacimiento', valor: true },
-                          { id: 2, descripcion: 'Adopción', valor: false }
-                        ]}
-                      />
-                    </Card>
-                  </Grid>
-
-                  <Grid container spacing={2} mb={4}>
-                    <FormSelect
-                      sexo
-                      width={6}
-                      control={control}
-                      name="codigoSexo"
-                      dataArray={sexoList}
-                      labelText="Sexo"
-                      errorName={errors.codigoSexo}
-                      errorText={errors.codigoSexo?.message}
-                    />
-                    <FormRadio
-                      control={control}
-                      name="esterilizado"
-                      labelText="Esterilizado"
-                      errorName={errors.esterilizado}
-                      errorText={errors.esterilizado?.message}
-                      width={6}
-                      dataArray={[
-                        { id: 1, descripcion: 'Si', valor: true },
-                        { id: 2, descripcion: 'No', valor: false }
-                      ]}
-                    />
-                  </Grid>
-                  <Grid container mb={10}>
-                    <FormInput
-                      noMb
-                      variant="outlined"
-                      width={12}
-                      rows={4}
-                      multiline
-                      control={control}
-                      maxLength={500}
-                      name="descripcion"
-                      labelText="Cuentanos más sobre tu mascota"
-                      placeholderText="Descripción de la mascota"
-                      errorName={errors.descripcion}
-                      errorText={errors.descripcion?.message}
-                    />
-                  </Grid>
-                  <Box
-                    sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', gap: 2 }}
-                  >
-                    <Button
-                      disabled={loading}
-                      variant="contained"
-                      color="secondary"
-                      sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
-                      onClick={handleClose}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button
-                      disabled={!editMode}
-                      variant="contained"
-                      color="warning"
-                      sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      disabled={loading}
-                      variant="contained"
-                      color="info"
-                      type="submit"
-                      sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
-                    >
-                      {loading ? <BeatLoader size={10} /> : 'Registrar Mascota'}
-                    </Button>
-                  </Box>
-                </Box>
+              <Grid container spacing={2} mb={4}>
+                <FormSelect
+                  sexo
+                  width={6}
+                  control={control}
+                  name="codigoSexo"
+                  dataArray={sexoList}
+                  labelText="Sexo"
+                  errorName={errors.codigoSexo}
+                  errorText={errors.codigoSexo?.message}
+                />
+                <FormRadio
+                  control={control}
+                  name="esterilizado"
+                  labelText="Esterilizado"
+                  errorName={errors.esterilizado}
+                  errorText={errors.esterilizado?.message}
+                  width={6}
+                  dataArray={[
+                    { id: 1, descripcion: 'Si', valor: true },
+                    { id: 2, descripcion: 'No', valor: false }
+                  ]}
+                />
+              </Grid>
+              <Grid container mb={10}>
+                <FormInput
+                  noMb
+                  variant="outlined"
+                  width={12}
+                  rows={4}
+                  multiline
+                  control={control}
+                  maxLength={500}
+                  name="descripcion"
+                  labelText="Cuentanos más sobre tu mascota"
+                  placeholderText="Descripción de la mascota"
+                  errorName={errors.descripcion}
+                  errorText={errors.descripcion?.message}
+                />
+              </Grid>
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                <Button
+                  disabled={loading}
+                  variant="contained"
+                  color="secondary"
+                  sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
+                  onClick={handleClose}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  disabled={!editMode}
+                  variant="contained"
+                  color="warning"
+                  sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
+                >
+                  Editar
+                </Button>
+                <Button
+                  disabled={loading}
+                  variant="contained"
+                  color="info"
+                  type="submit"
+                  sx={{ fontWeight: 'bold', textTransform: 'inherit', flex: 1 }}
+                >
+                  {loading ? <BeatLoader size={10} /> : 'Registrar Mascota'}
+                </Button>
               </Box>
-            </Card>
+            </Box>
           </Box>
-        </AccordionDetails>
-      </Accordion>
+        </Card>
+      </Box>
     </Dialog>
   );
 };
