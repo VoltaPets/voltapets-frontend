@@ -77,7 +77,7 @@ function LoginPage() {
             window.location.href = '/admin';
             break;
           case 2:
-            window.location.href = '/paseador/home';
+            window.location.href = '/paseador/profile';
             break;
           case 3:
             window.location.href = '/tutor/home';
