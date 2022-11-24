@@ -41,7 +41,7 @@ const HomeServicios = () => {
           <Grid container sx={{ justifyContent: 'center' }}>
             <ServiciosCard
               titulo="Paseo de necesidades básicas"
-              descripcion="Dale a tu mascota el paseo que necesita para hacer sus necesidades básicas. Con Volta Pets puedes contratar un paseo  para que tu mascota haga sus necesidades básicas."
+              descripcion="Pasear a tu perro es un aspecto importante de sus cuidados, en especial si estamos hablando de un animal de raza grande y convive contigo y con tu familia en un departamento pequeño. Llevar de paseo a tu mascota varias veces al día por algunos minutos, es mucho más que una necesidad higiénica."
               image="https://business.nextdoor.com/hubfs/Dog%20Walker%20Salary.jpg"
             />
           </Grid>
@@ -64,13 +64,13 @@ const HomeServicios = () => {
             <ServiciosCard
               width={6}
               titulo="Recreación y juego"
-              descripcion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus est in hendrerit ultricies. Duis sed porta purus, ac varius mauris."
+              descripcion="El juego en el perro forma parte de su bienestar físico y emocional. Por una parte, porque se trata de un animal social que necesita jugar para despertar sus habilidades. Por otro lado, porque es jugando como el perro crea un vínculo de pertenencia con su dueño."
               image="https://fox5sandiego.com/wp-content/uploads/sites/15/2022/07/Carlsbad-dog-park-072822-copy-e1659016132684.jpg?strip=1"
             />
             <ServiciosCard
               width={6}
               titulo="Socialización"
-              descripcion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus est in hendrerit ultricies. Duis sed porta purus, ac varius mauris."
+              descripcion="El objetivo principal de la socialización es ayudar a tu cachorro a que se acostumbre a todo tipo de formas, sonidos y olores de una manera positiva. Una socialización adecuada puede evitar los miedos más comunes y le ayudará a convertirse en un compañero equilibrado, educado y feliz."
               image="https://s28489.pcdn.co/wp-content/uploads/2021/04/Dog-park-2-May-16.jpg.optimal.jpg"
             />
           </Grid>
