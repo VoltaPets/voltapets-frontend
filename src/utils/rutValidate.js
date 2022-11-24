@@ -12,6 +12,11 @@ export const rutValidate = (rut) => {
   let digitos = splittedRut[0];
   let verificador = splittedRut[1];
 
+  // verificar si los digitos son iguales entre sí (ej: 11111111-1)
+  if (digitos.split('').every((digit) => digit === digitos[0])) {
+    return false;
+  }
+
   if (verificador == 'K') verificador = 'k';
 
   return verifyDV(digitos) == verificador;

@@ -16,3 +16,4 @@ export const PASEADOR_PROFILE = `${API_BASE_URL}/paseador/perfil`; // GET
 export const PASEADOR_LABORALES = `${API_BASE_URL}/paseador/laboral`; // GET
 export const UPDATE_PASEADOR_PROFILE = `${API_BASE_URL}/paseador/editarPerfil`; // PUT
 export const LABORAL_INFO = `${API_BASE_URL}/paseador/laboral`; // GET
+export const GET_PASEADORES_CERCANOS = `${API_BASE_URL}/paseador/ObtenerCercanos`; // GET

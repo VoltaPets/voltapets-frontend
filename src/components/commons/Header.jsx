@@ -1,6 +1,7 @@
 // Libraries
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
 import {
@@ -64,7 +65,7 @@ const HeaderLink = styled(Link)(({ theme }) => ({
   }
 }));
 
-const Header = ({ user }) => {
+const Header = ({ user, loading }) => {
   // Estados
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -92,7 +93,7 @@ const Header = ({ user }) => {
           top: 0,
           boxShadow: 1,
           borderRadius: { xs: 0, lg: 2 },
-          bgcolor: '#fff',
+          bgcolor: '#fff'
         }}
       >
         <Toolbar sx={{ bgcolor: '#fff', px: '0 !important' }}>
@@ -175,7 +176,9 @@ const Header = ({ user }) => {
                   ))}
             </Grid>
 
-            {user ? (
+            {loading ? (
+              <BeatLoader size={10} />
+            ) : user ? (
               <Grid
                 item
                 xs={5}

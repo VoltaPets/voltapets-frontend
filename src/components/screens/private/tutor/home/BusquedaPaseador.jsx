@@ -1,5 +1,7 @@
 // Libraries
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
 import { Box, Card, Button, Grid, Typography } from '@mui/material';
@@ -9,20 +11,24 @@ import FormInput from '../../../../commons/FormInput';
 import FormSelect from '../../../../commons/FormSelect';
 import { regiones, comunas } from '../../../../../mock/dataArray';
 import PaseadorServicioCard from './PaseadorServicioCard';
+import { GET_COMUNAS, GET_REGIONES } from '../../../../../api/endpoints/Ubicacion';
+import { GET_PASEADORES_CERCANOS } from '../../../../../api/endpoints/Usuario';
+import { request } from '../../../../../api/';
 
 const formSettings = {
   defaultValues: {
-    region: 1,
-    comuna: '',
-    calle: '',
-    numero: ''
+    region: 7,
+    comuna: ''
+    // calle: '',
+    // numero: ''
   }
 };
 
 const paseadores = [
   {
     id: 1,
-    imagenPerfil: 'https://cl.paseaperros.com/uploads/thumbs/User/300x300/317171/received-464217591094846.jpeg',
+    imagenPerfil:
+      'https://cl.paseaperros.com/uploads/thumbs/User/300x300/317171/received-464217591094846.jpeg',
     nombre: 'Alejandro Perez',
     experiencia: '2 años',
     descripcion:
@@ -34,7 +40,8 @@ const paseadores = [
   },
   {
     id: 2,
-    imagenPerfil: 'https://cl.paseaperros.com/uploads/thumbs/User/300x300/318348/8CD3030D-5BF5-4288-B767-FECF50A4EBC8.jpeg',
+    imagenPerfil:
+      'https://cl.paseaperros.com/uploads/thumbs/User/300x300/318348/8CD3030D-5BF5-4288-B767-FECF50A4EBC8.jpeg',
     nombre: 'Anthony Rodríguez',
     experiencia: '1 años',
     descripcion:
@@ -46,7 +53,8 @@ const paseadores = [
   },
   {
     id: 3,
-    imagenPerfil: 'https://images.mubicdn.net/images/cast_member/58895/cache-574742-1652166339/image-w856.jpg?size=800x',
+    imagenPerfil:
+      'https://images.mubicdn.net/images/cast_member/58895/cache-574742-1652166339/image-w856.jpg?size=800x',
     nombre: 'Farith Mujica',
     experiencia: '5 años',
     descripcion:
@@ -58,7 +66,8 @@ const paseadores = [
   },
   {
     id: 4,
-    imagenPerfil: 'https://cl.paseaperros.com/uploads/thumbs/User/300x300/200115/A0830D90-B059-4A7D-A5FC-8FC718016C0A.jpeg',
+    imagenPerfil:
+      'https://cl.paseaperros.com/uploads/thumbs/User/300x300/200115/A0830D90-B059-4A7D-A5FC-8FC718016C0A.jpeg',
     nombre: 'Roxana Pino',
     experiencia: '3 años',
     descripcion:
@@ -71,14 +80,70 @@ const paseadores = [
 ];
 
 const BusquedaPaseador = () => {
+  // Estados
+  const [loading, setLoading] = useState(false);
+  const [regionList, setRegionList] = useState([]);
+  const [comunaList, setComunaList] = useState([]);
+  const [paseadorList, setPaseadorList] = useState([]);
+
+  // Hooks
   const { control, handleSubmit, reset } = useForm(formSettings);
 
+  // Handlers
   const handleReset = () => {
     reset(formSettings.defaultValues);
-    replace('/adopcion?region=1');
   };
 
-  const onSubmit = (data) => console.log('data', data);
+  // Funciones
+  const getRegiones = async () => {
+    const { data } = await request({
+      url: GET_REGIONES,
+      method: 'GET'
+    });
+    setRegionList(data);
+  };
+
+  const getComunas = async (codigoRegion) => {
+    const { data } = await request({
+      url: GET_COMUNAS(codigoRegion),
+      method: 'GET'
+    });
+    setComunaList(data);
+  };
+
+  const getPaseadoresCercanos = async () => {
+    setLoading(true);
+    try {
+      const { data } = await request({
+        url: GET_PASEADORES_CERCANOS,
+        method: 'GET',
+        params: {
+          codigoComuna
+        }
+      });
+      setPaseadorList(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const onSubmit = async (searchData) => {
+    try {
+      const comunaID = searchData.comuna;
+      getPaseadoresCercanos(comunaID);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log('lista de paseadores', paseadorList);
+
+  // Effects
+  useEffect(() => {
+    getRegiones();
+    getComunas(7);
+  }, []);
 
   return (
     <Box
@@ -107,7 +172,7 @@ const BusquedaPaseador = () => {
               name="region"
               labelText="Región"
               control={control}
-              dataArray={regiones}
+              dataArray={regionList}
             />
             <FormSelect
               noHelperText
@@ -115,10 +180,10 @@ const BusquedaPaseador = () => {
               name="comuna"
               labelText="Comuna"
               control={control}
-              dataArray={comunas}
+              dataArray={comunaList}
             />
-            <FormInput noHelperText width={2} name="calle" labelText="Calle" control={control} />
-            <FormInput noHelperText width={1} name="numero" labelText="Número" control={control} />
+            {/* <FormInput noHelperText width={2} name="calle" labelText="Calle" control={control} noMb />
+            <FormInput noHelperText width={1} name="numero" labelText="Número" control={control} noMb /> */}
             <Grid item xs sx={{ display: 'flex', gap: 2 }}>
               <Button
                 fullWidth
@@ -127,7 +192,7 @@ const BusquedaPaseador = () => {
                 color="secondary"
                 sx={{ textTransform: 'inherit', fontWeight: 'bold' }}
               >
-                Buscar
+                {loading ? <BeatLoader size={10} /> : 'Buscar'}
               </Button>
               <Button
                 fullWidth

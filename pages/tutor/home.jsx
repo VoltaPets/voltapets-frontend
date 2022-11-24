@@ -16,10 +16,10 @@ import { request } from '../../src/api';
 function tutorHome() {
   // Estados
   const [mascotas, setMascotas] = useState([]);
+  const [paseadores, setPaseadores] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Hooks
-  const { enqueueSnackbar } = useSnackbar();
 
   // Functions
   const getMascotas = async () => {
@@ -32,6 +32,7 @@ function tutorHome() {
       setLoading(false);
     }
   };
+
 
   // Effects
   useEffect(() => {
@@ -51,6 +52,7 @@ function tutorHome() {
           <Box sx={{ py: 4 }}>
             <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
               Mis Mascotas
+              {/* Test */}
             </Typography>
           </Box>
           <Box

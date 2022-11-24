@@ -46,8 +46,9 @@ function PaseadorRegisterPage() {
   const [file, setFile] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
   const [imgPath, setImgPath] = useState(null);
+  const [publicId, setPublicId] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [comunas, setComunas] = useState([]);
   const [regiones, setRegiones] = useState([]);
 
@@ -95,11 +96,11 @@ function PaseadorRegisterPage() {
 
       const formData = new FormData();
       formData.append('file', dataFormulario.imagen[0]);
-      formData.append('upload_preset', 'profile');
+      formData.append('upload_preset', 'profile_paseador');
       setFile(formData);
     } catch (error) {
       setLoading(false);
-      console.log('Error al crear usuario: ', error);
+      enqueueSnackbar('Error al crear usuario', { variant: 'error' });
     }
   };
 
@@ -112,8 +113,10 @@ function PaseadorRegisterPage() {
       const imgUrl = new URL(data.secure_url);
       setImgUrl(imgUrl.origin);
       setImgPath(imgUrl.pathname);
+      setPublicId(data.public_id);
     } catch (error) {
       setLoading(false);
+      enqueueSnackbar('Error al subir imagen', { variant: 'error' });
       console.log('Error Upload to Cloud: ', error);
     }
   };
@@ -122,7 +125,8 @@ function PaseadorRegisterPage() {
     const imgData = {
       codigoUsuario: userId,
       url: imgUrl,
-      path: imgPath
+      path: imgPath,
+      public_id: publicId
     };
 
     try {

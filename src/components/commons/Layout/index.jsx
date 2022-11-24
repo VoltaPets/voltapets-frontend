@@ -22,7 +22,7 @@ const Layout = ({
   nextPage
 }) => {
   // Hooks
-  const { user } = useFetchUser({
+  const { user, loading } = useFetchUser({
     required: authRequired,
     nextPage,
     tutorRequired,
@@ -45,7 +45,7 @@ const Layout = ({
           height: '100vh'
         }}
       >
-        <Header user={user} />
+        <Header user={user} loading={loading}/>
         <Box sx={{ flex: 1, width: '100%' }}>{children}</Box>
 
         {/* <Footer /> */}
