@@ -41,7 +41,7 @@ const HomeServicios = () => {
           <Grid container sx={{ justifyContent: 'center' }}>
             <ServiciosCard
               titulo="Paseo de necesidades básicas"
-              descripcion="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus est in hendrerit ultricies. Duis sed porta purus, ac varius mauris."
+              descripcion="Dale a tu mascota el paseo que necesita para hacer sus necesidades básicas. Con Volta Pets puedes contratar un paseo  para que tu mascota haga sus necesidades básicas."
               image="https://business.nextdoor.com/hubfs/Dog%20Walker%20Salary.jpg"
             />
           </Grid>
