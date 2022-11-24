@@ -37,13 +37,12 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
   // Estados
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [recordatoriosList, setRecordatoriosList] = useState([]);
 
   // Hooks
   const { enqueueuSnackbar } = useSnackbar();
   const {
-    register,
     control,
-    watch,
     reset,
     formState: { errors },
     handleSubmit
@@ -72,13 +71,27 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
         data: recordatoriosData
       });
       setLoading(false);
-      enqueueuSnackbar(data.mensaje, { variant: 'success' });
+      getRecordatorios(codigoMascota);
       onClose(codigoMascota);
+      reset();
+      enqueueuSnackbar(data.mensaje, { variant: 'success' });
     } catch (error) {
       setLoading(false);
-      if (error.isAxiosError) {
-        const { data: recordatorioErr } = error.response;
-        
+    }
+  };
+
+  const getRecordatorios = async (id) => {
+    if (id) {
+      setLoading(true);
+      try {
+        const { data } = await request({
+          method: 'GET',
+          url: GET_RECORDATORIOS(id)
+        });
+        setRecordatoriosList(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
       }
     }
   };
@@ -136,12 +149,12 @@ const ModalEdicionRecordatorios = ({ recordatorios, open, onClose, codigoMascota
             >
               {loading ? (
                 <BeatLoader size={10} style={{ margin: 'auto' }} />
-              ) : recordatorios.length === 0 ? (
+              ) : recordatoriosList.length === 0 ? (
                 <Typography variant="body2" align="center">
                   No tienes recordatorios creados para esta mascota aún.
                 </Typography>
               ) : (
-                recordatorios.map((recordatorio) => (
+                recordatoriosList.map((recordatorio) => (
                   <Card
                     key={recordatorio.id}
                     variant="outlined"

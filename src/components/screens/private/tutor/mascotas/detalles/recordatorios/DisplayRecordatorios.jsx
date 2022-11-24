@@ -28,6 +28,7 @@ const DisplayRecordatorios = ({ id }) => {
   };
 
   const handleCloseEdicion = () => {
+    getRecordatorios(id);
     setOpenEdicion(false);
   };
 
@@ -44,7 +45,6 @@ const DisplayRecordatorios = ({ id }) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        enqueueSnackbar('Error al obtener los recordatorios', { variant: 'error' });
       }
     }
   };

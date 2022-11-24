@@ -33,7 +33,7 @@ const linksArray = [
 
 const linksArrayTutor = [
   { name: 'Mis Mascotas', href: '/tutor/mis-mascotas' },
-  { name: 'Paseos agendados', href: '/tutor/paseos-agendados' },
+  { name: 'Paseos agendados', href: '/tutor/paseos/agendados' },
   { name: 'Gestion Anuncio', href: '' },
   { name: 'Calificar Paseos', href: '/tutor/calificar-paseos' }
 ];

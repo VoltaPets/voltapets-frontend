@@ -30,7 +30,6 @@ function tutorHome() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar('Error al obtener las mascotas', { variant: 'error' });
     }
   };
 

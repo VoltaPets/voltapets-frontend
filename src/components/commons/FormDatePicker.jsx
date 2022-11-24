@@ -22,7 +22,7 @@ export default function FormDatePicker({
   const [value, setValue] = useState(null);
 
   return (
-    <Grid item xs={width} sx={{ height: 50, mb: noMb ? 0 : 4 }}>
+    <Grid item xs={width} sx={{ height: 50, mb: noMb ? 0 : 2 }}>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
         <Controller
           name={name}

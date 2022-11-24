@@ -6,9 +6,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Grid, Chip, Card, Rating, CardMedia, Divider, Box, Typography } from '@mui/material';
 
 // Relative imports
-import Layout from '../../../../src/components/commons/Layout';
-import AgendaPaseos from '../../../../src/components/screens/private/tutor/paseo/AgendaPaseos';
-import { clpFormatter } from '../../../../src/utils/currencyFormat';
+import Layout from '../../../../../src/components/commons/Layout';
+import AgendaPaseos from '../../../../../src/components/screens/private/tutor/paseo/AgendaPaseos';
+import { clpFormatter } from '../../../../../src/utils/currencyFormat';
 
 const tarifaBasica = clpFormatter.format(6000);
 const tarifaJuego = clpFormatter.format(7000);
