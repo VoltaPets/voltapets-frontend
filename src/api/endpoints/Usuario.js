@@ -4,6 +4,8 @@ import { API_BASE_URL } from '../../constant';
 export const CREATE_USER_IMG = `${API_BASE_URL}/usuario/RegistrarImagen`;
 export const USER_TOKEN = `${API_BASE_URL}/usuario/getUsuarioToken`;
 export const UPDATE_USER_IMG = `${API_BASE_URL}/usuario/cambiarImagen`;
+export const FORGET_PASSWORD = `${API_BASE_URL}/usuario/forgetPassword`;
+export const RESET_PASSWORD = `${API_BASE_URL}/usuario/resetPassword`;
 
 // Tutor
 export const CREATE_TUTOR = `${API_BASE_URL}/tutor/registrar`; // POST

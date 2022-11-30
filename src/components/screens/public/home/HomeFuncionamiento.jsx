@@ -1,117 +1,61 @@
-import { Grid, Card, Box, Typography, CardMedia } from '@mui/material';
+// MUI
+import RegisterIcon from '@mui/icons-material/HowToReg';
+import SearchIcon from '@mui/icons-material/TravelExplore';
+import BookIcon from '@mui/icons-material/Book';
+import PetsIcon from '@mui/icons-material/Pets';
+import { Grid, Box, Typography } from '@mui/material';
 
-const steps = [
-  {
-    title: 'Paso 1',
-    image: '/images/dog-walk.jpg',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-  },
-  {
-    title: 'Paso 2',
-    image: '/images/dog-walk.jpg',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-  },
-  {
-    title: 'Paso 3',
-    image: '/images/dog-walk.jpg',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-  },
-  {
-    title: 'Paso 4',
-    image: '/images/dog-walk.jpg',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-  },
-  {
-    title: 'Paso 5',
-    image: '/images/dog-walk.jpg',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-  },
-  {
-    title: 'Paso 6',
-    image: '/images/dog-walk.jpg',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-  }
-];
+// Relative imports
+import Pasos from './Pasos';
 
 const HomeFuncionamiento = () => {
   return (
     <Grid container>
-      <Grid item xs={12}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            width: '100%',
-            bgcolor: 'primary.main',
-            color: 'primary.contrastText',
-            px: { xs: 2, md: 4 },
-            py: 4
-          }}
+      <Grid
+        item
+        xs={12}
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 4, mt: 8 }}
+      >
+        <Typography variant="h4" gutterBottom sx={{ width: '100%', textAlign: 'center' }}>
+          ¿Cómo funciona?
+        </Typography>
+
+        <Typography
+          variant="subtitle2"
+          sx={{ width: '40%', fontWeight: 'bold', textAlign: 'center', mb: 2 }}
         >
-          <Typography variant="h4" component="h2" gutterBottom>
-            ¿Cómo funciona?
-          </Typography>
-          <Typography variant="subtitle1" component="h5" gutterBottom>
-            Volta Pets es una plataforma que conecta a los dueños de mascotas con los mejores
-            cuidadores de mascotas.
-          </Typography>
-          <Grid container spacing={2} mt={1}>
-            {steps.map((step, index) => (
-              <Grid key={index} item xs={12} md={4}>
-                <Card
-                  elevation={2}
-                  sx={{
-                    p: 2,
-                    borderRadius: 4,
-                    display: 'flex',
-                    flexDirection: { xs: 'column', md: 'row' },
-                    justifyContent: 'center',
-                    gap: 2,
-                    transition: 'all 0.3s ease-in-out',
-                    '&:hover': { borderColor: 'info.main' }
-                  }}
-                >
-                  <Box
-                    sx={{
-                      flex: 0.5,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      image="/images/dog-walk.jpg"
-                      alt={step.title}
-                      sx={{
-                        display: { xs: 'none', md: 'block' },
-                        width: '100%',
-                        height: '50%',
-                        objectFit: 'contain'
-                      }}
-                    />
-                    <Typography variant="h6" component="h3" align="center" gutterBottom>
-                      {step.title}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ flex: 1 }}>
-                    <Typography variant="body1" component="p" gutterBottom>
-                      {step.description}
-                    </Typography>
-                  </Box>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          Volta Pets es una plataforma que conecta a los dueños de mascotas con los mejores
+          cuidadores de mascotas.
+        </Typography>
+      </Grid>
+
+      {/* Pasos */}
+      <Grid item xs={12} mb={8} p={2}>
+        <Box sx={{ display: 'flex', px: 6, gap: 2 }}>
+          <Pasos
+            Icono={<RegisterIcon sx={{ fontSize: 50, color: 'info.main' }} />}
+            titulo="Regístrate"
+            color="info.main"
+            desc="Al registrarte podrás crear tu perfil, el de tus mascotas y publicar tus anuncios."
+          />
+          <Pasos
+            Icono={<SearchIcon sx={{ fontSize: 50, color: 'secondary.main' }} />}
+            titulo="Busca a un paseador"
+            color="secondary.main"
+            desc="Elige al paseador que más se adecue a tus necesidades y a las de tu mascota."
+          />
+          <Pasos
+            Icono={<BookIcon sx={{ fontSize: 50, color: 'warning.main' }} />}
+            color="warning.main"
+            titulo="Agenda tu paseo"
+            desc="Te simplificamos el proceso de agendar paseos, para que encuentres el mejor horario y el mejor paseador"
+          />
+          <Pasos
+            Icono={<PetsIcon sx={{ fontSize: 50, color: 'primary.main' }} />}
+            color="primary.main"
+            titulo="Relájate"
+            desc="Tus mascotas están en buenas manos con los mejores cuidadores de mascotas."
+          />
         </Box>
       </Grid>
     </Grid>

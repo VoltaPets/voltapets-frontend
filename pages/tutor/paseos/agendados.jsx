@@ -46,10 +46,10 @@ const createData = (
 };
 
 const rows = [
-  createData(1, 'Chris Evans', '03/06/2023', '14:00', '16:00', 2, '2 días'),
-  createData(2, 'Mark Ruffalo', '11/02/2023', '09:00', '11:00', 1, '1 días'),
-  createData(3, 'Scarlett Johansson', '01/11/2023', '12:00', '14:00', 1, '1 días'),
-  createData(4, 'Oscar Isaacs', '20/05/2023', '16:00', '17:00', 2, '3 días')
+  createData(1, 'Marco Perez', '03/06/2023', '14:00', '16:00', 2, '2 días'),
+  createData(2, 'Roger Sánchez', '11/02/2023', '09:00', '11:00', 1, '1 días'),
+  createData(3, 'Alma Díaz', '01/11/2023', '12:00', '14:00', 1, '1 días'),
+  createData(4, 'Pepe Lota', '20/05/2023', '16:00', '17:00', 2, '3 días')
 ];
 
 const PaginaPaseosAgendados = () => {

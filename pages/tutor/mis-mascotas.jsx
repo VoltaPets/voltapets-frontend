@@ -128,6 +128,7 @@ export default function MisMascotasPage() {
                 })
               )}
             </Card>
+            
             <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', gap: 2 }}>
               <Button
                 color="secondary"

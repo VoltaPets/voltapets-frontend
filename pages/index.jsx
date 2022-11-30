@@ -22,12 +22,12 @@ export default function HomePage() {
         <Grid item xs={12}>
           <HomeServicios />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} mb={8}>
           <HomeFuncionamiento />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <HomeOtrosServicios />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Layout>
   );

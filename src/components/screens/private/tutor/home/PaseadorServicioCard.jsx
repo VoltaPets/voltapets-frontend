@@ -2,6 +2,13 @@
 import { Card, Chip, CardMedia, Rating, Divider, Grid, Box, Typography } from '@mui/material';
 
 const TutorServicioCard = ({ paseador }) => {
+  const fullName = `${paseador?.nombre} ${paseador?.apellido}` || 'Nombre Apellido';
+  const calificacion = paseador?.calificacion || 0;
+  const img = paseador?.img || '/pawBg.png';
+  const tarifaNormal = paseador?.tarifaActual?.basico || 0;
+  const tarifaJuego = paseador?.tarifaActual?.juego || 0;
+  const tarifaSocial = paseador?.tarifaActual?.social || 0;
+
   return (
     <Grid item xs={12} sm={6}>
       <Card
@@ -28,7 +35,7 @@ const TutorServicioCard = ({ paseador }) => {
         >
           <CardMedia
             component="img"
-            image={paseador.imagenPerfil}
+            image={img}
             alt="Paseador de perros"
             sx={{ width: '100%', height: 200, borderRadius: 2, mb: 1 }}
           />
@@ -36,7 +43,7 @@ const TutorServicioCard = ({ paseador }) => {
             precision={0.5}
             defaultValue={0}
             readOnly
-            value={paseador.calificacion}
+            value={calificacion}
             size="medium"
           />
           <Box

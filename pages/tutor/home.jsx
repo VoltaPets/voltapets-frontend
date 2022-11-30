@@ -33,7 +33,6 @@ function tutorHome() {
     }
   };
 
-
   // Effects
   useEffect(() => {
     getMascotas();
@@ -52,15 +51,16 @@ function tutorHome() {
           <Box sx={{ py: 4 }}>
             <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
               Mis Mascotas
-              {/* Test */}
             </Typography>
           </Box>
+
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               p: 2,
+              mb: 4,
               gap: 4,
               minHeight: 332
             }}

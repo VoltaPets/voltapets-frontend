@@ -1,31 +1,50 @@
 // Librerías
-import React from 'react';
+import { CardMedia, Box, Grid, Typography } from '@mui/material';
 
-import { Card, CardMedia, Box, Grid, Typography } from '@mui/material';
-
-const ServiciosCard = ({ width = 12, titulo, descripcion, image }) => {
+const ServiciosCard = ({
+  width = 12,
+  img,
+  subtitulo,
+  descripcionUno,
+  descripcionDos,
+  singleParagraph
+}) => {
   return (
-    <Grid item xs={12} md={width}>
-      <Card variant="outlined" sx={{ p: 2, minHeight: 380, bgcolor: '#f3eed9', borderRadius: 4 }}>
-        <Box component="header" mb={2}>
-          <Typography variant="subtitle2" align="center" sx={{ fontWeight: 'bold' }}>
-            {titulo}
-          </Typography>
-        </Box>
-        <Box mb={2}>
-          <CardMedia
-            component="img"
-            image={image}
-            alt="Paseo de mascotas"
-            sx={{ height: 180, border: 1, borderRadius: 2, borderColor: 'divider' }}
-          />
-        </Box>
-        <Box mb={2}>
-          <Typography variant="body2" align="justify">
-            {descripcion}
-          </Typography>
-        </Box>
-      </Card>
+    <Grid
+      item
+      xs={width}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: { xs: 'column', md: 'row' }
+      }}
+    >
+      <Box component="header" sx={{ flex: 0.5 }}>
+        <CardMedia
+          component="img"
+          image={img}
+          alt="Paseo de necesidades básicas"
+          sx={{
+            width: '100%',
+            height: '100%',
+            borderRadius: 4,
+            border: 1,
+            borderColor: 'info.main'
+          }}
+        />
+      </Box>
+
+      <Box component="main" sx={{ flex: 1, px: 4 }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontSize: '1em', mb: 1 }}>
+          {subtitulo}
+        </Typography>
+        <Typography variant="body2" align="justify" mb={singleParagraph ? 0 : 2}>
+          {descripcionUno}
+        </Typography>
+        <Typography variant="body2" align="justify">
+          {descripcionDos}
+        </Typography>
+      </Box>
     </Grid>
   );
 };
