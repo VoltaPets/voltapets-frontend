@@ -68,7 +68,8 @@ const ResetPwdPage = () => {
         data: form
       });
       setLoading(false);
-      reset()
+      reset();
+      push('/usuarios/login');
       enqueueSnackbar('Contraseña actualizada correctamente', {
         variant: 'success'
       });

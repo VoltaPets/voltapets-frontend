@@ -10,7 +10,6 @@ import { Box, Card, Button, Grid, Typography } from '@mui/material';
 // Relative Imports
 import FormInput from '../../../../commons/FormInput';
 import FormSelect from '../../../../commons/FormSelect';
-import { regiones, comunas } from '../../../../../mock/dataArray';
 import PaseadorServicioCard from './PaseadorServicioCard';
 import { GET_COMUNAS, GET_REGIONES } from '../../../../../api/endpoints/Ubicacion';
 import { GET_PASEADORES_CERCANOS } from '../../../../../api/endpoints/Usuario';
@@ -19,7 +18,7 @@ import { request } from '../../../../../api/';
 const formSettings = {
   defaultValues: {
     region: 7,
-    comuna: ''
+    comuna: 86
   }
 };
 
@@ -90,7 +89,11 @@ const BusquedaPaseador = () => {
     getComunas(7);
   }, []);
 
-  console.log("PaseadorList", paseadorList);
+  useEffect(() => {
+    getPaseadoresCercanos(86);
+  }, []);
+
+  console.log('PaseadorList', paseadorList);
 
   return (
     <Box

@@ -1,13 +1,20 @@
 // MUI
 import { Card, Chip, CardMedia, Rating, Divider, Grid, Box, Typography } from '@mui/material';
 
+// Relative Imports
+import { clpFormatter } from '../../../../../utils/currencyFormat';
+
 const TutorServicioCard = ({ paseador }) => {
   const fullName = `${paseador?.nombre} ${paseador?.apellido}` || 'Nombre Apellido';
+  const descripcion = paseador?.descripcion || 'No hay descripción';
   const calificacion = paseador?.calificacion || 0;
-  const img = paseador?.img || '/pawBg.png';
+  const experiencia = paseador.experienciaPaseador?.descripcion || 'Sin Asignar';
+  const img = paseador.usuario.imagen?.url + paseador.usuario.imagen?.path || '/pawBg.png';
   const tarifaNormal = paseador?.tarifaActual?.basico || 0;
   const tarifaJuego = paseador?.tarifaActual?.juego || 0;
   const tarifaSocial = paseador?.tarifaActual?.social || 0;
+
+  console.log('Paseador', paseador);
 
   return (
     <Grid item xs={12} sm={6}>
@@ -19,7 +26,7 @@ const TutorServicioCard = ({ paseador }) => {
           bgcolor: 'white',
           display: 'flex',
           '&:hover': {
-            cursor: 'pointer',
+            cursor: 'pointer'
           }
         }}
       >
@@ -39,13 +46,7 @@ const TutorServicioCard = ({ paseador }) => {
             alt="Paseador de perros"
             sx={{ width: '100%', height: 200, borderRadius: 2, mb: 1 }}
           />
-          <Rating
-            precision={0.5}
-            defaultValue={0}
-            readOnly
-            value={calificacion}
-            size="medium"
-          />
+          <Rating precision={0.5} defaultValue={0} readOnly value={calificacion} size="medium" />
           <Box
             sx={{
               textAlign: 'center',
@@ -57,9 +58,9 @@ const TutorServicioCard = ({ paseador }) => {
           >
             $
             <Typography variant="h6" sx={{ fontWeight: 'bold', mr: 1 }}>
-              {paseador.necesidadesBasicas}
+              {tarifaNormal}
             </Typography>
-            <br /> / paseo
+            <br /> / min
           </Box>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -67,24 +68,24 @@ const TutorServicioCard = ({ paseador }) => {
           <Box mb={2}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'info.main' }}>
-                {paseador.nombre}
+                {fullName}
               </Typography>
             </Box>
-            <Chip label={`${paseador.experiencia} de experiencia`} color="secondary" size="small" />
+            <Chip label={experiencia} color="secondary" size="small" />
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2">{paseador.descripcion}</Typography>
+            <Typography variant="body2">{descripcion}</Typography>
           </Box>
           <Box>
             <Typography variant="body2">
-              <b>Necesidades Básicas:</b> ${paseador.necesidadesBasicas}
+              <b>Necesidades Básicas:</b> {clpFormatter.format(tarifaNormal)}
             </Typography>
             <Typography variant="body2">
-              <b>Juego con la mascota:</b> ${paseador.juegoMascota}
+              <b>Juego con la mascota:</b> {clpFormatter.format(tarifaJuego)}
             </Typography>
             <Typography variant="body2">
-              <b>Socialización con mascotas:</b> ${paseador.socializacionMascota}
+              <b>Socialización con mascotas:</b> {clpFormatter.format(tarifaSocial)}
             </Typography>
           </Box>
         </Box>
