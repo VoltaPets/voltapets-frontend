@@ -57,7 +57,6 @@ const BusquedaPaseador = () => {
   const getPaseadoresCercanos = async (codigoComuna) => {
     setLoading(true);
     try {
-      console.log('codigoComuna', codigoComuna);
       const { data } = await request({
         url: GET_PASEADORES_CERCANOS,
         method: 'GET',
@@ -93,7 +92,6 @@ const BusquedaPaseador = () => {
     getPaseadoresCercanos(86);
   }, []);
 
-  console.log('PaseadorList', paseadorList);
 
   return (
     <Box

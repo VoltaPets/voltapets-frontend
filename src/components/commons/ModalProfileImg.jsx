@@ -84,7 +84,6 @@ const ModalProfileImg = ({ open, onClose, tutor = false, mascota = false, mascot
       setLoading(false);
       enqueueSnackbar('Imagen subida con éxito', { variant: 'success' });
       onClose();
-      window.location.reload(false);
     } catch (error) {
       console.log(error);
       enqueueSnackbar('Hubo un error al subir la imagen', { variant: 'error' });

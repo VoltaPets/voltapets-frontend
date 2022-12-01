@@ -36,9 +36,8 @@ const formSettings = {
   }
 };
 
-
 const AgendaPaseos = ({ mascota }) => {
-    // Estados
+  // Estados
   const [mascotas, setMascotas] = useState([]);
   const [date, setDate] = useState(new Date());
 
@@ -107,7 +106,7 @@ const AgendaPaseos = ({ mascota }) => {
 
   // Variables
   const personalizarPaseoProps = {
-      date,
+    date,
     hora,
     servicioBienestar,
     horaFinal,
@@ -120,7 +119,7 @@ const AgendaPaseos = ({ mascota }) => {
     handleSocializacion,
     handleToggleMascota,
     handleBienestar,
-    control,
+    control
   };
 
   // Efectos

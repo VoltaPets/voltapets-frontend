@@ -13,6 +13,8 @@ export const TUTOR_PROFILE = `${API_BASE_URL}/tutor/perfil`; // GET
 export const UPDATE_TUTOR_PROFILE = `${API_BASE_URL}/tutor/editarPerfil`; // PUT
 
 // Paseador
+export const GET_PASEADOR_ID = (codigoPaseador) => `${API_BASE_URL}/paseador/${codigoPaseador}`; // GET - Un paseador
+export const GET_ALL_PASEADORES = `${API_BASE_URL}/paseador`; // GET - Todos los paseadores
 export const CREATE_PASEADOR = `${API_BASE_URL}/paseador/registrar`; // POST
 export const PASEADOR_PROFILE = `${API_BASE_URL}/paseador/perfil`; // GET
 export const PASEADOR_LABORALES = `${API_BASE_URL}/paseador/laboral`; // GET

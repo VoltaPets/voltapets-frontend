@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 // MUI
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 import { Box, Card, CardMedia, Typography, Button, Skeleton } from '@mui/material';
 
 // Relative imports
@@ -64,6 +65,8 @@ const DisplayMascotasProfile = ({ selectedMascota }) => {
     }
   }, [mascotaProfile]);
 
+  console.log(Object.entries(mascotaProfile));
+
   return (
     <>
       <ModalCreacionMascota open={openCreacionMascota} onClose={handleCloseModalCreacionMascota} />
@@ -90,7 +93,7 @@ const DisplayMascotasProfile = ({ selectedMascota }) => {
       >
         {loading ? (
           <BeatLoader size={10} style={{ margin: 'auto' }} />
-        ) : (
+        ) : Object.entries(mascotaProfile).length > 0 ? (
           <>
             <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
               <Typography variant="h3" sx={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
@@ -190,6 +193,23 @@ const DisplayMascotasProfile = ({ selectedMascota }) => {
               </Box>
             </Box>
           </>
+        ) : (
+          <Card
+            variant="outlined"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              p: 4,
+              m: 'auto',
+              borderRadius: 4
+            }}
+          >
+            <SearchOffIcon color="info" sx={{ fontSize: '4em' }} />
+            <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+              No hay mascotas registradas
+            </Typography>
+          </Card>
         )}
       </Card>
     </>

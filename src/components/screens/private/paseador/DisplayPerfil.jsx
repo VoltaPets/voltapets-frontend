@@ -11,7 +11,7 @@ import ModalEdicion from '../../../commons/ModalEdicion';
 import { request } from '../../../../api';
 import { GET_COMUNAS } from '../../../../api/endpoints/Ubicacion';
 
-const DisplayPerfil = ({ perfil }) => {
+const DisplayPerfil = ({ perfil, onUpload }) => {
   // Variables
   const descripcionPerfil = perfil?.descripcion ? perfil.descripcion : '';
   const imagenPerfil = perfil?.imagen.url + perfil?.imagen.path;
@@ -42,6 +42,7 @@ const DisplayPerfil = ({ perfil }) => {
   };
 
   const handleCloseEdicion = () => {
+    onUpload();
     setOpenEdicion(false);
   };
 

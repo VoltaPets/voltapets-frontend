@@ -1,20 +1,30 @@
-import React from 'react';
+// Librerías
+import https from 'https';
 
 // MUI
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
+
 import { Grid, Chip, Card, Rating, CardMedia, Divider, Box, Typography } from '@mui/material';
 
 // Relative imports
 import Layout from '../../../../../src/components/commons/Layout';
 import AgendaPaseos from '../../../../../src/components/screens/private/tutor/paseo/AgendaPaseos';
 import { clpFormatter } from '../../../../../src/utils/currencyFormat';
+import { GET_PASEADOR_ID, GET_ALL_PASEADORES } from '../../../../../src/api/endpoints/Usuario';
+import PerrosPermitidos from '../../../../../src/components/screens/private/tutor/paseo/PerrosPermitidosDisplay';
 
-const tarifaBasica = clpFormatter.format(6000);
-const tarifaJuego = clpFormatter.format(7000);
-const tarifaSocializacion = clpFormatter.format(8000);
+function AgendarPaseoPage({ paseador }) {
+  // Variables
+  const fullName = paseador?.nombreCompleto || 'Nombre Apellido';
+  const img = paseador?.imagen || '/pawBg.png';
+  const descripcion = paseador?.descripcion || 'Descripción aun no disponible';
+  const experiencia = paseador.experiencia?.descripcion;
+  const tarifaBasica = clpFormatter.format(paseador.tarifas[0].basico || 0);
+  const tarifaJuego = clpFormatter.format(paseador.tarifas[0].juego || 0);
+  const tarifaSocial = clpFormatter.format(paseador.tarifas[0].social || 0);
+  const perrosAceptados = paseador.perrosAceptados || [];
 
-function AgendarPaseoPage() {
+  console.log('Paseador', paseador);
+
   return (
     <Layout description="Página para agendar paseo" title="Agendar Paseo" authRequired={true}>
       <Grid container mb={4}>
@@ -38,23 +48,34 @@ function AgendarPaseoPage() {
             >
               <CardMedia
                 component="img"
-                image="https://i.blogs.es/66b2a4/photo-1511367461989-f85a21fda167/450_1000.webp"
+                image={img}
+                onError={(e) => {
+                  e.currenTarget.src = '/pawBg.png';
+                  e.currenTarget.onerror = null;
+                }}
                 alt="Foto de paseador"
                 sx={{
                   width: '100%',
                   maxHeight: 200,
                   objectFit: 'cover',
-                  border: 1,
                   borderRadius: 4,
                   mb: 1
                 }}
               />
 
-              <Box mb={2}>
-                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                  Nombre Apellido
+              <Box
+                mb={2}
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }} gutterBottom>
+                  {fullName}
                 </Typography>
-                <Typography variant="body1">X años de experiencia</Typography>
+                <Typography variant="body1">{experiencia}</Typography>
               </Box>
               <Rating value={4} readOnly />
             </Box>
@@ -68,9 +89,7 @@ function AgendarPaseoPage() {
                   Descripción
                 </Typography>
                 <Typography variant="body2" sx={{ textAlign: 'justify' }}>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis aperiam numquam
-                  adipisci ad animi temporibus vero rerum beatae? Iure corrupti nulla atque ipsa
-                  eius consectetur ex impedit iste, incidunt nihil?
+                  {descripcion}
                 </Typography>
 
                 <Box
@@ -96,7 +115,7 @@ function AgendarPaseoPage() {
                     <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
                       Socialización con otras mascotas:{' '}
                     </Typography>
-                    <Typography variant="subtitle2">{tarifaSocializacion}</Typography>
+                    <Typography variant="subtitle2">{tarifaSocial}</Typography>
                   </Box>
                 </Box>
               </Box>
@@ -111,52 +130,7 @@ function AgendarPaseoPage() {
                 <Typography variant="subtitle1" sx={{ textAlign: 'justify' }}>
                   Tamaño
                 </Typography>
-                <Grid container mb={2}>
-                  <Grid item xs={6} py={1}>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="subtitle2" sx={{ flex: 1 }}>
-                        Tamaño Toy
-                      </Typography>
-                      <CloseIcon sx={{ fontSize: '1.2em', flex: 0.3 }} color="secondary" />
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="subtitle2" sx={{ flex: 1 }}>
-                        Tamaño Pequeño
-                      </Typography>
-                      <CheckIcon sx={{ fontSize: '1.2em', flex: 0.3 }} color="info.main" />
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="subtitle2" sx={{ flex: 1 }}>
-                        Tamaño Mediano
-                      </Typography>
-                      <CheckIcon sx={{ fontSize: '1.2em', flex: 0.3 }} color="info.main" />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={6} py={1}>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="subtitle2" sx={{ flex: 1 }}>
-                        Tamaño Grande
-                      </Typography>
-                      <CloseIcon sx={{ fontSize: '1.2em', flex: 0.3 }} color="secondary" />
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="subtitle2" sx={{ flex: 1 }}>
-                        Tamaño Gigante
-                      </Typography>
-                      <CheckIcon sx={{ fontSize: '1.2em', flex: 0.3 }} color="info.main" />
-                    </Box>
-                  </Grid>
-                </Grid>
-
-                <Typography variant="subtitle1" sx={{ textAlign: 'justify' }} gutterBottom>
-                  Cantidad de Perros por paseo
-                </Typography>
-                <Chip
-                  label="2 Perros"
-                  variant="outlined"
-                  sx={{ mr: 1, fontWeight: 'bold' }}
-                  color="warning"
-                />
+                <PerrosPermitidos perrosAceptados={perrosAceptados} />
               </Box>
             </Box>
           </Card>
@@ -171,4 +145,37 @@ function AgendarPaseoPage() {
   );
 }
 
+export async function getStaticProps({ params }) {
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  });
+  const res = await fetch(GET_PASEADOR_ID(params.paseadorId), {
+    agent
+  });
+
+  const paseador = await res.json();
+
+  return {
+    props: {
+      paseador
+    }
+  };
+}
+
+export async function getStaticPaths() {
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  });
+  const res = await fetch(GET_ALL_PASEADORES, {
+    agent
+  });
+
+  const paseadores = await res.json();
+
+  const paths = paseadores.map((paseador) => ({
+    params: { paseadorId: paseador.id.toString() }
+  }));
+
+  return { paths, fallback: false };
+}
 export default AgendarPaseoPage;

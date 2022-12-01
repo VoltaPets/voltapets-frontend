@@ -84,7 +84,7 @@ const paseadorProfile = () => {
         }}
       >
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-          <DisplayPerfil perfil={perfil} />
+          <DisplayPerfil perfil={perfil} onUpload={getProfile} />
         </Grid>
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
           <ParametrosLaborales laboral={laboral} />

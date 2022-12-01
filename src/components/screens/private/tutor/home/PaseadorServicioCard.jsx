@@ -1,3 +1,6 @@
+// Librerías
+import { useRouter } from 'next/router';
+
 // MUI
 import { Card, Chip, CardMedia, Rating, Divider, Grid, Box, Typography } from '@mui/material';
 
@@ -5,6 +8,7 @@ import { Card, Chip, CardMedia, Rating, Divider, Grid, Box, Typography } from '@
 import { clpFormatter } from '../../../../../utils/currencyFormat';
 
 const TutorServicioCard = ({ paseador }) => {
+  // Variables
   const fullName = `${paseador?.nombre} ${paseador?.apellido}` || 'Nombre Apellido';
   const descripcion = paseador?.descripcion || 'No hay descripción';
   const calificacion = paseador?.calificacion || 0;
@@ -14,12 +18,19 @@ const TutorServicioCard = ({ paseador }) => {
   const tarifaJuego = paseador?.tarifaActual?.juego || 0;
   const tarifaSocial = paseador?.tarifaActual?.social || 0;
 
-  console.log('Paseador', paseador);
+  // Hooks
+  const { push } = useRouter();
+
+  // Handlers
+  const handleClick = () => {
+    push(`/tutor/paseos/agendar/${paseador.id}`);
+  };
 
   return (
     <Grid item xs={12} sm={6}>
       <Card
         elevation={2}
+        onClick={handleClick}
         sx={{
           height: 300,
           borderRadius: 2,
@@ -58,9 +69,9 @@ const TutorServicioCard = ({ paseador }) => {
           >
             $
             <Typography variant="h6" sx={{ fontWeight: 'bold', mr: 1 }}>
-              {tarifaNormal}
+              {tarifaNormal * 60}
             </Typography>
-            <br /> / min
+            <br /> / hr
           </Box>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -74,7 +85,7 @@ const TutorServicioCard = ({ paseador }) => {
             <Chip label={experiencia} color="secondary" size="small" />
           </Box>
 
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2, height: 80, overflow: 'hidden' }}>
             <Typography variant="body2">{descripcion}</Typography>
           </Box>
           <Box>

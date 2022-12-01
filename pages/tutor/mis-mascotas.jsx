@@ -34,7 +34,7 @@ export default function MisMascotasPage() {
       setMascotasList(data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
     }
   };
 
@@ -115,6 +115,10 @@ export default function MisMascotasPage() {
             >
               {loading ? (
                 <BeatLoader size={10} />
+              ) : mascotasList.length === 0 ? (
+                <Typography variant="body1" sx={{ textAlign: 'center' }}>
+                  No tienes mascotas registradas
+                </Typography>
               ) : (
                 mascotasList.map((mascota) => {
                   return (
@@ -128,7 +132,7 @@ export default function MisMascotasPage() {
                 })
               )}
             </Card>
-            
+
             <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', gap: 2 }}>
               <Button
                 color="secondary"

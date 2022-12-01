@@ -61,7 +61,6 @@ const ModalEdicion = ({ open, onClose, comunas, tutor = false, profile }) => {
       setLoading(false);
       enqueueSnackbar('Perfil actualizado correctamente', { variant: 'success' });
       onClose();
-      window.location.reload(false);
     } catch (error) {
       setLoading(false);
       if (error.response) {
