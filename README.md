@@ -1,8 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Aplicación realizada con [Next.js](https://nextjs.org/). El desarrollo de realizo en primera instancia utilizando la plantilla [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), para luego modificarla y crear el aplicativo.
 
-## Getting Started
+## Iniciando el proyecto
 
-First, run the development server:
+Para iniciar el servidor del frontend de la aplicación primero se deberá realizar el
 
 ```bash
 npm run dev
